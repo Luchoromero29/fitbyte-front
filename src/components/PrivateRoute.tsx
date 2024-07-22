@@ -11,3 +11,4 @@ const PrivateRoute: React.FC = () => {
 };
 
 export default PrivateRoute;
+
