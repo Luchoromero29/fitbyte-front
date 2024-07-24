@@ -1,51 +1,58 @@
 import { FormEvent } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"
+import './Login.css'
+
+import { login } from "../../store/authSlice";
+import { reqLogin }  from "../../service/singinService.tsx"
+import { User } from "../../models/index.ts";
+
 import logo from "../../assets/images/logo-fitbyte-rosa.png"
+import fondo from "../../assets/images/fondo-login.jpg"
+
 const Login = () => {
-  const API_BACK = "http://localhost:3000";
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+  
     const $form = document.querySelector<HTMLFormElement>("#form-login");
-
+  
     if ($form) {
       const formData = new FormData($form);
-      const email = formData.get("email");
-      const password = formData.get("password");
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+  
+      if (email && password) {
+        try {
+          const response = await reqLogin(email, password);
+          const result: LoginResponse = await response.json(); //result: {token, user}
+    
+          if (response.ok) {
+  
+            // Maneja el éxito del inicio de sesión aquí
+              dispatch(
+                login({
+                  token: result.token || "",
+                  user: result.user || null
+                })
+              );
 
-      const response = await fetch(`${API_BACK}/api/login`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        const user = await fetch(`${API_BACK}/api/users/email/${email}`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then((data) => data.json());
-        dispatch(
-          login({
-            token: result.token,
-            user: user,
-          })
-        );
-        navigate("/user/home");
+              if (result.user?.rolId === 1){
+                navigate("/admin/home");
+              } else {
+                navigate("/user/home");
+              }
+          } else {
+            console.error("No se pudo obtener la información del usuario");
+          }
+        } catch (error) {
+          console.error("error: ", error);
+        }
       } else {
-        console.log("No se pudo iniciar sesion");
+        console.error("Email o contraseña no proporcionados");
       }
     } else {
       console.error("El formulario no se encontró");
@@ -53,7 +60,8 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className="seccion-container">
+      <img src={fondo} className="login-background"/>
       <div className="login-container">
         <div className="login-header">
           <div className="logo">
@@ -76,8 +84,16 @@ const Login = () => {
           </a>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
 export default Login;
+
+interface LoginResponse {
+  token?: string;
+  user?: User;
+  error? : string;
+}
+
+

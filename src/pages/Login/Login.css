@@ -4,26 +4,35 @@
     box-sizing: border-box;
 }
 
-body, html {
-    height: 100%;
-    font-family: 'CHOPIN', Arial, Helvetica, sans-serif ;
+.seccion-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #D8BFD8;
+
+    height: 100%;
+    width: 100%;
+}
+
+.login-background{
+    position: absolute;
+    z-index: -1;
+    filter: blur(3px);
 }
 
 .login-container {
+    font-family: 'chopin-light';
     background: #E71462;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 300px;
+
 }
 
 .login-header {
     margin-bottom: 20px;
+    
 }
 
 .logo img {
@@ -31,14 +40,10 @@ body, html {
     height: 100px;
 }
 
-h1 {
-    font-size: 24px;
-    color: #ffffff;
-}
-
 .login-form h2 {
     font-size: 20px;
     color: #ffffff;
+    font-family: 'chopin-bold';
 }
 
 .login-form p {
@@ -52,6 +57,7 @@ h1 {
     margin: 10px 0;
     border: 1px solid #B0CEC4;
     border-radius: 5px;
+    font-family: 'chopin-light';
 }
 
 .login-form button {
@@ -62,6 +68,7 @@ h1 {
     background-color: #F973A8;
     color: white;
     font-size: 16px;
+    font-family: 'chopin-light';
 }
 
 .forgot-password {
@@ -86,9 +93,3 @@ h1 {
     text-decoration: underline;
 }
 
-@font-face {
-    font-family: 'CHOPIN';
-    src: url('../../assets/fonts/chopin/Chopin-Trial-ExtraBold-BF65b1d6912ca36.otf') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}

@@ -5,7 +5,7 @@ import { User } from '../models';
 interface AuthState {
   isAuthenticated: boolean;
   token: string | null;
-  user: User | null;
+  user: User | undefined | null;
 }
 
 const initialState: AuthState = {
@@ -15,8 +15,8 @@ const initialState: AuthState = {
 };
 
 interface actionLogin {
-  token: string,
-  user: User;
+  token: string | null,
+  user: User | null;
 }
 
 const authSlice = createSlice({
