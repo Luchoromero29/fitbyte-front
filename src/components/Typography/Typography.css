@@ -1,0 +1,72 @@
+/* src/styles/typography.css */
+.typography-h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.typography-logo-white {
+    font-size: 2.3rem;
+    font-family: 'chopin-bold';
+    color: var(--white-color);
+}
+
+.typography-logo-black {
+    font-size: 2.3rem;
+    font-family: 'chopin-bold';
+    color: var(--black-color);
+}
+
+.typography-logo-violet {
+    font-size: 2.3rem;
+    font-family: 'chopin-bold';
+    color: var(--violet-1-color);
+}
+
+.typography-h3-black {
+    font-size: 2rem;
+    font-family: 'chopin-bold';
+    color: var(--black-color);
+}
+
+.typography-h3-white {
+    font-size: 2rem;
+    font-family: 'chopin-bold';
+    color: var(--white-color);
+}
+
+.typography-h5-black {
+    font-size: 1.4rem;
+    font-family: 'chopin-bold';
+    color: var(--black-color);
+}
+
+.typography-h5-white {
+    font-size: 1.4rem;
+    font-family: 'chopin-bold';
+    color: var(--white-color);
+}
+
+.typography-span-white {
+    font-size: 1rem;
+    font-family: 'chopin-bold';
+    color: var(--white-color);
+}
+
+.typography-span-black {
+    font-size: 1rem;
+    font-family: 'chopin-bold';
+    color: var(--black-color);
+}
+
+.typography-span-light-black{
+    font-size: 1rem;
+    font-family: 'chopin-light';
+    color: var(--black-color);
+}
+
+.typography-span-light-white{
+    font-size: 1rem;
+    font-family: 'chopin-light';
+    color: var(--white-color);
+}
+

@@ -35,6 +35,14 @@ body, html {
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'chopin-thin';
+  src: url('./assets/fonts/chopin/Chopin-Trial-Thin-BF65b1d6921288d.otf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @font-face {
   font-family: 'chopin-extra-light';
   src: url('./assets/fonts/chopin/Chopin-Trial-ExtraLight-BF65b1d69203043.otf') format('woff2');
@@ -57,24 +65,30 @@ body, html {
 /* COLORES */ 
 
 :root{
-  --rosa-1-color: #e71462;
-  --rosa-2-color: #ed3479;
-  --rosa-3-color: #f35491;
-  --rosa-4-color: #f973a8;
-  --rosa-5-color: #ff93bf;
-  --violeta-1-color: #6c1cfd;
-  --violeta-2-color: #8937fe;
-  --violeta-3-color: #a752fe;
-  --violeta-4-color: #c46cff;
-  --violeta-5-color: #e187ff;
-  --oscuro-1-color: #2b2b2b;
-  --oscuro-2-color: #3a3a3a;
-  --oscuro-3-color: #494949;
-  --oscuro-4-color: #585858;
-  --oscuro-5-color: #676767;
-  --claro-1-color: #f7f0f0;
-  --claro-2-color: #d6d2d6;
-  --claro-3-color: #ddd8d8;
-  --negro-color: #0c0c0c; 
-  --blanco-color: #fafafa; 
+  --pink-1-color: #e71462;
+  --pink-2-color: #ed3479;
+  --pink-3-color: #f35491;
+  --pink-4-color: #f973a8;
+  --pink-5-color: #ff93bf;
+  --violet-1-color: #6c1cfd;
+  --violet-2-color: #8937fe;
+  --violet-3-color: #a752fe;
+  --violet-4-color: #c46cff;
+  --violet-5-color: #e187ff;
+  --dark-1-color: #2b2b2b;
+  --dark-2-color: #3a3a3a;
+  --dark-3-color: #494949;
+  --dark-4-color: #585858;
+  --dark-5-color: #676767;
+  --light-1-color: #f7f0f0;
+  --light-2-color: #d6d2d6;
+  --light-3-color: #ddd8d8;
+  --black-color: #0c0c0c; 
+  --white-color: #fafafa; 
+  --danger-color: #FF4C4C;
+  --succes-color: #4CAF50;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -20,12 +20,8 @@ const AdminRoute: React.FC = () => {
 
         handleAuthState();
 
-        // Optionally, subscribe to store changes for dynamic updates (if needed)
-        // const unsubscribe = store.subscribe(handleAuthState);
-        // return () => unsubscribe();
     }, [loading]);
 
-    console.log("isAuthenticated in AdminRoute:", isAuthenticated);
 
     if (loading) return <div>Loading...</div>;
 
