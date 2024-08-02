@@ -31,20 +31,20 @@ const Navbar = () => {
             label=""
             src={iconHome}
             path="/user/home"
-            active={currentPath === "/user/home"}
+            active={currentPath.includes("/user/home")}
           />
           <ItemNavbar
             label=""
             src={iconProfile}
             path="/user/profile"
-            active={currentPath === "/user/profile"}
+            active={currentPath.includes("/user/profile")}
           />
           {isAdmin && 
           <ItemNavbar
             label=""
             src={iconDashboard}
             path="/admin/dashboard"
-            active={currentPath === "/admin/dashboard"}
+            active={currentPath.includes("/admin/dashboard")}
           />}
         </ul>
         {/* <ul className="grid w-full grid-cols-3">

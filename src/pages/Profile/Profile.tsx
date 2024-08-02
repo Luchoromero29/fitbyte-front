@@ -58,7 +58,7 @@ const Profile = () => {
         </div>
         <ItemProfile label="Edad" value={age} />
         <ItemProfile label="Peso" value={user?.weight + " " + user?.unit} />
-        <ItemProfile label="Altura" value={user?.height} />
+        <ItemProfile label="Altura" value={user?.height + " m"} />
         <ItemProfile label="Indice de masa corporal" value={user?.BMI.toFixed(2)} />
         <Logout />
       </div>

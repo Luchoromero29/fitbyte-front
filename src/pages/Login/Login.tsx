@@ -1,6 +1,6 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 import { login } from "../../store/authSlice";
@@ -8,8 +8,14 @@ import { reqLogin } from "../../service/singinService.tsx";
 import { User } from "../../models/index.ts";
 
 import logo from "../../assets/images/logo-fitbyte-rosa.png";
+import Typography from "../../components/Typography/Typography.tsx";
 
 const Login = () => {
+  const [isError, setIsError] = useState({
+    error: false,
+    message: "",
+  });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,13 +44,20 @@ const Login = () => {
             );
             navigate("/user/home");
           } else {
-            console.error("No se pudo obtener la información del usuario");
+            setIsError({
+              error: true,
+              message:
+                result.error || "No se pudo obtener informacion del usuario",
+            });
           }
         } catch (error) {
           console.error("error: ", error);
         }
       } else {
-        console.error("Email o contraseña no proporcionados");
+        setIsError({
+          error: true,
+          message: "Email o contraseña no proporcionados",
+        });
       }
     } else {
       console.error("El formulario no se encontró");
@@ -59,20 +72,29 @@ const Login = () => {
             <img src={logo} alt="FitByte.Logo" />
           </div>
         </div>
-        <div className="login-form">
-          <h2>Login</h2>
-          <p>Inicia sesión para continuar</p>
-          <form action="" id="form-login" onSubmit={handleLogin}>
-            <input type="email" placeholder="Email" name="email" />
-            <input type="password" placeholder="Contraseña" name="password" />
-            <button type="submit">Log In</button>
+        <div className="login-form flex flex-col">
+          <Typography variant="h2-white">Iniciar sesion</Typography>
+          <Typography variant="span-light-white">
+            Completa las credenciales para continuar
+          </Typography>
+          <form className="" id="form-login" onSubmit={handleLogin}>
+            <input className="input-login-form" type="email" placeholder="Email" name="email" />
+            <input className="input-login-form" type="password" placeholder="Contraseña" name="password" />
+            {isError.error && (
+              <div className="bg-white/85 mb-3 mt-3 rounded-md">
+                <Typography variant="span-error">{isError.message}</Typography>
+              </div>
+            )}
+            <button className="mt-3" type="submit">
+              Log In
+            </button>
           </form>
-          <a href="#" className="forgot-password">
+          <Link to="/" className="forgot-password">
             Olvidé mi contraseña
-          </a>
-          <a href="#" className="new-account">
+          </Link>
+          <Link to="/register" className="new-account">
             ¿Aún no tienes cuenta?
-          </a>
+          </Link>
         </div>
       </div>
     </div>

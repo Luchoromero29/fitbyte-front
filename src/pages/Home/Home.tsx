@@ -1,7 +1,8 @@
 import { RootState } from "../../store/index.ts";
 import { useSelector } from "react-redux";
 import Typography from "../../components/Typography/Typography.tsx";
-import './Home.css'
+import "./Home.css";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -15,12 +16,18 @@ const Home = () => {
           </div>
 
           <div className="row-span-1 col-span-1 bg-pink-4 bento-item">
-            <Typography variant="h5-black">Estadisticas</Typography></div>
+            <Typography variant="h5-black">Estadisticas</Typography>
+          </div>
+
           <div className="row-span-2 col-span-1 bg-violet-2 bento-item">
-            <Typography variant="h5-white">Planes</Typography>  
+            <Link to="/user/home/plans">
+              <div className="w-full h-full">
+                <Typography variant="h5-white">Planes</Typography>
+              </div>
+            </Link>
           </div>
           <div className="row-span-1 col-span-1 bg-black bento-item">
-            <Typography variant="h5-white">Ejercicios</Typography>  
+            <Typography variant="h5-white">Ejercicios</Typography>
           </div>
           <div className="row-span-1 col-span-2 bg-pink-5 bento-item h-44">
             <Typography variant="h3-black">Clima de hoy </Typography>

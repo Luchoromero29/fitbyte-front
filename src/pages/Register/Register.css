@@ -1,0 +1,72 @@
+
+
+.register-container {
+    background: #6C1CFD;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;    
+    font-family: 'chopin-light';
+}
+
+.register-header {
+    margin-bottom: -10px;
+}
+
+.logo img {
+    width: 100px;
+    height: 100px;
+}
+
+.register-form h2 {
+    font-size: 20px;
+    color: white;
+    font-family: 'chopin-bold';
+}
+
+.register-form p {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.input-register-form  {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0px;
+    border: 1px solid #B0CEC4;
+    border-radius: 5px;
+    font-family: 'chopin-light';
+}
+
+.register-form button{
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--violet-4-color);
+    color: white;
+    font-size: 16px;
+}
+
+.have-an-account {
+    display: block;
+    margin-top: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.have-an-account:hover {
+    text-decoration: underline;
+}
+
+@font-face {
+    font-family: 'CHOPIN';
+    src: url('fuentes/Chopin-Trial-Bold-BF65b1d691a55be.otf') format('woff2'),
+         url('fuentes/Chopin-Trial-Regular-BF65b1d6917c0ec.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* src/styles/custom-radio.css */

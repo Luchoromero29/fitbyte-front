@@ -15,6 +15,17 @@ export interface User {
     active: boolean
 }
 
+export interface CreateUser {
+    name: string,
+    lastname: string,
+    birthdate: string,
+    email: string,
+    password: string,
+    weight: number,
+    height: number,
+    unit: string,
+}
+
 export interface Plan {
     id: number,
     name: string,
