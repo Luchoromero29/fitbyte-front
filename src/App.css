@@ -15,6 +15,10 @@ body, html {
   width: 100%;
 }
 
+.h-custom {
+  height: calc(100vh - 72px); /* Ajusta 50px según sea necesario */
+}
+
 /* FUENTES */
 @font-face {
   font-family: 'chopin-extra-bold';

@@ -9,17 +9,25 @@ import Navbar from "./components/Navbar/Navbar.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
 import { Plans } from "./pages/Plans/Plans.tsx";
 import Register from "./pages/Register/Register.tsx";
+import { Exercises } from "./pages/Exercises/Exercises.tsx";
+
 
 const ProtectedLayout = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Outlet />
-    </>
+      <div className="flex-grow">
+        <Outlet />
+      </div>
+    </div>
   );
 };
 
 const App: React.FC = () => {
+
+
+  
+
   return (
     <BrowserRouter>
       <Routes>
@@ -33,6 +41,7 @@ const App: React.FC = () => {
             <Route path="/user/home" element={<Home />} />
             <Route path="/user/profile" element={<Profile />} />
             <Route path="/user/home/plans" element={<Plans />} />
+            <Route path="/user/home/exercises" element={<Exercises />} />
           </Route>
         </Route>
 

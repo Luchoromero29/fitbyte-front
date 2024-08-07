@@ -27,7 +27,11 @@ const Home = () => {
             </Link>
           </div>
           <div className="row-span-1 col-span-1 bg-black bento-item">
-            <Typography variant="h5-white">Ejercicios</Typography>
+            <Link to="/user/home/exercises">
+              <div className="w-full h-full">
+                <Typography variant="h5-white">Ejercicios</Typography>
+              </div>
+            </Link>
           </div>
           <div className="row-span-1 col-span-2 bg-pink-5 bento-item h-44">
             <Typography variant="h3-black">Clima de hoy </Typography>

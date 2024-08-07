@@ -55,7 +55,14 @@ export interface Exercise {
     id: number,
     name: string,
     description: string,
-    img: string,
+    urlImage: string,
+    categoryId: number
+}
+
+export interface CreateExercise {
+    name: string,
+    description: string,
+    image: File | null,
     categoryId: number
 }
 
@@ -64,7 +71,7 @@ export interface BodyPart {
     name: string
 }
 
-export interface category {
+export interface Category {
     id: number,
     name: string
 }
