@@ -45,25 +45,6 @@ export const reqLogin = async (email: string | null , password: string | null): 
 
 }
 
-// export const reqVerifyAuth = async ():  Promise<Response> => {
-//   try {
-//     const response = await fetch(`${API_BACK}/api/verify-auth`, {
-//       method: "GET",
-//       credentials: "include",
-//       headers: {
-//         "Content-Type": "application/json",
-//       }
-//     });
-
-//     return response
-//   } catch (error) {
-//     return new Response(JSON.stringify({ error: "Error al verificar usuario" }), {
-//       status: 500,
-//       headers: { "Content-Type": "application/json" },
-//     });
-//   }
-// }
-
 export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
   try {
     const response = await fetch(`${API_BACK}/api/verify-auth`, {
@@ -79,7 +60,6 @@ export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
     }
 
     const data: AuthResponse = await response.json();
-    console.log(data);
     
     return data;
   } catch (error) {

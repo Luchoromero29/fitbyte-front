@@ -33,6 +33,12 @@ export interface Plan {
     userId: number
 }
 
+export interface CreatePlan {
+    name: string,
+    description: string,
+    userId: number
+}
+
 export interface Routine {
     id: number,
     name: string,

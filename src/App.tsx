@@ -3,14 +3,15 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login/Login.tsx";
 import Home from "./pages/Home/Home.tsx";
-import PrivateRoute from "./components/PrivateRoute.tsx";
+import PrivateRoute from "./components/PrivateRoutes.tsx";
 import AdminRoute from "./components/AdminRoutes.tsx";
 import Navbar from "./components/Navbar/Navbar.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
 import { Plans } from "./pages/Plans/Plans.tsx";
 import Register from "./pages/Register/Register.tsx";
 import { Exercises } from "./pages/Exercises/Exercises.tsx";
-
+import LoginRoutes from "./components/LoginRoutes.tsx";
+import LandingPage from "./pages/Landing/LandingPage.tsx";
 
 const ProtectedLayout = () => {
   return (
@@ -24,18 +25,20 @@ const ProtectedLayout = () => {
 };
 
 const App: React.FC = () => {
-
-
-  
-
   return (
     <BrowserRouter>
       <Routes>
+        {/* RUTA DE LANDING  */}
+        <Route path="/" element={<LandingPage />} />
         
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
 
+        {/* RUTAS DE INGRESO */}
+        <Route element={<LoginRoutes />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
+        {/* RUTAS DE USUARIOS  */}
         <Route element={<PrivateRoute />}>
           <Route element={<ProtectedLayout />}>
             <Route path="/user/home" element={<Home />} />
@@ -45,9 +48,9 @@ const App: React.FC = () => {
           </Route>
         </Route>
 
+        {/* RUTAS DE ADMINISTRADOR  */}
         <Route element={<AdminRoute />}>
-          <Route element={<ProtectedLayout />}>
-          </Route>
+          <Route element={<ProtectedLayout />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
