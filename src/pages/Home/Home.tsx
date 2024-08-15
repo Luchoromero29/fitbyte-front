@@ -15,7 +15,7 @@ const Home = () => {
             <Typography variant="h3-black">Hola, {user?.name}!</Typography>
           </div>
 
-          <div className="row-span-1 col-span-1 bg-pink-4 bento-item">
+          <div className="row-span-1 col-span-1 bg-pink-2 bento-item">
             <Typography variant="h5-black">Estadisticas</Typography>
           </div>
 

@@ -78,8 +78,8 @@ const Login = () => {
             Completa las credenciales para continuar
           </Typography>
           <form className="" id="form-login" onSubmit={handleLogin}>
-            <input className="input-login-form" type="email" placeholder="Email" name="email" />
-            <input className="input-login-form" type="password" placeholder="Contraseña" name="password" />
+            <input className="input-login-form text-xl" type="email" placeholder="Email" name="email" />
+            <input className="input-login-form text-xl " type="password" placeholder="Contraseña" name="password" />
             {isError.error && (
               <div className="bg-white/85 mb-3 mt-3 rounded-md">
                 <Typography variant="span-error">{isError.message}</Typography>

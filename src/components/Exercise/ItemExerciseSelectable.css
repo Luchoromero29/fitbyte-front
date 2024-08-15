@@ -1,0 +1,3 @@
+.exercise-active{
+    outline: var(--violet-2-color) 2px solid
+}

@@ -37,7 +37,7 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${
+      className={`fixed inset-0 z-max  flex items-center justify-center bg-black bg-opacity-50 ${
         isVisible ? "alert-dialog-active" : "alert-dialog-inactive"
       }`}
     >

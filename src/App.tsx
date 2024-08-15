@@ -12,12 +12,15 @@ import Register from "./pages/Register/Register.tsx";
 import { Exercises } from "./pages/Exercises/Exercises.tsx";
 import LoginRoutes from "./components/LoginRoutes.tsx";
 import LandingPage from "./pages/Landing/LandingPage.tsx";
+import Routines from "./pages/Routines/Routines.tsx";
+import RoutineDetails from "./pages/Routines/RoutineDetails.tsx";
+import SelectExercise from "./pages/Exercises/SelectExercise.tsx";
 
 const ProtectedLayout = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="flex-grow">
+      <div className="flex-grow bg-dark-1 ">
         <Outlet />
       </div>
     </div>
@@ -44,6 +47,9 @@ const App: React.FC = () => {
             <Route path="/user/home" element={<Home />} />
             <Route path="/user/profile" element={<Profile />} />
             <Route path="/user/home/plans" element={<Plans />} />
+            <Route path="/user/home/plans/:planId" element={<Routines />} />
+            <Route path="/user/home/plans/routine/:id" element={<RoutineDetails />} />
+            <Route path="/user/home/plans/routine/:id/exercises" element={<SelectExercise />} />
             <Route path="/user/home/exercises" element={<Exercises />} />
           </Route>
         </Route>

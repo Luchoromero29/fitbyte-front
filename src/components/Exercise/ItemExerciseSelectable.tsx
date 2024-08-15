@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import { Category, Exercise } from "../../models/index.js";
-import Typography from "../Typography/Typography";
+import Typography from "../Typography/Typography.js";
 import { reqGetCategoryById } from "../../service/categoryService.js";
 
-interface ItemExerciseProps {
+import './ItemExerciseSelectable.css'
+
+interface ItemExerciseSelectableProps {
   exercise: Exercise,
+  active: boolean
+  handleSelect: (exercise: Exercise) => void
 }
 
-const ItemExercise = ({
-exercise
-}: ItemExerciseProps) => {
+const ItemExerciseSelectable = ({
+exercise,
+active,
+handleSelect
+}: ItemExerciseSelectableProps) => {
+
+
   const [category, setCategory] = useState<Category | undefined>(undefined);
+
 
   useEffect(() => {
     const getCategory = async () => {
@@ -26,15 +35,19 @@ exercise
     getCategory();
   }, []);
 
+  const handleClick = () => {
+    handleSelect(exercise)
+  }
+
   return (
-    <div className="bg-light-1 flex p-4 rounded-md h-auto shadow-xl">
+    <div 
+      className={`bg-light-1 flex p-4 rounded-md h-auto shadow-xl ${active ? "exercise-active" : ""}`}
+      onClick={handleClick}  
+    >
       <ul className="grid grid-cols-3 grid-rows-1 sm:grid-cols-4 justify-between w-full gap-3 items-center">
         <div className="flex flex-col gap-2 col-span-2 sm:col-span-3">
           <li>
             <Typography variant="h6-black">{exercise.name}</Typography>
-          </li>
-          <li>
-            <Typography variant="span-light-black">{exercise.description}</Typography>
           </li>
           <li>
             {category && (
@@ -52,4 +65,4 @@ exercise
   );
 };
 
-export default ItemExercise;
+export default ItemExerciseSelectable;

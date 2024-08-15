@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Typography from "../Typography/Typography";
 import "./AlertCreatePlan.css";
-import { ButtonCancel, ButtonPink } from "../Buttons";
+import { ButtonCancel, ButtonPink } from "../Buttons/Buttons";
 import { CreatePlan } from "../../models";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";

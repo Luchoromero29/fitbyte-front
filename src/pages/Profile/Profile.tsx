@@ -43,10 +43,10 @@ const Profile = () => {
       <div className="flex flex-col items-center p-6 gap-4">
         <div className="flex justify-between items-center w-full p-4">
           <div className="flex flex-col items-start ">
-            <Typography variant="span-black">
+            <Typography variant="span-white">
               {user?.name + " " + user?.lastname}
             </Typography>
-            <Typography variant="span-light-black">{user?.email}</Typography>
+            <Typography variant="span-light-white">{user?.email}</Typography>
           </div>
           <div className="flex justify-center items-center">
             <Link to="/user/profile/edit">
@@ -59,7 +59,7 @@ const Profile = () => {
         <ItemProfile label="Edad" value={age} />
         <ItemProfile label="Peso" value={user?.weight + " " + user?.unit} />
         <ItemProfile label="Altura" value={user?.height + " m"} />
-        <ItemProfile label="Indice de masa corporal" value={user?.BMI.toFixed(2)} />
+        {/* <ItemProfile label="Indice de masa corporal" value={user?.BMI.toFixed(2)} /> */}
         <Logout />
       </div>
     </>

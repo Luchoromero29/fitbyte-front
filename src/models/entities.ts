@@ -47,6 +47,12 @@ export interface Routine {
     planId: number
 }
 
+export interface CreateRoutine {
+    name: string,
+    day: Day,   
+    planId: string
+}
+
 export interface Activity {
     id: number,
     name: string,
@@ -98,4 +104,10 @@ export interface Serie {
 export interface AuthState {
     isAuthenticated: boolean;
     token: string | null;
+}
+
+export interface ErrorDialogI {
+    active: boolean,
+    title: string,
+    message: string | null
 }
