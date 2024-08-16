@@ -101,6 +101,13 @@ export interface Serie {
     activityId: number
 }
 
+export interface CreateSerie {
+    weight: number,
+    repetition: number
+    unit: string
+    activityId: number
+}
+
 export interface AuthState {
     isAuthenticated: boolean;
     token: string | null;

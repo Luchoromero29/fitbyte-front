@@ -1,81 +1,84 @@
-import { useEffect, useState } from "react"
-import Typography from "../Typography/Typography"
-import { useSelector } from "react-redux"
-import { RootState } from "../../store"
-import { Exercise } from "../../models"
+import { useEffect, useState } from "react";
+import { Activity as ActivityModel, Serie } from "../../models";
+import Typography from "../Typography/Typography";
+import ItemSerie from "../Serie/ItemSerie";
+import { reqCreateSerie, reqDeleteSerie, reqGetSeriesByActivityId } from "../../service/seriesService";
+import { ButtonAddSerieBlack } from "../Buttons/Buttons";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import AlertDialog from "../Modal/AlertDialog";
+import MessageDialog from "../Modal/MessageDialog";
 
-
-interface Serie {
-  repeticiones: number;
-  kilos: number;
+interface ActivityProps {
+  activity: ActivityModel;
 }
 
-const Activity = () => {
+const Activity = ({ activity }: ActivityProps) => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  const [viewAlert, setViewAlert] = useState<boolean>(false)
+  const [series, setSeries] = useState<Array<Serie>>([]); // Inicializar como un array vacío
 
-    const exerciseActive = useSelector((state: RootState) => state.exercise)
-    const [exercise, setExercise] = useState<Exercise>()
-
-    useEffect(() => {
-        if (exerciseActive) {
-          setExercise(exerciseActive)
-        }
-    },[exerciseActive])
-
-    
-    const [series, setSeries] = useState<Serie[]>([{ repeticiones: 0, kilos: 0 }]);
-  
-    // const handleDescripcionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    //   setDescripcion(e.target.value);
-    // };
-  
-    const handleSerieChange = (index: number, key: keyof Serie, value: number) => {
-      const nuevasSeries = [...series];
-      nuevasSeries[index][key] = value;
-      setSeries(nuevasSeries);
-    };
-  
-    const agregarSerie = () => {
-      setSeries([...series, { repeticiones: 0, kilos: 0 }]);
+  useEffect(() => {
+    const getSeriesByActivityId = async () => {
+      const response = await reqGetSeriesByActivityId(activity.id);
+      setSeries(response);
     };
 
-    return (
-      <div className="bg-gray-800 p-4 rounded-lg text-white">
-        <h2 className="text-2xl font-bold mb-2">{exercise?.name}</h2>
-        <textarea
-          className="bg-gray-700 p-2 rounded-md w-full text-white mb-4"
-          value={exercise?.description}
+    getSeriesByActivityId();
+  }, [activity.id]); // Asegurar que activity.id sea una dependencia si cambia
 
-          rows={3}
-        />
-        <div>
-          {series.map((serie, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <input
-                type="number"
-                className="bg-gray-700 p-2 rounded-md text-white w-20 mr-2"
-                value={serie.repeticiones}
-                onChange={(e) => handleSerieChange(index, 'repeticiones', parseInt(e.target.value))}
-                placeholder="Reps"
-              />
-              <input
-                type="number"
-                className="bg-gray-700 p-2 rounded-md text-white w-20"
-                value={serie.kilos}
-                onChange={(e) => handleSerieChange(index, 'kilos', parseInt(e.target.value))}
-                placeholder="Kilos"
-              />
-            </div>
-          ))}
-          <button
-            onClick={agregarSerie}
-            className="bg-purple-700 p-2 rounded-md w-full mt-2 text-white"
-          >
-            Agregar Serie
-          </button>
+  const deleteSerie = async (id: number) => {
+
+    if(series.length === 1){
+      setViewAlert(true)
+      return
+    } 
+
+    await reqDeleteSerie(id);
+    setSeries((prevSeries) => prevSeries?.filter((serie) => serie.id !== id));
+  };
+
+  const handleAddSerie = async () => {
+    try {
+      const serie = {
+        weight: 0,
+        repetition: 0,
+        unit: "KG",
+        activityId: activity.id,
+      };
+      console.log("hola");
+      const data: Serie = await reqCreateSerie(serie);
+      
+      setSeries((prevItems) => [...(prevItems || []), data]); // Asegurarse de que prevItems no sea undefined
+    } catch (error) {
+      console.error("Error al agregar la serie:", error);
+    }
+  };
+
+  return (
+    <div className="bg-light-1 gap-2 p-4 rounded-md flex flex-col">
+      <header>
+        <Typography variant="h5-black">Press de banca</Typography>
+      </header>
+      <main>
+        {series?.map((serie, index) => (
+          <ItemSerie key={serie.id} serie={serie} index={index + 1} onConfirm={deleteSerie} />
+        ))}
+        <div className="flex justify-center">
+          <ButtonAddSerieBlack label="AGREGAR SERIE" onConfirm={handleAddSerie} />
         </div>
+      </main>
+      <div className="bg-light-1">
+        <textarea
+          placeholder="Nota"
+          className="bg-light-1 w-full border-2 rounded-md p-1 border-black"
+        ></textarea>
       </div>
-    );
+      {viewAlert && (
+        <MessageDialog active={viewAlert} title="No puedes dejar el ejercicio sin serie" message="" onConfirm={() => setViewAlert(false)}/>
+      )}
+    </div>
+  );
+};
 
-}
-
-export default Activity
+export default Activity;

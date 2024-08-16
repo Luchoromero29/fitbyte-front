@@ -1,11 +1,12 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { Routine } from "../../models";
+import { Activity as ActivityModel, Routine } from "../../models";
 import { reqGetRoutineById } from "../../service/routineService";
 import HeaderPage from "../../components/HeaderPage";
 import { ButtonAddActivity } from "../../components/Buttons/Buttons";
 import Activity from "../../components/Activity/Activity";
+import { reqGetActivitiesByRoutineId } from "../../service/activityService";
 
 const RoutineDetails = () => {
   const { id } = useParams();
@@ -18,6 +19,8 @@ const RoutineDetails = () => {
     planId: 0,
   });
 
+  const [activities, setActivities] = useState<Array<ActivityModel>>()
+
   useEffect(() => {
     const getRoutine = async () => {
       if (id) {
@@ -26,7 +29,15 @@ const RoutineDetails = () => {
       }
     };
 
+    const getActivitiesByRoutineId = async () => {
+      if (id) {
+        const response = await reqGetActivitiesByRoutineId(id);
+        setActivities(response);
+      }
+    };
+
     getRoutine();
+    getActivitiesByRoutineId()
   }, []);
 
   const handleCreateActivity = () => {
@@ -45,7 +56,9 @@ const RoutineDetails = () => {
         />
 
         <main className="w-full p-6">
-          <Activity />
+          {activities?.map((activity: ActivityModel, index ) => (
+            <Activity key={index} activity={activity}/>
+          ))}
         </main>
         <div className="">
           <Link to={`/user/home/plans/routine/${routine.id}/exercises`}>

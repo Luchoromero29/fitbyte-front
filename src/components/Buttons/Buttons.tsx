@@ -152,3 +152,23 @@ export const ButtonConfirmViolet: React.FC<ButtonsProps> = ({
     </div>
   );
 };
+
+export const ButtonAddSerieBlack: React.FC<ButtonsProps> = ({
+  label,
+  onConfirm,
+}) => {
+
+
+
+  const handleConfirm = () => {
+    onConfirm(); // Ajusta el tiempo según la duración de tu animación de salida
+  };
+
+  return (
+    <div className=" p-2 flex justify-center items-center  w-fit">
+        <button className="flex items-center gap-2" onClick={handleConfirm}>
+            <Typography variant="span-black">{label}</Typography>
+        </button>
+    </div>
+  );
+};
