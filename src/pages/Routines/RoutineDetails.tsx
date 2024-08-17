@@ -7,9 +7,14 @@ import HeaderPage from "../../components/HeaderPage";
 import { ButtonAddActivity } from "../../components/Buttons/Buttons";
 import Activity from "../../components/Activity/Activity";
 import { reqGetActivitiesByRoutineId } from "../../service/activityService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const RoutineDetails = () => {
+
+
   const { id } = useParams();
+  const exerciseActive = useSelector((state: RootState) => state.exercise)
 
   const [routine, setRoutine] = useState<Routine>({
     id: 0,
@@ -41,9 +46,6 @@ const RoutineDetails = () => {
   }, []);
 
   const handleCreateActivity = () => {
-
-
-    
 
   };
 
