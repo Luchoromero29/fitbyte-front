@@ -6,13 +6,29 @@ import deleteBlack from '../../assets/icons/delete-black.png'
 interface ItemSerieProps {
   index: number;
   serie: Serie;
-  onConfirm: (id: number) => void;
+  onDelete: (id: number) => void;
+  onChange: (index: number, weight?: number, repetition?: number) => void;
 }
 
-const ItemSerie = ({ index, serie, onConfirm }: ItemSerieProps) => {
+const ItemSerie = ({ index, serie, onDelete, onChange}: ItemSerieProps) => {
 
     const handleDelete = () => {
-      onConfirm(serie.id);
+      onDelete(serie.id);
+    }
+
+    const handleChange = (e) => {
+      onChange(index - 1);
+      // const newRep = document.querySelector("#input-rep")
+      // const newWeight = document.querySelector("#input-weight")
+      if (e.target.id === "input-rep") {  
+        const repetition = Number(e.target.value)
+        onChange(index - 1, undefined , repetition)
+      } else {
+        const weight = Number(e.target.value)
+        onChange(index - 1, weight, undefined)
+      }
+      
+      
     }
     
     return (
@@ -26,15 +42,19 @@ const ItemSerie = ({ index, serie, onConfirm }: ItemSerieProps) => {
             <Typography variant="span-light-black">Rep</Typography>
             <input
               type="number"
+              id="input-rep"
               defaultValue={serie.repetition}
               className="w-12 p-1 rounded-md bg-light-1 text-dark-1 placeholder:text-dark-1 outline outline-1 outline-dark-1 text-center"
+              onChange={handleChange}
             />
           </div>
           <Typography variant="span-black">X</Typography>
           <div className="flex gap-2 items-center">
             <input
               type="number"
+              id="input-weight"
               defaultValue={serie.weight}
+              onChange={handleChange}
               className="w-12 p-1 rounded-md bg-light-1 text-dark-1 placeholder:text-dark-1 outline outline-1 outline-dark-1 text-center"
             />
             <Typography variant="span-light-black">{serie.unit}</Typography>

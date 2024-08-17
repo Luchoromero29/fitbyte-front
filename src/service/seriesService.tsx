@@ -29,6 +29,21 @@ export const reqGetSeriesByActivityId = async (
       throw new Error(error.message || "Error de conexion para crear la rutina");
     }
   };
+
+  export const reqUpdateSerie = async (
+    serie: Serie
+  ): Promise<Serie> => {
+    try {
+      const data = await apiClient
+      .put(`/api/serie/${serie.id}`, serie)
+      .then((response) => response.data);
+  
+      return data;
+    } catch (error) {
+      // Manejo de errores de la red u otros errores
+      throw new Error(error.message || "Error de conexion para crear la rutina");
+    }
+  };
   
 
   export const reqDeleteSerie = async (

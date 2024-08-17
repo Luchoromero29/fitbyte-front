@@ -8,7 +8,8 @@ import IconAddBlack from "../../assets/icons/add-white.png"
 interface ButtonsProps {
   label: string;
   onConfirm: () => void;
-  active?: boolean
+  active?: boolean,
+  color?: string
 }
 
 
@@ -137,7 +138,8 @@ export const ButtonAddActivity: React.FC<ButtonsProps> = ({
 export const ButtonConfirmViolet: React.FC<ButtonsProps> = ({
   label,
   onConfirm,
-  active
+  active,
+  color
 }) => {
 
   const handleConfirm = () => {
@@ -147,11 +149,12 @@ export const ButtonConfirmViolet: React.FC<ButtonsProps> = ({
   return (
     <div className={` px-4 py-2 rounded-full shadow-xl flex justify-center items-center outline outline-1 outline-violet-2 w-fit  ${active ? "" : "button-inactive"}`}>
         <button disabled={!active} className="flex items-center gap-2 " onClick={handleConfirm}>
-            <Typography variant="span-white">{label}</Typography>
+            <Typography variant={`span-${color}`}>{label}</Typography>
         </button>
     </div>
   );
 };
+
 
 export const ButtonAddSerieBlack: React.FC<ButtonsProps> = ({
   label,

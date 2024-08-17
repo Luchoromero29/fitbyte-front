@@ -17,7 +17,7 @@ export const reqGetActivitiesByRoutineId = async (
 
   export const reqCreateActivity = async (
     activity: CreateActivity
-  ): Promise<Response> => {
+  ): Promise<Activity> => {
     try {
       const data = await apiClient
         .post(`/api/activity`, activity)

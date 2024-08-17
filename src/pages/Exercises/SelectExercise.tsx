@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Typography from "../../components/Typography/Typography";
 import { reqGetAllExercise } from "../../service/exerciseService";
-import { Exercise } from "../../models";
+import { Activity, Exercise } from "../../models";
 import HeaderPage from "../../components/HeaderPage";
 import { useNavigate, useParams } from "react-router-dom";
 import ItemExerciseSelectable from "../../components/Exercise/ItemExerciseSelectable";
@@ -54,7 +54,17 @@ const SelectExercise = () => {
         exerciseId: exerciseActive.id,
         routineId: Number(id) 
       }
-      await reqCreateActivity(activity)
+      const response: Activity = await reqCreateActivity(activity)
+
+
+      const serie = {
+        weight: 0,
+        repetition: 0,
+        unit: "KG",
+        activityId: response.id,
+      };
+
+      await reqCreateSerie(serie)
       
       navigate(`/user/home/plans/routine/${id}`)
     }
@@ -84,6 +94,7 @@ const SelectExercise = () => {
           label="Seleccionar"
           onConfirm={handleConfirmSelect}
           active={exerciseActive ? true : false}
+          color="white"
         />
       </div>
     </div>

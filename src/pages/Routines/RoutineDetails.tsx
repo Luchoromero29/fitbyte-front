@@ -9,12 +9,14 @@ import Activity from "../../components/Activity/Activity";
 import { reqGetActivitiesByRoutineId } from "../../service/activityService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { TextIsEmpty } from "../../components/TextIsEmpty";
 
 const RoutineDetails = () => {
 
 
   const { id } = useParams();
   const exerciseActive = useSelector((state: RootState) => state.exercise)
+  const [isEmpty, setIsEmpty] = useState<boolean>(true)
 
   const [routine, setRoutine] = useState<Routine>({
     id: 0,
@@ -30,6 +32,7 @@ const RoutineDetails = () => {
     const getRoutine = async () => {
       if (id) {
         const response = await reqGetRoutineById(id);
+
         setRoutine(response);
       }
     };
@@ -37,8 +40,7 @@ const RoutineDetails = () => {
     const getActivitiesByRoutineId = async () => {
       if (id) {
         const response = await reqGetActivitiesByRoutineId(id);
-        console.log(response);
-        
+        if (response.length >= 1) setIsEmpty(false)
         setActivities(response);
       }
     };
@@ -60,9 +62,16 @@ const RoutineDetails = () => {
         />
 
         <main className="w-full p-6 flex flex-col gap-3">
-          {activities?.map((activity: ActivityModel, index ) => (
-            <Activity key={index} activity={activity}/>
-          ))}
+          {!isEmpty ? (
+            <>
+              {activities?.map((activity: ActivityModel, index ) => (
+                <Activity key={index} activity={activity}/>
+              ))}
+            </>
+          ) : (
+            <TextIsEmpty label="Actividades"/>
+          )}
+ 
         </main>
         <div className="flex items-center justify-center mb-6">
           <Link to={`/user/home/plans/routine/${routine.id}/exercises`}>
