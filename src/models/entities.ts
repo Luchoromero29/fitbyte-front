@@ -57,9 +57,19 @@ export interface Activity {
     id: number,
     name: string,
     focus: Focus,
-    break: number,
-    postBreak: number,
+    rest: number,
+    postRest: number,
     note: string,
+    routineId: number
+}
+
+export interface CreateActivity {
+    name: string,
+    focus: Focus,
+    rest: number,
+    postRest: number,
+    note: string,
+    exerciseId: number,
     routineId: number
 }
 

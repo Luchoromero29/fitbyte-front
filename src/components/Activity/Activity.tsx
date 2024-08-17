@@ -46,7 +46,7 @@ const Activity = ({ activity }: ActivityProps) => {
         unit: "KG",
         activityId: activity.id,
       };
-      console.log("hola");
+
       const data: Serie = await reqCreateSerie(serie);
       
       setSeries((prevItems) => [...(prevItems || []), data]); // Asegurarse de que prevItems no sea undefined
@@ -58,7 +58,7 @@ const Activity = ({ activity }: ActivityProps) => {
   return (
     <div className="bg-light-1 gap-2 p-4 rounded-md flex flex-col">
       <header>
-        <Typography variant="h5-black">Press de banca</Typography>
+        <Typography variant="h5-black">{activity.name}</Typography>
       </header>
       <main>
         {series?.map((serie, index) => (
