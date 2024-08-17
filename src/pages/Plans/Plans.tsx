@@ -80,7 +80,7 @@ export const Plans = () => {
         <div className="fixed bottom-10">
           <ButtonAddPink onConfirm={showAlertCreatePlan} label="Crear" />
         </div>
-        <main className=" flex flex-col gap-4 p-6">
+        <main className=" flex flex-col gap-4 p-6 w-full">
           {!isEmpty ? (
             plans?.map((plan: Plan, index) => (
               <ItemPlan

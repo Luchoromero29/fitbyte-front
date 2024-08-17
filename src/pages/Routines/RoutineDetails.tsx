@@ -32,6 +32,8 @@ const RoutineDetails = () => {
     const getActivitiesByRoutineId = async () => {
       if (id) {
         const response = await reqGetActivitiesByRoutineId(id);
+        console.log(response);
+        
         setActivities(response);
       }
     };
@@ -55,12 +57,12 @@ const RoutineDetails = () => {
           path={`/user/home/plans/${routine.planId}`}
         />
 
-        <main className="w-full p-6">
+        <main className="w-full p-6 flex flex-col gap-3">
           {activities?.map((activity: ActivityModel, index ) => (
             <Activity key={index} activity={activity}/>
           ))}
         </main>
-        <div className="">
+        <div className="flex items-center justify-center mb-6">
           <Link to={`/user/home/plans/routine/${routine.id}/exercises`}>
             <ButtonAddActivity
               label="Agregar Actividad"

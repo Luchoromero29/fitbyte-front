@@ -8,6 +8,8 @@ import ItemExerciseSelectable from "../../components/Exercise/ItemExerciseSelect
 import { ButtonConfirmViolet } from "../../components/Buttons/Buttons";
 import { useDispatch } from "react-redux";
 import { setExercise } from "../../store/exerciseSlice";
+import { reqCreateActivity } from "../../service/activityService";
+import { Focus } from "../../models/types";
 
 // interface SelectExerciseProps {
 //     routineId: number
@@ -23,6 +25,7 @@ const SelectExercise = () => {
 
 
   const { id } = useParams();
+  
 
   useEffect(() => {
     const getAllExercises = async () => {
@@ -37,9 +40,20 @@ const SelectExercise = () => {
     setExerciseActive(exercise)
   };
 
-  const handleConfirmSelect = () => {
+  const handleConfirmSelect = async () => {
     if (exerciseActive) {
       dispatch(setExercise(exerciseActive));
+      
+      const activity = {
+        name: exerciseActive.name,
+        note: "",
+        rest: 60,
+        postRest: 120,
+        focus: "Fuerza" as Focus,
+        exerciseId: exerciseActive.id,
+        routineId: Number(id) 
+      }
+      await reqCreateActivity(activity)
       navigate(`/user/home/plans/routine/${id}`)
     }
   };
