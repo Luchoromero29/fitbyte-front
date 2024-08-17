@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setExercise } from "../../store/exerciseSlice";
 import { reqCreateActivity } from "../../service/activityService";
 import { Focus } from "../../models/types";
+import { reqCreateSerie } from "../../service/seriesService";
 
 // interface SelectExerciseProps {
 //     routineId: number
@@ -54,6 +55,7 @@ const SelectExercise = () => {
         routineId: Number(id) 
       }
       await reqCreateActivity(activity)
+      
       navigate(`/user/home/plans/routine/${id}`)
     }
   };
