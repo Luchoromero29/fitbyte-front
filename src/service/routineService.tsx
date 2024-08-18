@@ -46,3 +46,18 @@ export const reqCreateRoutine = async (
     throw new Error(error.message || "Error de conexion para crear la rutina");
   }
 };
+
+export const reqDeleteRoutine = async (
+  id: number
+): Promise<Response> => {
+  try {
+    const data = await apiClient
+    .delete(`/api/routine/${id}`)
+    .then((response) => response.data);
+
+    return data;
+  } catch (error) {
+    // Manejo de errores de la red u otros errores
+    throw new Error(error.message || "Error de conexion para crear la rutina");
+  }
+}

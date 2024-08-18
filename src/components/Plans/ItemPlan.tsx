@@ -51,7 +51,7 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
               {plan.description}
             </Typography>
           </div>
-          <div className="grid grid-cols-2 items-center justify-end  col-span-2 row-span-2 ">
+          <div className="flex items-center justify-end  col-span-2 row-span-2 ">
             <div className="flex justify-end">
               <img
                 className="col-span-1 h-8 flex justify-end"

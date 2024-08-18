@@ -62,6 +62,13 @@ const Routines = () => {
     setShowAlert(false);
   };
 
+
+
+  const removeRoutineFromList = (id: number) => {
+    if (routines?.length === 1) setIsEmpty(true);
+    setRoutines(routines?.filter((routine) => routine.id !== id));
+  };
+
   const cancelCreateRoutine = () => {
     setShowAlert(false);
   };
@@ -76,7 +83,7 @@ const Routines = () => {
         <main className="flex flex-col gap-4 p-6">
           {!isEmpty ? (
             routines?.map((routine: Routine, index) => (
-              <ItemRoutine key={index} routine={routine} />
+              <ItemRoutine key={index} routine={routine} onRoutineDelete={removeRoutineFromList} />
             ))
           ) : (
             <TextIsEmpty label="Rutinas" />

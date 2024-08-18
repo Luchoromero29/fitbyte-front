@@ -13,18 +13,22 @@ import {
 import { ButtonAddSerieBlack, ButtonConfirmViolet } from "../Buttons/Buttons";
 import { RootState } from "../../store";
 import MessageDialog from "../Modal/MessageDialog";
-
+import SelectFocusDialog from "../Modal/SelectFocusDialog";
+import { Focus } from "../../models/types";
+import { reqUpdateActivity } from "../../service/activityService";
 
 interface ActivityProps {
   activity: ActivityModel;
 }
 
 const Activity = ({ activity }: ActivityProps) => {
-
   const user = useSelector((state: RootState) => state.auth.user);
   const [viewAlert, setViewAlert] = useState<boolean>(false);
   const [series, setSeries] = useState<Array<Serie>>([]); // Inicializar como un array vacío
   const [isUpdateSeries, setIsUpdateSeries] = useState<boolean>(false);
+  const [isUpdateFocus, setIsUpdateFocus] = useState<boolean>(false);
+  const [isUpdateNote, setIsUpdateNote] = useState<boolean>(false);
+  const [note, setNote] = useState<string>(activity.note);
 
   useEffect(() => {
     const getSeriesByActivityId = async () => {
@@ -67,12 +71,11 @@ const Activity = ({ activity }: ActivityProps) => {
     newWeight?: number,
     newRepetition?: number
   ) => {
-    setIsUpdateSeries(true)
+    setIsUpdateSeries(true);
     setSeries((prevState) => {
       // Hacer una copia del array de series
       const updatedSeries = [...prevState];
-      
-      
+
       // Modificar la serie específica en el índice dado
       updatedSeries[index] = {
         ...updatedSeries[index], // Copiar la serie actual
@@ -86,29 +89,89 @@ const Activity = ({ activity }: ActivityProps) => {
 
       // Devolver el nuevo array actualizado
       console.log(updatedSeries);
-      
+
       return updatedSeries;
     });
   };
 
-  const handleConfirmUpdateSeries = async () => {
-    for (let i = 0; i < series.length; i++) {
-      console.log(series[i]);
-      
-      await reqUpdateSerie(series[i])
+  const handleConfirmUpdateActivity = async () => {
+    if (isUpdateSeries) {
+      for (let i = 0; i < series.length; i++) {
+        await reqUpdateSerie(series[i]);
+      }
+      setIsUpdateSeries(false);
     }
-    setIsUpdateSeries(false)
-  }
+    
+    if (isUpdateNote) {
+      activity.note = note;
+      try {
+        await reqUpdateActivity(activity);
+      } catch (error) {
+        console.error("Error al actualizar la nota:", error);
+      }
+      setIsUpdateNote(false);
+    }
+  };
+
+  const handleChangeFocus = () => {
+    setIsUpdateFocus(true);
+  };
+
+  const handleConfirmUpdateFocus = async (focus: Focus) => {
+    if (focus === "Indefinido") {
+      setIsUpdateFocus(false);
+      return;
+    }
+
+    activity.focus = focus;
+    try {
+      await reqUpdateActivity(activity);
+    } catch (error) {
+      console.error("Error al actualizar el enfoque:", error);
+    }
+    setIsUpdateFocus(false);
+  };
+
+  const handleUpdateNote = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setIsUpdateNote(true);
+    setNote(e.target.value);
+  };
 
   return (
     <div className="bg-light-1 gap-2 p-4 rounded-md flex flex-col">
-      <header className="flex justify-between items-center">
-        <Typography variant="h5-black">{activity.name}</Typography>
-        {isUpdateSeries && (
-          <div className=" rounded-full p-1">
-            <ButtonConfirmViolet label="Actualizar" onConfirm={handleConfirmUpdateSeries} color="black" active={true}/>
+      <header className="flex flex-col ">
+        <div className="flex justify-between items-center">
+          <Typography variant="h5-black">{activity.name}</Typography>
+          {(isUpdateSeries || isUpdateNote) && (
+            <div className=" rounded-full p-1">
+              <ButtonConfirmViolet
+                label="Actualizar"
+                onConfirm={handleConfirmUpdateActivity}
+                color="black"
+                active={true}
+              />
+            </div>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <Typography variant="span-light-black">
+            Enfoque del ejercicio:
+          </Typography>
+          <div
+            className="outline outline-2 outline-violet-1 rounded-xl px-1 flex items-center"
+            onClick={handleChangeFocus}
+          >
+            <Typography variant="span-black">{activity.focus}</Typography>
           </div>
-        )}
+          {isUpdateFocus && (
+            <SelectFocusDialog
+              title="Selecciona tu enfoque"
+              message=""
+              onConfirm={handleConfirmUpdateFocus}
+              active={isUpdateFocus}
+            />
+          )}
+        </div>
       </header>
       <main>
         {series?.map((serie, index) => (
@@ -130,7 +193,9 @@ const Activity = ({ activity }: ActivityProps) => {
       <div className="bg-light-1">
         <textarea
           placeholder="Nota"
+          defaultValue={note}
           className="bg-light-1 w-full border-2 rounded-md p-1 border-black"
+          onChange={handleUpdateNote}
         ></textarea>
       </div>
       {viewAlert && (

@@ -50,7 +50,7 @@ const SelectExercise = () => {
         note: "",
         rest: 60,
         postRest: 120,
-        focus: "Fuerza" as Focus,
+        focus: "Indefinido" as Focus,
         exerciseId: exerciseActive.id,
         routineId: Number(id) 
       }

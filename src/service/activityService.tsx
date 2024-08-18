@@ -10,7 +10,7 @@ export const reqGetActivitiesByRoutineId = async (
         .then((response) => response.data);
   
       return data;
-    } catch {
+    } catch (error) {
       throw new Error(error.message || "Error de conexion para traer los planes");
     }
   };
@@ -24,7 +24,22 @@ export const reqGetActivitiesByRoutineId = async (
         .then((response) => response.data);
   
       return data;
-    } catch {
+    } catch (error) {
       throw new Error(error.message || "Error de conexion para traer los planes");
     }
   };
+
+
+  export const reqUpdateActivity = async (
+    activity: Activity
+  ): Promise<Activity> => {
+    try {
+      const data = await apiClient
+        .put(`/api/activity/${activity.id}`, activity)
+        .then((response) => response.data);
+  
+      return data;
+    } catch {
+      throw new Error(error.message || "Error de conexion para traer los planes");
+    }
+  }
