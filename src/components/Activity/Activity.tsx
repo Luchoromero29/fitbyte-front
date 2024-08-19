@@ -16,12 +16,14 @@ import MessageDialog from "../Modal/MessageDialog";
 import SelectFocusDialog from "../Modal/SelectFocusDialog";
 import { Focus } from "../../models/types";
 import { reqUpdateActivity } from "../../service/activityService";
+import OptionsActivity from "./OptionsActivity";
 
 interface ActivityProps {
   activity: ActivityModel;
+  onDelete: (id: number) => void;
 }
 
-const Activity = ({ activity }: ActivityProps) => {
+const Activity = ({ activity, onDelete }: ActivityProps) => {
   const user = useSelector((state: RootState) => state.auth.user);
   const [viewAlert, setViewAlert] = useState<boolean>(false);
   const [series, setSeries] = useState<Array<Serie>>([]); // Inicializar como un array vacío
@@ -29,6 +31,7 @@ const Activity = ({ activity }: ActivityProps) => {
   const [isUpdateFocus, setIsUpdateFocus] = useState<boolean>(false);
   const [isUpdateNote, setIsUpdateNote] = useState<boolean>(false);
   const [note, setNote] = useState<string>(activity.note);
+  const [isNote, setIsNote] = useState<boolean>(activity.note !== "");
 
   useEffect(() => {
     const getSeriesByActivityId = async () => {
@@ -101,7 +104,7 @@ const Activity = ({ activity }: ActivityProps) => {
       }
       setIsUpdateSeries(false);
     }
-    
+
     if (isUpdateNote) {
       activity.note = note;
       try {
@@ -137,28 +140,41 @@ const Activity = ({ activity }: ActivityProps) => {
     setNote(e.target.value);
   };
 
+  const handleAddNote = () => {
+    if (note !== "") {
+      handleUpdateNote({ target: { value: "" } } as React.ChangeEvent<HTMLTextAreaElement>)
+      setIsNote(false)
+
+      return
+    } 
+    setIsNote(true);
+  }
+
   return (
     <div className="bg-light-1 gap-2 p-4 rounded-md flex flex-col">
-      <header className="flex flex-col ">
-        <div className="flex justify-between items-center">
-          <Typography variant="h5-black">{activity.name}</Typography>
-          {(isUpdateSeries || isUpdateNote) && (
-            <div className=" rounded-full p-1">
-              <ButtonConfirmViolet
-                label="Actualizar"
-                onConfirm={handleConfirmUpdateActivity}
-                color="black"
-                active={true}
-              />
-            </div>
-          )}
+      <header className="flex flex-col gap-2">
+        <div className="flex justify-between">
+          <div className="flex justify-between items-center w-full">
+            <Typography variant="h5-black">{activity.name}</Typography>
+            {(isUpdateSeries || isUpdateNote) && (
+              <div className=" rounded-full p-1">
+                <ButtonConfirmViolet
+                  label="Actualizar"
+                  onConfirm={handleConfirmUpdateActivity}
+                  color="black"
+                  active={true}
+                />
+              </div>
+            )}
+          </div>
+            <OptionsActivity activity={activity} onDelete={onDelete} addNote={handleAddNote}/>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           <Typography variant="span-light-black">
             Enfoque del ejercicio:
           </Typography>
           <div
-            className="outline outline-2 outline-violet-1 rounded-xl px-1 flex items-center"
+            className=" rounded-xl px-1 flex items-center"
             onClick={handleChangeFocus}
           >
             <Typography variant="span-black">{activity.focus}</Typography>
@@ -190,14 +206,16 @@ const Activity = ({ activity }: ActivityProps) => {
           />
         </div>
       </main>
-      <div className="bg-light-1">
-        <textarea
-          placeholder="Nota"
-          defaultValue={note}
-          className="bg-light-1 w-full border-2 rounded-md p-1 border-black"
-          onChange={handleUpdateNote}
-        ></textarea>
-      </div>
+      {isNote && (
+        <div className="bg-light-1">
+          <textarea
+            placeholder="Nota"
+            defaultValue={note}
+            className="bg-light-1 w-full border-2 rounded-md p-1 border-black focus:outline-0"
+            onChange={handleUpdateNote}
+          ></textarea>
+        </div>
+      )}
       {viewAlert && (
         <MessageDialog
           active={viewAlert}

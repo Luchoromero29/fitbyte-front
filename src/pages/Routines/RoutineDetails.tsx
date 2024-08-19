@@ -7,15 +7,12 @@ import HeaderPage from "../../components/HeaderPage";
 import { ButtonAddActivity } from "../../components/Buttons/Buttons";
 import Activity from "../../components/Activity/Activity";
 import { reqGetActivitiesByRoutineId } from "../../service/activityService";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 import { TextIsEmpty } from "../../components/TextIsEmpty";
 
 const RoutineDetails = () => {
 
 
   const { id } = useParams();
-  const exerciseActive = useSelector((state: RootState) => state.exercise)
   const [isEmpty, setIsEmpty] = useState<boolean>(true)
 
   const [routine, setRoutine] = useState<Routine>({
@@ -49,9 +46,11 @@ const RoutineDetails = () => {
     getActivitiesByRoutineId()
   }, []);
 
-  const handleCreateActivity = () => {
-
+  const handleDeleteActivity = (id: number) => {
+    setActivities(activities?.filter((activity) => activity.id !== id));
   };
+  const handleCreateActivity = () => {
+  }
 
   return (
     <>
@@ -65,7 +64,7 @@ const RoutineDetails = () => {
           {!isEmpty ? (
             <>
               {activities?.map((activity: ActivityModel, index ) => (
-                <Activity key={index} activity={activity}/>
+                <Activity key={index} activity={activity} onDelete={handleDeleteActivity}/>
               ))}
             </>
           ) : (

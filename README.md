@@ -3,10 +3,11 @@
 ## Pendientes
 - editar los planes
 - perfeccionar el registro con los cambios en la base de datos
-- poder eliminar las rutinas
-- poder crear actividades
+- perimitir cambiar las unidades de peso
 - mejora de vistas en la seccion del perfil
 - que la duracion de la rutina se calcule
+- cambios de dark o light mode
+
 
 
 ## mejoras

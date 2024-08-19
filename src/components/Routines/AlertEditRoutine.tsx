@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+
 
 import Typography from "../Typography/Typography";
 import { ButtonCancel, ButtonPink } from "../Buttons/Buttons";
-import { CreateRoutine } from "../../models";
-//import { useSelector } from "react-redux";
-//import { RootState } from "../../store";
 import { Day } from "../../models/types";
-import { useParams } from "react-router-dom";
+import { Routine } from "../../models";
 
-interface AlertCreateRoutineProps {
+
+interface AlertEditRoutineProps {
   //setFormData: React.Dispatch<React.SetStateAction<CreatePlan | null>>; // Ajuste del tipo de setFormData
-  onConfirm: (data: CreateRoutine) => void;
+  onConfirm: (name: string, day: Day) => void;
   onCancel: () => void;
   active: boolean;
+  routine: Routine
 }
 
-const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
+const AlertEditRoutine: React.FC<AlertEditRoutineProps> = ({
   onConfirm,
   onCancel,
   active,
+  routine
 }) => {
-  const [isVisible, setIsVisible] = useState<boolean>(false); // Tipo explícito boolean
-  const [selectedDay, setSelectedDay] = useState<Day | "">("");
+  const [selectedDay, setSelectedDay] = useState<Day | "">(routine.day);
   const daysOfWeek: Day[] = [
     "Lunes",
     "Martes",
@@ -35,54 +35,40 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedDay(event.target.value as Day);
   };
-  //const user = useSelector((state: RootState) => state.auth.user);
-  const { planId } = useParams();
-
-
-  useEffect(() => {
-    if (active) {
-      setIsVisible(true);
-    }
-  }, [active]);
+  //const user = useSelector((state: RootState) => state.auth.user)
 
   const handleCancel = () => {
-    setIsVisible(false);
     setTimeout(onCancel, 300);
   };
 
   const handleConfirm = () => {
     const $form = document.querySelector(
-      "#form-create-routine"
+      "#form-edit-routine"
     ) as HTMLFormElement;
     const formData = new FormData($form);
-
-    if (planId) {
-      const newRoutineData: CreateRoutine = {
-        name: formData.get("name") as string,
-        day: formData.get("day-select") as Day,
-        planId: planId,
-      };
-
-      setIsVisible(false);
-      setTimeout(() => onConfirm(newRoutineData), 100); // Ajusta el tiempo según la duración de tu animación de salida
+    const name = formData.get("name") as string;
+    const day = formData.get("day-select") as Day;
+    
+      setTimeout(() => onConfirm(name, day), 100); // Ajusta el tiempo según la duración de tu animación de salida
     }
     // Actualiza el estado y ejecuta la función de confirmación con el nuevo dato
-  };
+  
 
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${
-        isVisible ? "alert-create-plan-active" : "alert-create-plan-inactive"
+        active ? "alert-create-plan-active" : "alert-create-plan-inactive"
       }`}
     >
       <div className="bg-violet-2 p-6 rounded shadow-lg w-96 flex flex-col gap-6">
         <div>
-          <form id="form-create-routine" className="flex flex-col gap-3">
+          <form id="form-edit-routine" className="flex flex-col gap-3">
             <label className="flex flex-col gap-2">
               <Typography variant="span-white">Nombre de la rutina</Typography>
               <input
                 type="text"
                 name="name"
+                defaultValue={routine.name}
                 className="rounded-md outline-none p-2 bg-dark-2 text-light-1"
               />
             </label>
@@ -92,6 +78,7 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
                 id="day-select"
                 name="day-select"
                 value={selectedDay}
+
                 onChange={handleChange}
                 className="rounded-md outline-none p-2 bg-dark-2 text-light-1"
               >
@@ -99,7 +86,7 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
                   Selecciona un día
                 </option>
                 {daysOfWeek.map((day) => (
-                  <option key={day} value={day}>
+                  <option key={day} value={day} >
                     {day}
                   </option>
                 ))}
@@ -117,4 +104,4 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
   );
 };
 
-export default AlertCreateRoutine;
+export default AlertEditRoutine;

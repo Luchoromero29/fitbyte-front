@@ -55,7 +55,7 @@ const SelectFocusDialog: React.FC<SelectFocusDialogProps> = ({
         <Typography variant="span-light-black">{message}</Typography>
         <main>
           {focus.map((f, index) => (
-            <div className="p-2" onClick={() => handleConfirm(index)}>
+            <div key={index} className="p-2" onClick={() => handleConfirm(index)}>
               {f}
             </div>
           ))}

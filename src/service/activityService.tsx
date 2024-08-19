@@ -43,3 +43,17 @@ export const reqGetActivitiesByRoutineId = async (
       throw new Error(error.message || "Error de conexion para traer los planes");
     }
   }
+
+  export const reqDeleteActivity = async (
+    id: number
+  ): Promise<Response> => {
+    try {
+      const data = await apiClient
+        .delete(`/api/activity/${id}`)
+        .then((response) => response.data);
+  
+      return data;
+    } catch {
+      throw new Error(error.message || "Error de conexion para traer los planes");
+    }
+  }
