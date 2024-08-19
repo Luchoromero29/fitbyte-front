@@ -1,3 +1,4 @@
+import { Plan } from "../models/entities.ts";
 import apiClient from "./axiosConfig.tsx";
 import { API_BACK } from "./Config.tsx";
 
@@ -57,6 +58,21 @@ export const reqGetAllPlansByUserId = async (
     throw new Error(error.message || "Error de conexion para traer los planes");
   }
 };
+
+export const reqUpdatePlan = async (
+  plan: Plan
+): Promise<Response> => {
+  try {
+    const response = apiClient
+    .put(`/api/plan/${plan.id}`, plan)
+    .then((response) => response.data);
+
+    return response;
+  } catch (error) {
+    // Manejo de errores de la red u otros errores
+    throw new Error(error.message || "Error de conexion para actualizar el plan");
+  }
+}
 
 export const reqDeletePlan = async (id: number): Promise<any> => {
   try {

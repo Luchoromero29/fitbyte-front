@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 import { RootState } from "../../store";
 import { ButtonAddPink } from "../../components/Buttons/Buttons";
-import Typography from "../../components/Typography/Typography";
 import { CreatePlan, Plan } from "../../models";
 import AlertCreatePlan from "../../components/Plans/AlertCreatePlan";
 import {
@@ -13,9 +12,9 @@ import {
 import ItemPlan from "../../components/Plans/ItemPlan";
 
 import { ErrorDialogI } from "../../models";
-import ErrorDialog from "../../components/Modal/MessageDialog";
 import { TextIsEmpty } from "../../components/TextIsEmpty";
 import HeaderPage from "../../components/HeaderPage";
+import MessageDialog from "../../components/Modal/MessageDialog";
 
 export const Plans = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false); // Tipo explícito boolean
@@ -101,7 +100,7 @@ export const Plans = () => {
           />
         )}
         {isError.active && (
-          <ErrorDialog
+          <MessageDialog
             title={isError.title}
             message={isError.message || ""}
             onConfirm={() => setIsError({ ...isError, active: false })}

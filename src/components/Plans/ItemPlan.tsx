@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Popover, PopoverContent, PopoverTrigger } from "../Popover/Popover";
 
-import { Plan } from "../../models";
+import { ErrorDialogI, Plan } from "../../models";
 import Typography from "../Typography/Typography";
 import arrowRight from "../../assets/icons/arrow-rigth-white.png";
 import optionsWhite from "../../assets/icons/options-white.png";
 import { addPlan } from "../../store/planSlice";
 
-import { Popover, PopoverContent, PopoverTrigger } from "../Popover/Popover";
 import AlertDialog from "../Modal/AlertDialog";
-import { reqDeletePlan } from "../../service/planService";
+import { reqDeletePlan, reqUpdatePlan } from "../../service/planService";
+import AlertEditPlan from "./AlertEditPlan";
+import MessageDialog from "../Modal/MessageDialog";
 
 interface ItemPlanProps {
   plan: Plan;
@@ -21,6 +23,12 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
   const dispatch = useDispatch();
 
   const [showDialog, setShowDialog] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [isError, setIsError] = useState<ErrorDialogI>({
+    active: false,
+    title: "",
+    message: "",
+  });
 
   const setPlanState = () => {
     dispatch(addPlan(plan));
@@ -41,6 +49,31 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
     setShowDialog(false);
   };
 
+  const handleEdit = () => {
+    setOpenEdit(true);
+  };
+
+  const handleConfirmEdit = async (name: string, description: string) => {
+    if (name.length === 0) {
+      setIsError({
+        active: true,
+        title: "El nombre no puede ser vacio",
+        message: "",
+      });
+      setOpenEdit(false);
+      return;
+    }
+
+    plan.name = name;
+    plan.description = description;
+    await reqUpdatePlan(plan);
+
+    setOpenEdit(false);
+  };
+
+  const handleCancelEdit = () => {
+    setOpenEdit(false);
+  };
   return (
     <>
       <Link to={`/user/home/plans/${plan.id}`} onClick={setPlanState}>
@@ -68,7 +101,10 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
                 </PopoverTrigger>
                 <PopoverContent className="w-40 p-2 bg-dark-2 ">
                   <div className="flex flex-col gap-1 ">
-                    <div className="p-2  hover:bg-light-1/10 active:bg-light-1/10 rounded-md transition duration-200 ease-in-out">
+                    <div
+                      className="p-2  hover:bg-light-1/10 active:bg-light-1/10 rounded-md transition duration-200 ease-in-out"
+                      onClick={handleEdit}
+                    >
                       <Typography variant="span-white ">Editar</Typography>
                     </div>
                     <div
@@ -93,26 +129,24 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
           active={showDialog}
         />
       )}
+      {openEdit && (
+        <AlertEditPlan
+          onConfirm={handleConfirmEdit}
+          onCancel={handleCancelEdit}
+          active={openEdit}
+          plan={plan}
+        />
+      )}
+      {isError.active && (
+        <MessageDialog
+          title={isError.title}
+          message={isError.message || ""}
+          onConfirm={() => setIsError({ ...isError, active: false })}
+          active={isError.active}
+        />
+      )}
     </>
   );
 };
 
 export default ItemPlan;
-{
-  /* <div className="grid grid-cols-5 justify-between  bg-pink-4 p-3 rounded-md shadow-md outline outline-1 outline-white">
-<Link to={`/user/home/plans/${plan.id}`} onClick={setPlanState} className="col-span-4 grid row-span-2 gap-3">
-  <div className="col-span-4 grid row-span-2 gap-3">
-    <Typography variant="h6-white">{plan.name}</Typography>
-    <Typography variant="span-light-white">
-      {plan.description}
-    </Typography>
-  </div>
-</Link>
-<div className="flex  items-center justify-centers gap-2  col-span-1 row-span-2 justify-end">
-  <Link to={`/user/home/plans/${plan.id}`} onClick={setPlanState}>
-    <img className="h-10" src={arrowRight} />
-  </Link>
-  <img className="h-10" src={optionsWhite} />
-</div>
-</div> */
-}
