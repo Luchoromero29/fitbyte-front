@@ -128,3 +128,18 @@ export interface ErrorDialogI {
     title: string,
     message: string | null
 }
+
+export interface PreferenceUser {
+    id: number,
+    unitWeight: string,
+    language: string,
+    theme: string,
+    userId: number
+}
+
+export interface CreatePreferenceUser {
+    unitWeight: string,
+    language: string,
+    theme: string,
+    userId: number
+}

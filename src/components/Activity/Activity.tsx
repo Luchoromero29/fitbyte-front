@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { Activity as ActivityModel, Serie } from "../../models";
+import { Activity as ActivityModel, PreferenceUser, Serie } from "../../models";
 import Typography from "../Typography/Typography";
 import ItemSerie from "../Serie/ItemSerie";
 import {
@@ -17,6 +17,7 @@ import SelectFocusDialog from "../Modal/SelectFocusDialog";
 import { Focus } from "../../models/types";
 import { reqUpdateActivity } from "../../service/activityService";
 import OptionsActivity from "./OptionsActivity";
+import { reqGetPreferenceByUserId } from "../../service/preferenceService";
 
 interface ActivityProps {
   activity: ActivityModel;
@@ -25,6 +26,8 @@ interface ActivityProps {
 
 const Activity = ({ activity, onDelete }: ActivityProps) => {
   const user = useSelector((state: RootState) => state.auth.user);
+
+  const [preferenceUser, setPreferenceUser] = useState<PreferenceUser>();
   const [viewAlert, setViewAlert] = useState<boolean>(false);
   const [series, setSeries] = useState<Array<Serie>>([]); // Inicializar como un array vacío
   const [isUpdateSeries, setIsUpdateSeries] = useState<boolean>(false);
@@ -39,7 +42,14 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
       setSeries(response);
     };
 
+    const getPreferenceUser = async () => {
+      if(user){
+        const response = await reqGetPreferenceByUserId(user.id);
+        setPreferenceUser(response);
+      }
+    }
     getSeriesByActivityId();
+    getPreferenceUser()
   }, [activity.id]); // Asegurar que activity.id sea una dependencia si cambia
 
   const deleteSerie = async (id: number) => {
@@ -57,7 +67,7 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
       const serie = {
         weight: 0,
         repetition: 0,
-        unit: "KG",
+        unit: preferenceUser?.unitWeight || "KG",
         activityId: activity.id,
       };
 
