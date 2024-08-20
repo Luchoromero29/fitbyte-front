@@ -1,4 +1,3 @@
-
 //const API_BACK = process.env.REACT_APP_API_BACK;
 import { API_BACK } from "./Config.tsx";
 
@@ -52,18 +51,24 @@ export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
     });
 
+    if (response.status === 401) {
+      // Manejo específico para el error 401 Unauthorized
+      return null; // O maneja de otra manera según sea necesario
+    }
+
     if (!response.ok) {
-      throw new Error('Failed to verify auth');
+      throw new Error("Failed to verify auth");
     }
 
     const data: AuthResponse = await response.json();
-    
     return data;
   } catch (error) {
-    console.error("Error verifying auth:", error);
+    if (error instanceof Error && error.message !== "Failed to verify auth") {
+      console.error("Error verifying auth:", error);
+    }
     return null;
   }
 }

@@ -155,6 +155,26 @@ export const ButtonConfirmViolet: React.FC<ButtonsProps> = ({
   );
 };
 
+export const ButtonConfirmPink: React.FC<ButtonsProps> = ({
+  label,
+  onConfirm,
+  active,
+  color
+}) => {
+
+  const handleConfirm = () => {
+    onConfirm(); // Ajusta el tiempo según la duración de tu animación de salida
+  };
+
+  return (
+    <div className={` px-4 py-2 rounded-full shadow-xl flex justify-center items-center outline outline-1 outline-pink-2 w-fit  ${active ? "" : "button-inactive"}`}>
+        <button disabled={!active} className="flex items-center gap-2 " onClick={handleConfirm}>
+            <Typography variant={`span-${color}`}>{label}</Typography>
+        </button>
+    </div>
+  );
+};
+
 
 export const ButtonAddSerieBlack: React.FC<ButtonsProps> = ({
   label,

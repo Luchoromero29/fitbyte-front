@@ -88,6 +88,12 @@
     color: var(--violet-1-color);
 }
 
+.typography-logo-pink {
+    font-size: 2.3rem;
+    font-family: 'chopin-bold';
+    color: var(--pink-1-color);
+}
+
 .typography-span-white {
     font-size: 1rem;
     font-family: 'chopin-bold';
@@ -114,7 +120,7 @@
 
 .typography-span-error {
     font-size: 1rem;
-    font-family: 'chopin-black';
+    font-family: 'chopin-bold';
     color: var(--danger-color);
 }
 

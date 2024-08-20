@@ -14,15 +14,12 @@ const Logout = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await reqLogout();
-
-      if (response.ok) {
+      await reqLogout();
         setShowDialog(false);
         dispatch(
           logout()
         );
         navigate("/login");
-      }
     } catch (error) {
       setShowDialog(false);
       console.error("error al cerrar sesion: ", error);

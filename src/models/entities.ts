@@ -8,10 +8,7 @@ export interface User {
     birthdate: Date,
     email: string,
     password: string,
-    weight: number,
-    height: number,
-    BMI: number,
-    unit: string,
+    preferenceId: number,
     active: boolean
 }
 
@@ -21,9 +18,6 @@ export interface CreateUser {
     birthdate: string,
     email: string,
     password: string,
-    weight: number,
-    height: number,
-    unit: string,
 }
 
 export interface Plan {

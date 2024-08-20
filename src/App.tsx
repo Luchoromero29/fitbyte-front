@@ -15,6 +15,7 @@ import LandingPage from "./pages/Landing/LandingPage.tsx";
 import Routines from "./pages/Routines/Routines.tsx";
 import RoutineDetails from "./pages/Routines/RoutineDetails.tsx";
 import SelectExercise from "./pages/Exercises/SelectExercise.tsx";
+import Register2 from "./pages/Register/Register2.tsx";
 
 const ProtectedLayout = () => {
   return (
@@ -38,7 +39,7 @@ const App: React.FC = () => {
         {/* RUTAS DE INGRESO */}
         <Route element={<LoginRoutes />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register2 />} />
         </Route>
 
         {/* RUTAS DE USUARIOS  */}
