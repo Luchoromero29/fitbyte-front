@@ -9,7 +9,8 @@ import { User } from "../../models/index.ts";
 import logo from "../../assets/images/logo-fitbyte-rosa.png";
 import Typography from "../../components/Typography/Typography.tsx";
 import { reqSetPreferenceId, reqUpdateUserId } from "../../service/userService.tsx";
-import { reqCreatePreference } from "../../service/preferenceService.tsx";
+import { reqCreatePreference, reqGetPreferenceByUserId } from "../../service/preferenceService.tsx";
+import { addPreferenceUser } from "../../store/preferenceSlice.ts";
 
 const Login = () => {
   const [isError, setIsError] = useState({
@@ -44,7 +45,7 @@ const Login = () => {
               })
             
             );
-            
+            let preference;
             if (result.user?.preferenceId === null) {
               const newPreference = {
                 unitWeight: "KG",
@@ -53,11 +54,18 @@ const Login = () => {
                 userId: result.user.id,
               };
 
-              const preference = await reqCreatePreference(newPreference);
+              preference = await reqCreatePreference(newPreference);
               console.log(preference);
               
               await reqSetPreferenceId(user.id, preference.id);
+            }else {
+              preference = await reqGetPreferenceByUserId(user.id);
             }
+            dispatch(
+              addPreferenceUser(
+                preference
+              )
+            )
 
             navigate("/user/home");
           } else {

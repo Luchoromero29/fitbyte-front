@@ -8,9 +8,11 @@ import ItemProfile from "../../components/Profile/ItemProfile";
 import iconPencil from "../../assets/icons/pencil.png";
 import { useEffect, useState } from "react";
 import Logout from "../../components/Logout";
+import ItemOptions from "../../components/Profile/ItemOptions";
 
 const Profile = () => {
   const user = useSelector((state: RootState) => state.auth.user);
+  const preference = useSelector((state: RootState) => state.preferenceUser);
 
   const birthdate = user?.birthdate;
   const [age, setAge] = useState(0);
@@ -56,10 +58,10 @@ const Profile = () => {
             </Link>
           </div>
         </div>
-        <ItemProfile label="Edad" value={age} />
-        <ItemProfile label="Peso" value={user?.weight + " " + user?.unit} />
-        <ItemProfile label="Altura" value={user?.height + " m"} />
-        {/* <ItemProfile label="Indice de masa corporal" value={user?.BMI.toFixed(2)} /> */}
+        <ItemOptions label="Configuración"/>
+        <ItemOptions label="Preguntas frecuentes"/>
+        <ItemOptions label="Sobre nosotros"/>
+        <ItemOptions label="Ayuda"/>
         <Logout />
       </div>
     </>
