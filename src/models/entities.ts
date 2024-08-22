@@ -5,7 +5,7 @@ export interface User {
     rolId: number,
     name: string,
     lastname: string,
-    birthdate: Date,
+    birthdate: string,
     email: string,
     password: string,
     preferenceId: number,

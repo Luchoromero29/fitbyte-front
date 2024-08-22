@@ -16,6 +16,7 @@ import Routines from "./pages/Routines/Routines.tsx";
 import RoutineDetails from "./pages/Routines/RoutineDetails.tsx";
 import SelectExercise from "./pages/Exercises/SelectExercise.tsx";
 import Register2 from "./pages/Register/Register2.tsx";
+import AccountDetails from "./pages/Profile/AccountDetails.tsx";
 
 const ProtectedLayout = () => {
   return (
@@ -47,6 +48,7 @@ const App: React.FC = () => {
           <Route element={<ProtectedLayout />}>
             <Route path="/user/home" element={<Home />} />
             <Route path="/user/profile" element={<Profile />} />
+            <Route path="/user/profile/account" element={<AccountDetails />} />
             <Route path="/user/home/plans" element={<Plans />} />
             <Route path="/user/home/plans/:planId" element={<Routines />} />
             <Route path="/user/home/plans/routine/:id" element={<RoutineDetails />} />

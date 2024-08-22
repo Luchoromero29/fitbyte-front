@@ -17,6 +17,8 @@ const PrivateRoute: React.FC = () => {
       if (!isAuthenticated) {
         const response = await reqVerifyAuth();
         if (response) {
+          console.log(response);
+          
           dispatch(
             login({
               token: response.token,
