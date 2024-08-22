@@ -5,13 +5,12 @@ import { Link } from "react-router-dom";
 import Typography from "../../components/Typography/Typography";
 
 import iconPencil from "../../assets/icons/arrow-rigth-white.png";
-import { useEffect, useState } from "react";
 import Logout from "../../components/Logout";
 import ItemOptions from "../../components/Profile/ItemOptions";
 
 const Profile = () => {
   const user = useSelector((state: RootState) => state.auth.user);
-  const preference = useSelector((state: RootState) => state.preferenceUser);
+  
 
   return (
     <>
@@ -31,10 +30,10 @@ const Profile = () => {
             </div>
           </Link>
         </div>
-        <ItemOptions label="Configuración" />
-        <ItemOptions label="Preguntas frecuentes" />
-        <ItemOptions label="Sobre nosotros" />
-        <ItemOptions label="Ayuda" />
+        <ItemOptions label="Configuración" path="/user/profile/configuration"/>
+        <ItemOptions label="Preguntas frecuentes" path="/user/profile/frequent-questions"/>
+        <ItemOptions label="Sobre nosotros" path="/user/profile/about"/>
+        <ItemOptions label="Ayuda" path="/user/profile/help"/>
         <Logout />
       </div>
     </>
