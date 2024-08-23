@@ -6,6 +6,8 @@ import { RootState } from '../store';
 import { login } from '../store/authSlice';
 
 import { reqVerifyAuth } from '../service/singinService';
+import { reqGetPreferenceByUserId } from '../service/preferenceService';
+import { addPreferenceUser } from '../store/preferenceSlice';
 
 const PrivateRoute: React.FC = () => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -17,8 +19,12 @@ const PrivateRoute: React.FC = () => {
       if (!isAuthenticated) {
         const response = await reqVerifyAuth();
         if (response) {
-          console.log(response);
-          
+          const prefereneces = await reqGetPreferenceByUserId(response.user.user.id);
+          dispatch(
+            addPreferenceUser(
+              prefereneces
+            )
+          )
           dispatch(
             login({
               token: response.token,

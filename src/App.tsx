@@ -21,12 +21,20 @@ import Configuration from "./pages/Profile/Configuration.tsx";
 import FrequentQuestions from "./pages/Profile/FrequentQuestions.tsx";
 import About from "./pages/Profile/About.tsx";
 import Help from "./pages/Profile/Help.tsx";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/index.ts";
 
 const ProtectedLayout = () => {
+
+
+  const cookie = document.cookie;
+  console.log(cookie);
+  const preference = useSelector((state: RootState) => state.preferenceUser);
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className={`flex flex-col min-h-screen shadow-lg `}>
       <Navbar />
-      <div className="flex-grow bg-dark-1 ">
+      <div className={`flex-grow ${preference?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} `}>
         <Outlet />
       </div>
     </div>

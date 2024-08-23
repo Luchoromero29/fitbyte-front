@@ -28,3 +28,17 @@ export const reqGetPreferenceByUserId = async (
       throw new Error(error.message || "Error de conexion para traer los planes");
     }
   };
+
+  export const reqUpdatePreference = async (
+    preference: PreferenceUser
+  ): Promise<PreferenceUser> => {
+    try {
+      const data = await apiClient
+        .put(`/api/preference/${preference.id}`, preference)
+        .then((response) => response.data);
+  
+      return data;
+    } catch (error) {
+      throw new Error(error.message || "Error de conexion para traer los planes");
+    }
+  }

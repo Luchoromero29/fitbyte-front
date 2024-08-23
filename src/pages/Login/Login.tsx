@@ -58,8 +58,10 @@ const Login = () => {
               console.log(preference);
               
               await reqSetPreferenceId(user.id, preference.id);
-            }else {
+            } else {
               preference = await reqGetPreferenceByUserId(user.id);
+              console.log(preference);
+              
             }
             dispatch(
               addPreferenceUser(

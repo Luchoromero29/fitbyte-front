@@ -7,23 +7,22 @@ import { reqUpdatePreference } from '../../service/preferenceService';
 import { addPreferenceUser } from '../../store/preferenceSlice';
 
 
-interface ItemConfigurationThemeProps {
+interface ItemConfigurationUnitsProps {
     label: string,
 
 }
-const ItemConfigurationTheme = ({label}: ItemConfigurationThemeProps) => {
+const ItemConfigurationUnits = ({label}: ItemConfigurationUnitsProps) => {
 
   const preference = useSelector((state: RootState) => state.preferenceUser);
-
   const dispatch = useDispatch();
 
-  const handleChangeTheme = async (value: string) => {
+  const handleChangeUnits = async (value: string) => {
       
       
-      if (preference.theme !== value) {
+      if (preference.unitWeight !== value) {
           const newPreference = {
               ...preference,
-              theme: value
+              unitWeight: value
           }
           await reqUpdatePreference(newPreference)
           dispatch(addPreferenceUser(newPreference));
@@ -31,14 +30,16 @@ const ItemConfigurationTheme = ({label}: ItemConfigurationThemeProps) => {
   }
 
 
-  const optionsTheme = [{
-      label: 'Claro',
-      value: 'light'
+  const optionsUnits = [{
+      label: 'Kilogramos',
+      value: 'KG'
   },
   {
-      label: 'Oscuro',
-      value: 'dark'
+      label: 'Libras',
+      value: 'LB'
   }]
+
+  
 
   return (
     <>
@@ -47,9 +48,9 @@ const ItemConfigurationTheme = ({label}: ItemConfigurationThemeProps) => {
                 <Typography variant={`h5-${preference.theme === 'dark' ? 'white' : 'black'}`}>{label}</Typography>
             </header>
             <main className='flex gap-2'>
-              {optionsTheme.map((option, index) => (
-                  <ItemOptionsConfiguration key={index} option={option} color={preference.theme === 'dark' ? 'white' : 'black'} active={preference.theme === option.value} onClick={handleChangeTheme} />
-              ))}  
+                {optionsUnits.map((option, index) => (
+                    <ItemOptionsConfiguration key={index} option={option} color={preference.theme === 'dark' ? 'white' : 'black'} active={preference.unitWeight === option.value} onClick={handleChangeUnits} />
+                ))}
             </main>
         </div>
 
@@ -57,4 +58,4 @@ const ItemConfigurationTheme = ({label}: ItemConfigurationThemeProps) => {
   )
 }
 
-export default ItemConfigurationTheme
+export default ItemConfigurationUnits

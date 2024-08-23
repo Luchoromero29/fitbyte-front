@@ -7,9 +7,11 @@ interface ItemHomeProps {
 
 const ItemHome = ({path}: ItemHomeProps) => {
   return (
-    <Link to={path} className="h-full w-full">
+    <div>
+      <Link to={path} className="h-full w-full">
         <Typography variant=""> </Typography>
-    </Link>
+      </Link>
+    </div>
   )
 }
 
