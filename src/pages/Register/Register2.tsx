@@ -12,12 +12,15 @@ import { reqRegister } from "../../service/registerService";
 const Register2 = () => {
 
     const [isError, setIsError] = useState<ErrorDialogI>();
+    const [allOk, setAllOk] = useState<boolean>(false);
     const [createUser, setCreateUser] = useState<CreateUser>({
         name: "",
         lastname: "",
         email: "",
         password: "",
+        confirmPassword: "",
         birthdate: new Date().toISOString(),
+
     });
 
 
@@ -33,6 +36,13 @@ const Register2 = () => {
 
       const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if(createUser.password !== createUser.confirmPassword){
+            setIsError({ active: true, title: "Las contraseñas no coinciden", message: "" });
+            return;
+        }
+        
+
         try {
           const response = await reqRegister(createUser);
           const userDB = await response.json();
@@ -40,6 +50,7 @@ const Register2 = () => {
           if (!response.ok) {
             throw new Error(userDB.message || "Error en el registro");
           }
+          setAllOk(true);
         } catch (error: unknown) {
           if (error instanceof Error) {
             setIsError({ active: true, title: error.message, message: "" });
@@ -57,7 +68,18 @@ const Register2 = () => {
             <Typography variant="logo-black">+</Typography>
           </div>
         </header>
-        <main className="register-form flex flex-col gap-2">
+        {allOk ? (
+          <>
+          <main className=" flex flex-col gap-2 justify-center items-center text-center">
+            <Typography variant="h3-black">Cuenta creada con éxito, ya puedes iniciar sesión</Typography>
+          </main>
+          <Link to="/login" className="flex justify-center">
+            <Typography variant="span-light-black">Iniciar sesión</Typography>
+          </Link>
+          </>
+        ) : (
+          <>
+          <main className="register-form flex flex-col gap-2">
           <form id="register-form" className="flex flex-col gap-3" onSubmit={handleRegister}>
             <InputRegister label="Nombre" name="name" color="black" onChange={handleInputChange}/>
             <InputRegister label="Apellido" name="lastname" color="black" onChange={handleInputChange}/>
@@ -78,7 +100,7 @@ const Register2 = () => {
             <InputRegister
               label="Confirmar Contraseña"
               type="password"
-              name="confirm-password"
+              name="confirmPassword"
               color="black"
               onChange={handleInputChange}
             />
@@ -110,6 +132,9 @@ const Register2 = () => {
             <Typography variant="span-light-black">Ya tengo cuenta</Typography>
           </Link>
         </footer>
+          </>
+        )}
+        
       </div>
     </div>
   );
@@ -117,13 +142,4 @@ const Register2 = () => {
 
 export default Register2;
 
-{
-  /* <div>
-<Typography variant="h3-white">Cuenta creada con éxito, ya puedes iniciar sesión</Typography>
-<button>
-  <Link to="/login">
-    <Typography variant="span-white">Iniciar sesión</Typography>
-  </Link>
-</button>
-</div> */
-}
+
