@@ -80,7 +80,7 @@ const SelectExercise = () => {
         path={`/user/home/plans/routine/${id}`}
       />
       <main className="p-6 flex flex-col gap-3">
-        s
+        
         {exercises?.map((exercise: Exercise, index) => (
           <ItemExerciseSelectable
             key={index}
@@ -96,7 +96,7 @@ const SelectExercise = () => {
           label="Seleccionar"
           onConfirm={handleConfirmSelect}
           active={exerciseActive ? true : false}
-          color="white"
+          color={preferenceUser?.theme === "dark" ? "white" : "black"}
         />
       </div>
     </div>

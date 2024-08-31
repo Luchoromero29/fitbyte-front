@@ -17,8 +17,10 @@ import { RootState } from "../../store";
 import HeaderPage from "../../components/HeaderPage";
 
 const Routines = () => {
-  const { planId } = useParams<{ planId: string }>();
 
+  const { planId } = useParams<{ planId: string }>();
+  
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser)
   const plan = useSelector((state: RootState) => state.plan);
   const [routines, setRoutines] = useState<Array<Routine>>();
   const [isEmpty, setIsEmpty] = useState(true);
@@ -75,10 +77,10 @@ const Routines = () => {
 
   return (
     <>
-      <div className=" bg-dark-1 w-full h-full flex flex-col relative">
+      <div className={`${preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} w-full h-full flex flex-col relative`}>
         <HeaderPage title="Rutinas" description={`Plan: ${plan.name}`} path="/user/home/plans" />
         <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2">
-          <ButtonAddViolet onConfirm={showAlertCreateRoutine} label="Crear" />
+          <ButtonAddViolet onConfirm={showAlertCreateRoutine} label="Crear" color={preferenceUser?.theme === "dark" ? "white" : "black"}  />
         </div>
         <main className="flex flex-col gap-4 p-6">
           {!isEmpty ? (

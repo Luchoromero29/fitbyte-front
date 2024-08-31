@@ -95,9 +95,6 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
             : updatedSeries[index].repetition, // Actualizar solo si se proporciona una nueva repetición
       };
 
-      // Devolver el nuevo array actualizado
-      console.log(updatedSeries);
-
       return updatedSeries;
     });
   };
@@ -105,6 +102,9 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
   const handleConfirmUpdateActivity = async () => {
     if (isUpdateSeries) {
       for (let i = 0; i < series.length; i++) {
+        if(series[i].weight === 0 || series[i].repetition === 0) {
+          continue
+        }
         await reqUpdateSerie(series[i]);
       }
       setIsUpdateSeries(false);
@@ -156,17 +156,17 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
   }
 
   return (
-    <div className="bg-light-1 gap-2 p-4 rounded-md flex flex-col">
+    <div className={`${preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"} gap-2 p-4 rounded-md flex flex-col`}>
       <header className="flex flex-col gap-2">
         <div className="flex justify-between">
           <div className="flex justify-between items-center w-full">
-            <Typography variant="h5-black">{activity.name}</Typography>
+            <Typography variant={`h5-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>{activity.name}</Typography>
             {(isUpdateSeries || isUpdateNote) && (
               <div className=" rounded-full p-1">
                 <ButtonConfirmViolet
                   label="Actualizar"
                   onConfirm={handleConfirmUpdateActivity}
-                  color="black"
+                  color={preferenceUser?.theme === "dark" ? "white" : "black"}
                   active={true}
                 />
               </div>
@@ -175,14 +175,14 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
             <OptionsActivity activity={activity} onDelete={onDelete} addNote={handleAddNote}/>
         </div>
         <div className="flex gap-1">
-          <Typography variant="span-light-black">
+          <Typography variant={`span-light-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>
             Enfoque del ejercicio:
           </Typography>
           <div
             className=" rounded-xl px-1 flex items-center"
             onClick={handleChangeFocus}
           >
-            <Typography variant="span-black">{activity.focus}</Typography>
+            <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>{activity.focus}</Typography>
           </div>
           {isUpdateFocus && (
             <SelectFocusDialog

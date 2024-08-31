@@ -3,12 +3,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
-import optionsBlack from "../../assets/icons/options-black.png";
 import Typography from "../Typography/Typography";
-import { act, useState } from "react";
+import {  useState } from "react";
 import AlertDialog from "../Modal/AlertDialog";
 import { Activity } from "../../models";
 import { reqDeleteActivity } from "../../service/activityService";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import optionsBlack from "../../assets/icons/options-black.png";
+import optionsWhite from "../../assets/icons/options-white.png";
 
 interface OptionsActivityProps {
   onDelete: (id: number) => void;
@@ -17,6 +20,8 @@ interface OptionsActivityProps {
 }
 const OptionsActivity = ({onDelete, addNote, activity}: OptionsActivityProps) => {
   
+
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const handleDelete = () => {
     setShowAlert(true);
@@ -36,26 +41,61 @@ const OptionsActivity = ({onDelete, addNote, activity}: OptionsActivityProps) =>
   return (
     <>
       <Popover>
-        <PopoverTrigger asChild>
-          <img className="h-8" src={optionsBlack} />
-        </PopoverTrigger>
-        <PopoverContent className="w-40 p-2 bg-dark-2 ">
-          <div className="flex flex-col gap-1 ">
-            <div 
-            className="p-2  hover:bg-light-1/10 active:bg-light-1/10 rounded-md transition duration-200 ease-in-out"
-            onClick={addNote}
-            >
-              <Typography variant="span-white ">{activity.note === "" ? "Anadir nota" : "Eliminar nota"}</Typography>
-            </div>
-            <div
-              onClick={handleDelete}
-              className="p-2  hover:bg-light-1/10 active:bg-light-1/10 rounded-md transition duration-200 ease-in-out"
-            >
-              <Typography variant="span-white">Eliminar</Typography>
-            </div>
-          </div>
-        </PopoverContent>
-      </Popover>
+  <PopoverTrigger asChild>
+    <button className="flex justify-end">
+      <img
+        className="h-8"
+        src={
+          preferenceUser?.theme === "dark"
+            ? optionsWhite
+            : optionsBlack
+        }
+        alt="Options"
+      />
+    </button>
+  </PopoverTrigger>
+  <PopoverContent
+    className={`w-40 p-2 ${
+      preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-light-2"
+    } shadow-lg `}
+  >
+    <div className="flex flex-col gap-1">
+      <button
+        className={`p-2 rounded-md transition duration-200 ease-in-out ${
+          preferenceUser?.theme === "dark"
+            ? "hover:bg-light-2/30 active:bg-dark-2/10"
+            : "hover:bg-light-1 active:bg-light-1/10"
+        }`}
+        onClick={addNote}
+      >
+        <Typography
+          variant={`span-${
+            preferenceUser?.theme === "dark" ? "white" : "black"
+          }`}
+        >
+          {activity.note === "" ? "Añadir nota" : "Eliminar nota"}
+        </Typography>
+      </button>
+      <button
+        onClick={handleDelete}
+        className={`p-2 rounded-md transition duration-200 ease-in-out ${
+          preferenceUser?.theme === "dark"
+            ? "hover:bg-light-2/30 active:bg-dark-2/10"
+            : "hover:bg-light-1 active:bg-light-1/10"
+        }`}
+      >
+        <Typography
+          variant={`span-${
+            preferenceUser?.theme === "dark" ? "white" : "black"
+          }`}
+        >
+          Eliminar
+        </Typography>
+      </button>
+    </div>
+  </PopoverContent>
+</Popover>
+
       {showAlert && (
         <AlertDialog
           title="Estas seguro que quieres borrar esta actividad?"

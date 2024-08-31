@@ -7,9 +7,13 @@ import ItemExercise from "../../components/Exercise/ItemExercise.tsx";
 
 import '../../App.css'
 import HeaderPage from "../../components/HeaderPage.tsx";
+import { RootState } from "../../store/index.ts";
+import { useSelector } from "react-redux";
 
 export const Exercises = () => {
+
   const [exercises, setExercises] = useState<Exercise[]>();
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
 
   useEffect(() => {
     const getExercise = async () => {
@@ -22,7 +26,7 @@ export const Exercises = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center bg-dark-1 w-full h-custom gap-3 ">
+      <div className={`flex flex-col items-center ${preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} w-full h-custom gap-3 `}>
         <HeaderPage title="Ejercicios" path="/user/home"/>
         <main className="flex flex-col gap-4 p-6 ">
           {exercises &&

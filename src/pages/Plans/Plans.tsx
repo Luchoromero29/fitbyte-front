@@ -20,6 +20,7 @@ export const Plans = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false); // Tipo explícito boolean
   //const [formData, setFormData] = useState<CreatePlan | null>(null); // Se usa null como valor inicial
   const user = useSelector((state: RootState) => state.auth.user);
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
 
   const [plans, setPlans] = useState<Array<Plan>>();
   const [isEmpty, setIsEmpty] = useState(true);
@@ -74,10 +75,10 @@ export const Plans = () => {
 
   return (
     <>
-      <div className=" bg-dark-1 w-full h-full flex flex-col items-center">
+      <div className={`${preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} w-full h-full flex flex-col items-center`}>
         <HeaderPage title="Planes" path="/user/home"/>
         <div className="fixed bottom-10">
-          <ButtonAddPink onConfirm={showAlertCreatePlan} label="Crear" />
+          <ButtonAddPink onConfirm={showAlertCreatePlan} label="Crear" color={preferenceUser?.theme === "dark" ? "white" : "black"}/>
         </div>
         <main className=" flex flex-col gap-4 p-6 w-full">
           {!isEmpty ? (

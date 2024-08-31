@@ -8,12 +8,15 @@ import { ButtonAddActivity } from "../../components/Buttons/Buttons";
 import Activity from "../../components/Activity/Activity";
 import { reqGetActivitiesByRoutineId } from "../../service/activityService";
 import { TextIsEmpty } from "../../components/TextIsEmpty";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 const RoutineDetails = () => {
-
-
   const { id } = useParams();
-  const [isEmpty, setIsEmpty] = useState<boolean>(true)
+  const preferenceUser = useSelector(
+    (state: RootState) => state.preferenceUser
+  );
+  const [isEmpty, setIsEmpty] = useState<boolean>(true);
 
   const [routine, setRoutine] = useState<Routine>({
     id: 0,
@@ -23,7 +26,7 @@ const RoutineDetails = () => {
     planId: 0,
   });
 
-  const [activities, setActivities] = useState<Array<ActivityModel>>()
+  const [activities, setActivities] = useState<Array<ActivityModel>>();
 
   useEffect(() => {
     const getRoutine = async () => {
@@ -37,20 +40,19 @@ const RoutineDetails = () => {
     const getActivitiesByRoutineId = async () => {
       if (id) {
         const response = await reqGetActivitiesByRoutineId(id);
-        if (response.length >= 1) setIsEmpty(false)
+        if (response.length >= 1) setIsEmpty(false);
         setActivities(response);
       }
     };
 
     getRoutine();
-    getActivitiesByRoutineId()
+    getActivitiesByRoutineId();
   }, []);
 
   const handleDeleteActivity = (id: number) => {
     setActivities(activities?.filter((activity) => activity.id !== id));
   };
-  const handleCreateActivity = () => {
-  }
+  const handleCreateActivity = () => {};
 
   return (
     <>
@@ -63,20 +65,24 @@ const RoutineDetails = () => {
         <main className="w-full p-6 flex flex-col gap-3">
           {!isEmpty ? (
             <>
-              {activities?.map((activity: ActivityModel, index ) => (
-                <Activity key={index} activity={activity} onDelete={handleDeleteActivity}/>
+              {activities?.map((activity: ActivityModel, index) => (
+                <Activity
+                  key={index}
+                  activity={activity}
+                  onDelete={handleDeleteActivity}
+                />
               ))}
             </>
           ) : (
-            <TextIsEmpty label="Actividades"/>
+            <TextIsEmpty label="Actividades" />
           )}
- 
         </main>
         <div className="flex items-center justify-center mb-6">
           <Link to={`/user/home/plans/routine/${routine.id}/exercises`}>
             <ButtonAddActivity
               label="Agregar Actividad"
               onConfirm={handleCreateActivity}
+              color={preferenceUser?.theme === "dark" ? "white" : "black"}
             />
           </Link>
         </div>

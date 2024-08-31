@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Category, Exercise } from "../../models/index.js";
 import Typography from "../Typography/Typography";
 import { reqGetCategoryById } from "../../service/categoryService.js";
+import { RootState } from "../../store/index.js";
+import { useSelector } from "react-redux";
 
 interface ItemExerciseProps {
   exercise: Exercise,
@@ -10,6 +12,8 @@ interface ItemExerciseProps {
 const ItemExercise = ({
 exercise
 }: ItemExerciseProps) => {
+
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
   const [category, setCategory] = useState<Category | undefined>(undefined);
 
   useEffect(() => {
@@ -27,19 +31,19 @@ exercise
   }, []);
 
   return (
-    <div className="bg-light-1 flex p-4 rounded-md h-auto shadow-xl">
+    <div className={`${preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"} flex p-4 rounded-md h-auto shadow-xl`}>
       <ul className="grid grid-cols-3 grid-rows-1 sm:grid-cols-4 justify-between w-full gap-3 items-center">
         <div className="flex flex-col gap-2 col-span-2 sm:col-span-3">
           <li>
-            <Typography variant="h6-black">{exercise.name}</Typography>
+            <Typography variant={`h6-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>{exercise.name}</Typography>
           </li>
           <li>
-            <Typography variant="span-light-black">{exercise.description}</Typography>
+            <Typography variant={`span-light-${preferenceUser?.theme === "dark" ? "white" : "black" }`}>{exercise.description}</Typography>
           </li>
           <li>
             {category && (
-              <Typography variant="span-light-black">
-                Necesitas: {category.name}
+              <Typography variant={`span-light-${preferenceUser?.theme === "dark" ? "white" : "black" }`}>
+                <strong>Necesitas:</strong> {category.name}
               </Typography>
             )}
           </li>

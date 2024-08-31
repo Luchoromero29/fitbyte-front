@@ -1,10 +1,18 @@
-import { Serie } from "../../models";
-import Typography from "../Typography/Typography";
-import "./ItemSerie.css";
-import deleteBlack from "../../assets/icons/delete-black.png";
+import { useSelector } from "react-redux";
 import { useState } from "react";
+import "./ItemSerie.css";
+
+import { RootState } from "../../store";
 import SelectUnitDialog from "../Modal/SelectUnitDialog";
+import Typography from "../Typography/Typography";
+
 import { reqUpdateSerie } from "../../service/seriesService";
+
+import { Serie } from "../../models";
+
+
+import deleteBlack from "../../assets/icons/delete-black.png";
+import deleteWhite from "../../assets/icons/delete-white.png";
 
 interface ItemSerieProps {
   index: number;
@@ -15,6 +23,7 @@ interface ItemSerieProps {
 
 const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
   
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
   const [openEditUnit, setOpenEditUnit] = useState<boolean>(false);
 
   const handleDelete = () => {
@@ -23,8 +32,7 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(index - 1);
-    // const newRep = document.querySelector("#input-rep")
-    // const newWeight = document.querySelector("#input-weight")
+
     if (e.target.id === "input-rep") {
       const repetition = Number(e.target.value);
       onChange(index - 1, undefined, repetition);
@@ -51,30 +59,38 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
     <>
       <div className="flex justify-between items-center p-1 gap-2">
         <div>
-          <Typography variant="span-black">{index}</Typography>
+          <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>{index}</Typography>
         </div>
         <div className="flex gap-2 items-center">
           <div className="flex gap-2 items-center">
-            <Typography variant="span-light-black">Rep</Typography>
+            <Typography variant={`span-light-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>Rep</Typography>
             <input
               type="number"
               id="input-rep"
               defaultValue={serie.repetition}
-              className="w-12 p-1 rounded-md bg-light-1 text-dark-1 placeholder:text-dark-1 outline outline-1 outline-dark-1 text-center"
+              className={`w-12 p-1 rounded-md 
+                ${preferenceUser?.theme === "dark" 
+                  ? "bg-black text-white outline-white" 
+                  : "bg-light-1 text-dark-1 outline-dark-1"} 
+                outline outline-1 text-center`}
               onChange={handleChange}
             />
           </div>
-          <Typography variant="span-black">X</Typography>
+          <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>X</Typography>
           <div className="flex gap-2 items-center">
             <input
               type="number"
               id="input-weight"
               defaultValue={serie.weight}
               onChange={handleChange}
-              className="w-12 p-1 rounded-md bg-light-1 text-dark-1 placeholder:text-dark-1 outline outline-1 outline-dark-1 text-center"
+              className={`w-12 p-1 rounded-md 
+                ${preferenceUser?.theme === "dark" 
+                  ? "bg-black text-white outline-white" 
+                  : "bg-light-1 text-dark-1 outline-dark-1"} 
+                outline outline-1 text-center`}
             />
             <div onClick={handleChangeUnit}>
-              <Typography variant="span-light-black">{serie.unit}</Typography>
+              <Typography variant={`span-light-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>{serie.unit}</Typography>
             </div>
           </div>
         </div>
@@ -85,7 +101,7 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
           />
         </div>
         <div onClick={handleDelete}>
-          <img className="h-5 w-5" src={deleteBlack} />
+          <img className="h-5 w-5" src={preferenceUser?.theme === "dark" ? deleteWhite : deleteBlack} />
         </div>
       </div>
       {openEditUnit && (

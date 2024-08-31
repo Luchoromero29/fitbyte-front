@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Popover, PopoverContent, PopoverTrigger } from "../Popover/Popover";
 
 import { ErrorDialogI, Plan } from "../../models";
 import Typography from "../Typography/Typography";
-import arrowRight from "../../assets/icons/arrow-rigth-white.png";
+import arrowRightWhite from "../../assets/icons/arrow-rigth-white.png";
+import arrowRightBlack from "../../assets/icons/arrow-rigth-black.png";
 import optionsWhite from "../../assets/icons/options-white.png";
+import optionsBlack from "../../assets/icons/options-black.png";
 import { addPlan } from "../../store/planSlice";
 
 import AlertDialog from "../Modal/AlertDialog";
 import { reqDeletePlan, reqUpdatePlan } from "../../service/planService";
 import AlertEditPlan from "./AlertEditPlan";
 import MessageDialog from "../Modal/MessageDialog";
+import { RootState } from "../../store";
 
 interface ItemPlanProps {
   plan: Plan;
@@ -21,6 +24,10 @@ interface ItemPlanProps {
 
 const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
   const dispatch = useDispatch();
+
+  const preferenceUser = useSelector(
+    (state: RootState) => state.preferenceUser
+  );
 
   const [showDialog, setShowDialog] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -76,15 +83,29 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-8 justify-between bg-black p-3 rounded-md shadow-md">
+      <div
+        className={`grid grid-cols-8 justify-between ${
+          preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"
+        } p-3 rounded-md shadow-md`}
+      >
         <Link
           to={`/user/home/plans/${plan.id}`}
           onClick={setPlanState}
           className="col-span-6 grid row-span-2 gap-3"
         >
           <div>
-            <Typography variant="h6-white">{plan.name}</Typography>
-            <Typography variant="span-light-white">
+            <Typography
+              variant={`h6-${
+                preferenceUser?.theme === "dark" ? "white" : "black"
+              }`}
+            >
+              {plan.name}
+            </Typography>
+            <Typography
+              variant={`span-light-${
+                preferenceUser?.theme === "dark" ? "white" : "black"
+              }`}
+            >
               {plan.description}
             </Typography>
           </div>
@@ -96,27 +117,67 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
             onClick={setPlanState}
             className="flex justify-end"
           >
-            <img className="h-8" src={arrowRight} alt="Arrow Right" />
+            <img
+              className="h-8"
+              src={
+                preferenceUser?.theme === "dark"
+                  ? arrowRightWhite
+                  : arrowRightBlack
+              }
+              alt="Arrow Right"
+            />
           </Link>
           <Popover>
             <PopoverTrigger asChild>
               <button className="flex justify-end">
-                <img className="h-8" src={optionsWhite} alt="Options" />
+                <img
+                  className="h-8"
+                  src={
+                    preferenceUser?.theme === "dark"
+                      ? optionsWhite
+                      : optionsBlack
+                  }
+                  alt="Options"
+                />
               </button>
             </PopoverTrigger>
-            <PopoverContent className="w-40 p-2 bg-dark-2">
+            <PopoverContent
+              className={`w-40 p-2 ${
+                preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-light-2"
+              } shadow-lg `}
+            >
               <div className="flex flex-col gap-1">
                 <button
-                  className="p-2 hover:bg-light-1/10 active:bg-light-1/10 rounded-md transition duration-200 ease-in-out"
+                  className={`p-2 rounded-md transition duration-200 ease-in-out ${
+                    preferenceUser?.theme === "dark"
+                      ? "hover:bg-light-2/30 active:bg-dark-2/10"
+                      : "hover:bg-light-1 active:bg-light-1/10"
+                  }`}
                   onClick={handleEdit}
                 >
-                  <Typography variant="span-white">Editar</Typography>
+                  <Typography
+                    variant={`span-${
+                      preferenceUser?.theme === "dark" ? "white" : "black"
+                    }`}
+                  >
+                    Editar
+                  </Typography>
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="p-2 hover:bg-light-1/10 active:bg-light-1/10 rounded-md transition duration-200 ease-in-out"
+                  className={`p-2 rounded-md transition duration-200 ease-in-out ${
+                    preferenceUser?.theme === "dark"
+                      ? "hover:bg-light-2/30 active:bg-dark-2/10"
+                      : "hover:bg-light-1 active:bg-light-1/10"
+                  }`}
                 >
-                  <Typography variant="span-white">Eliminar</Typography>
+                  <Typography
+                    variant={`span-${
+                      preferenceUser?.theme === "dark" ? "white" : "black"
+                    }`}
+                  >
+                    Eliminar
+                  </Typography>
                 </button>
               </div>
             </PopoverContent>
