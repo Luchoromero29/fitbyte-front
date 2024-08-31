@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import Typography from "../../components/Typography/Typography";
 import { reqGetAllExercise } from "../../service/exerciseService";
 import { Activity, Exercise } from "../../models";
 import HeaderPage from "../../components/HeaderPage";
 import { useNavigate, useParams } from "react-router-dom";
 import ItemExerciseSelectable from "../../components/Exercise/ItemExerciseSelectable";
 import { ButtonConfirmViolet } from "../../components/Buttons/Buttons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setExercise } from "../../store/exerciseSlice";
 import { reqCreateActivity } from "../../service/activityService";
 import { Focus } from "../../models/types";
 import { reqCreateSerie } from "../../service/seriesService";
+import { RootState } from "../../store";
 
 // interface SelectExerciseProps {
 //     routineId: number
@@ -18,6 +18,8 @@ import { reqCreateSerie } from "../../service/seriesService";
 
 const SelectExercise = () => {
   
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
+
   const [exercises, setExercises] = useState<Array<Exercise>>();
   const [exerciseActive, setExerciseActive] = useState<Exercise>();
 
@@ -60,7 +62,7 @@ const SelectExercise = () => {
       const serie = {
         weight: 0,
         repetition: 0,
-        unit: "KG",
+        unit: preferenceUser?.unitWeight || "KG", 
         activityId: response.id,
       };
 
