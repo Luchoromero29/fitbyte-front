@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Typography from "../../components/Typography/Typography.tsx";
 import "./Home.css";
 import { Link } from "react-router-dom";
+import ItemHomeWelcome from "../../components/Home/ItemHomeWelcome.tsx";
 
 const Home = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -11,8 +12,8 @@ const Home = () => {
     <>
       <div className={`${preference?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} min-h-screen w-full flex justify-center `}>
         <div className="grid h-full w-full grid-cols-2 grid-rows-3 gap-6 m-6">
-          <div className="row-span-1 col-span-2 bg-light-1 bento-item h-44">
-            <Typography variant="h3-black">Hola, {user?.name}!</Typography>
+          <div className="row-span-1 col-span-2">
+          <ItemHomeWelcome path="/user/home"/>
           </div>
 
           <div className="row-span-1 col-span-1 bg-pink-2 bento-item">

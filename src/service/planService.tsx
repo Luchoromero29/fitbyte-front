@@ -34,6 +34,17 @@ export const reqCreatePlan = async (
   }
 };
 
+export const reqGetPlanById =async (id: number) => {
+  try {
+    const data = await apiClient.get(`/api/plan/${id}`)
+    .then((response) => response.data)
+
+    return data
+  } catch (error) {
+    throw new Error(error.message || "Error de conexion para traer el plan")
+  }
+}
+
 export const reqGetAllPlansByUserId = async (
   userId: number
 ): Promise<Response> => {

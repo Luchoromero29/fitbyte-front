@@ -3,7 +3,7 @@ import { Day } from "../models/types";
 import apiClient from "./axiosConfig";
 
 export const reqGetAllRoutinesByPlanId = async (
-  planId: string
+  planId: number
 ): Promise<Array<Routine> | null> => {
   try {
     const data = await apiClient

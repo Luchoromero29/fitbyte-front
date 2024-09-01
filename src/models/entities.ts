@@ -138,3 +138,9 @@ export interface CreatePreferenceUser {
     theme: string,
     userId: number
 }
+
+export interface ActivePlan{
+    id: number,
+    userId: number,
+    planId: number
+}

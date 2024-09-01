@@ -22,11 +22,11 @@ export default {
           5: '#e187ff',
         },
         dark: {
-          1: '#2b2b2b',
-          2: '#3a3a3a',
-          3: '#494949',
-          4: '#585858',
-          5: '#676767',
+          1: '#1f1f1f', // Un poco más oscuro
+          2: '#2c2c2c', // Un poco más oscuro
+          3: '#383838', // Un poco más oscuro
+          4: '#454545', // Un poco más oscuro
+          5: '#515151', // Un poco más oscuro
         },
         light: {
           1: '#f7f0f0',

@@ -10,7 +10,7 @@ import {
   reqGetSeriesByActivityId,
   reqUpdateSerie,
 } from "../../service/seriesService";
-import { ButtonAddSerieBlack, ButtonConfirmViolet } from "../Buttons/Buttons";
+import { ButtonAddSerie, ButtonConfirmViolet } from "../Buttons/Buttons";
 import { RootState } from "../../store";
 import MessageDialog from "../Modal/MessageDialog";
 import SelectFocusDialog from "../Modal/SelectFocusDialog";
@@ -205,9 +205,10 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
           />
         ))}
         <div className="flex justify-center">
-          <ButtonAddSerieBlack
+          <ButtonAddSerie
             label="AGREGAR SERIE"
             onConfirm={handleAddSerie}
+            color={preferenceUser?.theme === "dark" ? "white" : "black"}
           />
         </div>
       </main>

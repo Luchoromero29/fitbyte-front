@@ -124,7 +124,7 @@ export const ButtonConfirmPink: React.FC<ButtonsProps> = ({ label, onConfirm, ac
   );
 };
 
-export const ButtonAddSerieBlack: React.FC<ButtonsProps> = ({ label, onConfirm, color = "black" }) => {
+export const ButtonAddSerie: React.FC<ButtonsProps> = ({ label, onConfirm, color = "black" }) => {
   const handleConfirm = () => {
     onConfirm();
   };

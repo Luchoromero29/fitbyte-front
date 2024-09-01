@@ -34,7 +34,7 @@ const Routines = () => {
   useEffect(() => {
     const getAllRoutines = async () => {
       const data: Array<Routine> = await reqGetAllRoutinesByPlanId(
-        planId as string
+        Number(planId) 
       );
       if (data.length > 0) {
         setRoutines(data);

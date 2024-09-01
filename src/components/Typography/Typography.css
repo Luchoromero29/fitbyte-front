@@ -118,6 +118,18 @@
     color: var(--white-color);
 }
 
+.typography-span-violet {
+    font-size: 1rem;
+    font-family: 'chopin-bold';
+    color: var(--violet-1-color);
+}
+
+.typography-span-pink {
+    font-size: 1rem;
+    font-family: 'chopin-bold';
+    color: var(--pink-1-color);
+}
+
 .typography-span-error {
     font-size: 1rem;
     font-family: 'chopin-bold';
