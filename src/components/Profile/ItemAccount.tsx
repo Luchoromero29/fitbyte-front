@@ -1,9 +1,11 @@
+import { useSelector } from "react-redux";
 import Typography from "../Typography/Typography"
+import { RootState } from "../../store";
 
 
 const ItemAccount = ( {label, value, type, modifiable, onChange}: itemAccountProps) => {
 
-
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(onChange){
       console.log(e.target.value);
@@ -14,10 +16,10 @@ const ItemAccount = ( {label, value, type, modifiable, onChange}: itemAccountPro
 
   return (
     <div className="flex flex-col w-full border border-violet-1 p-3 rounded-xl shadow-md">
-        <Typography variant="span-white">{label}</Typography>
+        <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>{label}</Typography>
         {modifiable ? 
-          <input type={type} className="w-full rounded-lg bg-dark-1 text-white focus:outline-none" defaultValue={value} onChange={handleChange}  /> 
-          : <input type={type} className="w-full rounded-lg bg-dark-1 text-white focus:outline-none" defaultValue={value} readOnly /> 
+          <input type={type} className={`w-full rounded-lg ${preferenceUser?.theme === "dark" ? "bg-dark-1 text-white" : "bg-light-3 text-black" } font-chopinLight focus:outline-none`} defaultValue={value} onChange={handleChange}  /> 
+          : <input type={type} className={`w-full rounded-lg ${preferenceUser?.theme === "dark" ? "bg-dark-1 text-white" : "bg-light-3 text-black" } font-chopinLight focus:outline-none`} defaultValue={value} readOnly /> 
         }
     </div>
   )

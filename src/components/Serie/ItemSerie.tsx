@@ -8,11 +8,12 @@ import Typography from "../Typography/Typography";
 
 import { reqUpdateSerie } from "../../service/seriesService";
 
-import { Serie } from "../../models";
+import { ErrorDialogI, Serie } from "../../models";
 
 
 import deleteBlack from "../../assets/icons/delete-black.png";
 import deleteWhite from "../../assets/icons/delete-white.png";
+import MessageDialog from "../Modal/MessageDialog";
 
 interface ItemSerieProps {
   index: number;
@@ -25,6 +26,7 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
   
   const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
   const [openEditUnit, setOpenEditUnit] = useState<boolean>(false);
+  const [message, setMessage] = useState<ErrorDialogI>();
 
   const handleDelete = () => {
     onDelete(serie.id);
@@ -35,10 +37,31 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
 
     if (e.target.id === "input-rep") {
       const repetition = Number(e.target.value);
-      onChange(index - 1, undefined, repetition);
+      if(repetition >= 0 && repetition <= 999) {
+        onChange(index - 1, undefined, repetition);
+      } else {
+        const newValue = Math.round(repetition/10)
+        e.target.value = newValue < 0 ? "0" : String(newValue);
+        
+        setMessage({
+          active: true,
+          title: "Repeticion fuera de rango",
+          message: "",
+        });
+      }
     } else {
       const weight = Number(e.target.value);
-      onChange(index - 1, weight, undefined);
+      if (weight >= 0 && weight <= 999) {
+        onChange(index - 1, weight, undefined);
+      } else {
+        const newValue = Math.round(weight/10)
+        e.target.value = newValue < 0 ? "0" : String(newValue);
+        setMessage({
+          active: true,
+          title: "Peso fuera de rango",
+          message: "",
+        });
+      }
     }
   };
 
@@ -47,9 +70,10 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
   }
 
   const handleConfirmEditUnit = async (unit: string ) => {
-    serie.unit = unit;
-    await reqUpdateSerie(serie);
-    setOpenEditUnit(false);
+      serie.unit = unit;
+      await reqUpdateSerie(serie);
+      setOpenEditUnit(false);
+
   } 
 
    const handleCancelEditUnit = () => {
@@ -68,6 +92,8 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
               type="number"
               id="input-rep"
               defaultValue={serie.repetition}
+              min={0}
+              max={999}
               className={`w-12 p-1 rounded-md 
                 ${preferenceUser?.theme === "dark" 
                   ? "bg-black text-white outline-white" 
@@ -83,6 +109,8 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
               id="input-weight"
               defaultValue={serie.weight}
               onChange={handleChange}
+              min={0}
+              max={999}
               className={`w-12 p-1 rounded-md 
                 ${preferenceUser?.theme === "dark" 
                   ? "bg-black text-white outline-white" 
@@ -110,6 +138,14 @@ const ItemSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
         onConfirm={handleConfirmEditUnit}
         onCancel={handleCancelEditUnit}
         active={openEditUnit}
+        />
+      )}
+      {message?.active && (
+        <MessageDialog
+          title={message.title}
+          message={message.message || ""}
+          onConfirm={() => setMessage({...message, active: false })}
+          active={message.active}
         />
       )}
     </>

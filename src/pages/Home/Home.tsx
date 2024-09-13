@@ -4,6 +4,7 @@ import Typography from "../../components/Typography/Typography.tsx";
 import "./Home.css";
 import { Link } from "react-router-dom";
 import ItemHomeWelcome from "../../components/Home/ItemHomeWelcome.tsx";
+import ItemHomePlans from "../../components/Home/ItemHomePlans.tsx";
 
 const Home = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -13,21 +14,16 @@ const Home = () => {
       <div className={`${preference?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} min-h-screen w-full flex justify-center `}>
         <div className="grid h-full w-full grid-cols-2 grid-rows-3 gap-6 m-6">
           <div className="row-span-1 col-span-2">
-          <ItemHomeWelcome path="/user/home"/>
+            <ItemHomeWelcome path="/user/home"/>
           </div>
 
           <div className="row-span-1 col-span-1 bg-pink-2 bento-item">
             <Typography variant="h5-black">Estadisticas</Typography>
           </div>
-
           <div className="row-span-2 col-span-1 bg-violet-2 bento-item">
-            <Link to="/user/home/plans">
-              <div className="w-full h-full">
-                <Typography variant="h5-white">Planes</Typography>
-              </div>
-            </Link>
+            <ItemHomePlans path="/user/home/plans"/>
           </div>
-          <div className="row-span-1 col-span-1 bg-black bento-item">
+          <div className="row-span-1 col-span-1 bg-dark-3 bento-item">
             <Link to="/user/home/exercises">
               <div className="w-full h-full">
                 <Typography variant="h5-white">Ejercicios</Typography>

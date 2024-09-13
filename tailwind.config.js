@@ -38,6 +38,10 @@ export default {
         danger: '#FF4C4C',
         succes: '#4CAF50',
       },
+      fontFamily: {
+        chopinBold: ['chopin-bold', 'sans-serif'],
+        chopinLight: ['chopin-light', 'sans-serif'],
+      },
       zIndex: {
         '60': '60',
         '70': '70',

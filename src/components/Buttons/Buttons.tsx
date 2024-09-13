@@ -17,7 +17,7 @@ export const ButtonViolet: React.FC<ButtonsProps> = ({ label, onConfirm, color =
   };
 
   return (
-    <div className="bg-violet-1 p-2 rounded-md shadow-md">
+    <div className="bg-violet-1 px-3 py-2 rounded-3xl shadow-md">
       <button onClick={handleConfirm}>
         <Typography variant={`span-${color}`}>{label}</Typography>
       </button>

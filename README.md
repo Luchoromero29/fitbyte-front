@@ -12,4 +12,4 @@
 ## mejoras
 - cambiar los nombres de los models y sus imports, colocando la I de interface []
 - planes que puedan estar en mas de un usuario como estandares
-
+- toda la seccion de planes esta bien estructurada en cuanto a back y service, realizar eso mismo en las demas clases

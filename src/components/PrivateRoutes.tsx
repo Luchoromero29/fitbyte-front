@@ -1,4 +1,3 @@
-// src/components/PrivateRoute.tsx
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,8 +17,10 @@ const PrivateRoute: React.FC = () => {
     const verifyAuth = async () => {
       if (!isAuthenticated) {
         const response = await reqVerifyAuth();
+        console.log(response);
+        
         if (response) {
-          const prefereneces = await reqGetPreferenceByUserId(response.user.user.id);
+          const prefereneces = await reqGetPreferenceByUserId(response.data.user.id);
           dispatch(
             addPreferenceUser(
               prefereneces
@@ -28,7 +29,7 @@ const PrivateRoute: React.FC = () => {
           dispatch(
             login({
               token: response.token,
-              user: response.user.user,
+              user: response.data.user,
             })
           );
         }
@@ -40,7 +41,7 @@ const PrivateRoute: React.FC = () => {
   }, [isAuthenticated, dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>; // Puedes reemplazar esto con un componente de carga más elaborado si lo deseas.
+    return <div>Loading... privateRoute</div>; // Puedes reemplazar esto con un componente de carga más elaborado si lo deseas.
   }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;

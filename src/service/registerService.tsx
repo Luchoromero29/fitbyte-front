@@ -1,26 +1,25 @@
-import { API_BACK } from "./Config.tsx";
-import { CreateUser } from "../models/index.ts";
+import { CreateUser, User } from "../models/index.ts";
+import apiClient from "./axiosConfig";
+import axios from 'axios';
 
-export const reqRegister = async (user: CreateUser): Promise<Response> => {
+export const reqRegister = async (user: CreateUser): Promise<User | string> => {
   try {
-    const response = await fetch(`${API_BACK}/api/users`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-
-    // Verifica si la respuesta no es exitosa
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Error al registrar el usuario');
+    console.log("si");
+    
+    const response = await apiClient.post<{ ok: boolean; status: number; body: unknown }>('/api/users', user);
+    console.log(response);
+    
+    if (response.data.ok) {
+      return response.data.body as User;
     }
 
-    return response;
-  } catch (error) {
-    // Manejo de errores de la red u otros errores
-    throw new Error(error.message || 'Error al registrar el usuario');
+    throw new Error( 'Error al registrar el usuario');
+  } catch (error: unknown) {
+    
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.body.message || 'Error de conexión al registrar el usuario');
+    } else {
+      throw new Error("Fallo al registrar usuario");
+    }
   }
 };

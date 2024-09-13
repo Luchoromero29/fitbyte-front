@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { CreateRoutine, ErrorDialogI, Routine } from "../../models";
+import { CreateRoutine, ErrorDialogI, Plan, Routine } from "../../models";
 import {
   reqCreateRoutine,
   reqGetAllRoutinesByPlanId,
@@ -15,13 +15,15 @@ import AlertCreateRoutine from "../../components/Routines/AlertCreateRoutine";
 import ErrorDialog from "../../components/Modal/MessageDialog";
 import { RootState } from "../../store";
 import HeaderPage from "../../components/HeaderPage";
+import { reqGetPlanById } from "../../service/planService";
 
 const Routines = () => {
 
   const { planId } = useParams<{ planId: string }>();
   
   const preferenceUser = useSelector((state: RootState) => state.preferenceUser)
-  const plan = useSelector((state: RootState) => state.plan);
+  const [plan, setPlan] = useState<Plan>(useSelector((state: RootState) => state.plan));
+  //const plan = useSelector((state: RootState) => state.plan);
   const [routines, setRoutines] = useState<Array<Routine>>();
   const [isEmpty, setIsEmpty] = useState(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -33,16 +35,23 @@ const Routines = () => {
 
   useEffect(() => {
     const getAllRoutines = async () => {
-      const data: Array<Routine> = await reqGetAllRoutinesByPlanId(
+      const data= await reqGetAllRoutinesByPlanId(
         Number(planId) 
       );
-      if (data.length > 0) {
+      if (data && data.length > 0) {
         setRoutines(data);
         setIsEmpty(false);
       }
     };
 
     getAllRoutines();
+
+    const getPlanById = async () => {
+      const data = await reqGetPlanById(Number(planId));
+      setPlan(data);
+    }
+
+    getPlanById();
   }, [showAlert]);
 
   const showAlertCreateRoutine = () => {

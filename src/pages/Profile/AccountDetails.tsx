@@ -11,7 +11,10 @@ import ModifyBirthdateDialog from "../../components/Profile/ModifyBirthdateDialo
 
 const AccountDetails = () => {
   const dispatch = useDispatch();
+  
   const userSession = useSelector((state: RootState) => state.auth.user);
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser)
+
   const [user, setUser] = useState<User>();
   const [birthday, setBirthday] = useState<string>();
   const [isModify, setIsModify] = useState<boolean>(false);
@@ -32,6 +35,8 @@ const AccountDetails = () => {
     const getUser = async () => {
       if (userSession) {
         const response = await reqGetUserById(userSession.id);
+
+        
         setUser(response);
       }
     };
@@ -57,7 +62,7 @@ const AccountDetails = () => {
 
   const handleUpdateUser = async () => {
     try {
-      console.log(user);
+      if (!user) return;
       
       const userUpdated = await reqUpdateUserId(user);
 
@@ -132,7 +137,7 @@ const AccountDetails = () => {
               label="Guardar"
               onConfirm={handleUpdateUser}
               active={isModify}
-              color="white"
+              color={preferenceUser?.theme === "dark" ? "white" : "black"}
             />
           ) : null}
         </footer>

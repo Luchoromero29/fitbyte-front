@@ -1,57 +1,73 @@
-//const API_BACK = process.env.REACT_APP_API_BACK;
-import { API_BACK } from "./Config.tsx";
 
-export const reqLogout = async () => {
+import { AuthResponse, ResponseLogin } from "../models";
+import apiClient from "./axiosConfig";
 
-    try {
-      const response = await fetch(`${API_BACK}/api/logout`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        });
 
-        return response;
-  } catch (error) {
-    return new Response(JSON.stringify({ error: "Error al iniciar sesión" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
 
-}
-
-export const reqLogin = async (email: string | null , password: string | null): Promise<Response> => {
-
-    try {
-        const response = await fetch(`${API_BACK}/api/login`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-          });
-
-          return response;
-    } catch (error) {
-      return new Response(JSON.stringify({ error: "Error al iniciar sesión" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-}
-
-export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
+export const reqLogout = async (): Promise<void> => {
   try {
-    const response = await fetch(`${API_BACK}/api/verify-auth`, {
-      method: "GET",
-      credentials: "include",
+    const response = await apiClient.post<{ ok: boolean; status: number }>('/api/logout', {}, {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true, // En lugar de 'credentials: "include"'
+    });
+
+    if (!response.data.ok) {
+      throw new Error("Error al cerrar sesión");
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error en la solicitud de cierre de sesión:", error.message);
+    } else {
+      console.error("Error inesperado en la solicitud de cierre de sesión");
+    }
+  }
+};
+
+export const reqLogin = async (email: string | null, password: string | null): Promise<ResponseLogin> => {
+  try {
+    const response: ResponseLogin = await apiClient.post<ResponseLogin>('/api/login', { email, password }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    }).then((response) => { return response.data; });
+    console.log(response);
+    
+    if (!response) {
+      throw new Error("Error al iniciar sesión");
+    }
+
+    return response; // Devuelve el token si la respuesta es exitosa
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error en la solicitud de inicio de sesión:", error.message);
+      throw new Error(error.message || "Error al iniciar sesión");
+    } else {
+      throw new Error("Error inesperado al iniciar sesión");
+    }
+  }
+};
+
+// interface VerifyAuthResponse {
+//   token: string;
+//   data: {
+//     exp: number; // La fecha de expiración del token en formato Unix timestamp
+//     iat: number; // La fecha de creación del token en formato Unix timestamp
+//     user: User; // Define el tipo correcto basado en tu modelo de usuario
+//   }
+// }
+
+
+
+export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
+  try {
+    const response = await apiClient.get<AuthResponse>('/api/verify-auth', {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true, // En lugar de 'credentials: "include"'
     });
 
     if (response.status === 401) {
@@ -59,22 +75,18 @@ export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
       return null; // O maneja de otra manera según sea necesario
     }
 
-    if (!response.ok) {
+    if (!response.data) {
       throw new Error("Failed to verify auth");
     }
-
-    const data: AuthResponse = await response.json();
-    return data;
-  } catch (error) {
-    if (error instanceof Error && error.message !== "Failed to verify auth") {
-      console.error("Error verifying auth:", error);
+    console.log(response);
+    
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error al verificar la autenticación:", error.message);
+    } else {
+      console.error("Error inesperado al verificar la autenticación");
     }
     return null;
   }
-}
-
-
-interface AuthResponse {
-  token: string;
-  user: any; // Define el tipo correcto basado en tu modelo de usuario
-}
+};

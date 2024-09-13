@@ -4,18 +4,26 @@ import { useEffect, useState } from "react";
 import { Activity as ActivityModel, Routine } from "../../models";
 import { reqGetRoutineById } from "../../service/routineService";
 import HeaderPage from "../../components/HeaderPage";
-import { ButtonAddActivity } from "../../components/Buttons/Buttons";
+import {
+  ButtonAddActivity,
+  ButtonViolet,
+} from "../../components/Buttons/Buttons";
 import Activity from "../../components/Activity/Activity";
 import { reqGetActivitiesByRoutineId } from "../../service/activityService";
 import { TextIsEmpty } from "../../components/TextIsEmpty";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
+import {  reqGetActivePlanByUserId, reqUpdateActivePlan } from "../../service/activePlanService";
+//import { reqGetActivePlanByUserId, reqCreateActivePlan, reqUpdateActivePlan } from "../../service/activePlanService";
 
 const RoutineDetails = () => {
   const { id } = useParams();
+
   const preferenceUser = useSelector(
     (state: RootState) => state.preferenceUser
   );
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
 
   const [routine, setRoutine] = useState<Routine>({
@@ -51,18 +59,37 @@ const RoutineDetails = () => {
 
   const handleDeleteActivity = (id: number) => {
     setActivities(activities?.filter((activity) => activity.id !== id));
+    if (activities?.length === 1) setIsEmpty(true)
   };
+
+  //Actualmente no hace nada, pero es necesaria para que no de error
   const handleCreateActivity = () => {};
+
+  const handleInit = async () => {
+    if (!user) return;
+    
+    const response = await reqGetActivePlanByUserId(user?.id);
+    console.log(response);
+    
+    if(routine.planId !== response.planId) {
+      await reqUpdateActivePlan(response.id, routine.planId);
+    }  
+  };
 
   return (
     <>
-      <div className="flex flex-col items-center w-full gap-2">
+      <div className="flex flex-col items-center w-full gap-3">
         <HeaderPage
           title={routine?.name}
           path={`/user/home/plans/${routine.planId}`}
         />
+        {!isEmpty && (
+          <div className="flex items-center justify-end w-full px-6">
+            <ButtonViolet label="Iniciar rutina" onConfirm={handleInit} />
+          </div>
+        )}
 
-        <main className="w-full p-6 flex flex-col gap-3">
+        <main className="w-full px-6  flex flex-col gap-3">
           {!isEmpty ? (
             <>
               {activities?.map((activity: ActivityModel, index) => (

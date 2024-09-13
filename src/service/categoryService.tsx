@@ -1,24 +1,19 @@
-import { API_BACK } from "./Config.tsx";
+import apiClient from "./axiosConfig";
+import { Category } from "../models";
+import axios from 'axios';
 
-export const reqGetCategoryById = async (id: number): Promise<Response> => {
+export const reqGetCategoryById = async (id: number): Promise<Category> => {
   try {
-    const response = await fetch(`${API_BACK}/api/category/${id}`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    });
-
-    // Verifica si la respuesta no es exitosa
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Error al recuperar los ejercicios');
+    const response = await apiClient.get<{ ok: boolean; status: number; body: Category }>(`/api/category/${id}`);
+    if (response.data.ok && response.data.body) {
+      return response.data.body;
     }
-
-    return response;
-  } catch (error) {
-    // Manejo de errores de la red u otros errores
-    throw new Error(error.message || 'Error al registrar el usuario');
+    throw new Error("No se encontró la categoría.");
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Error de conexión al obtener la categoría");
+    } else {
+      throw new Error("Error inesperado al obtener la categoría");
+    }
   }
 };

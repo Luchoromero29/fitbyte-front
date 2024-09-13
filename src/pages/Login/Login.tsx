@@ -4,13 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 import { login } from "../../store/authSlice";
-import { reqLogin, reqVerifyAuth } from "../../service/singinService.tsx";
-import { User } from "../../models/index.ts";
+import { reqLogin } from "../../service/singinService.tsx";
+
 import logo from "../../assets/images/logo-fitbyte-rosa.png";
 import Typography from "../../components/Typography/Typography.tsx";
-import { reqSetPreferenceId, reqUpdateUserId } from "../../service/userService.tsx";
-import { reqCreatePreference, reqGetPreferenceByUserId } from "../../service/preferenceService.tsx";
+import {  reqGetPreferenceByUserId } from "../../service/preferenceService.tsx";
 import { addPreferenceUser } from "../../store/preferenceSlice.ts";
+import {  ResponseLogin } from "../../models/entities.ts";
 
 const Login = () => {
   const [isError, setIsError] = useState({
@@ -33,49 +33,30 @@ const Login = () => {
 
       if (email && password) {
         try {
-          const response = await reqLogin(email, password);
-          const result = await response.json()
+          const response: ResponseLogin = await reqLogin(email, password);
           
-          const user = result.user
-          if (result.token) {
+          const user = response.body.data.user
+          if (response.body.token) {
             dispatch(
               login({
-                token: result.token,
-                user: result.user,
+                token: response.body.token,
+                user: response.body.data.user,
               })
             
             );
-            let preference;
-            if (result.user?.preferenceId === null) {
-              const newPreference = {
-                unitWeight: "KG",
-                language: "ES",
-                theme: "dark",
-                userId: result.user.id,
-              };
-
-              preference = await reqCreatePreference(newPreference);
-              console.log(preference);
-              
-              await reqSetPreferenceId(user.id, preference.id);
-            } else {
-              preference = await reqGetPreferenceByUserId(user.id);
-              console.log(preference);
-              
-            }
-            dispatch(
-              addPreferenceUser(
-                preference
+              const preference = await reqGetPreferenceByUserId(user.id);
+              dispatch(
+                addPreferenceUser(
+                  preference
+                )
               )
-            )
-
+            } else {
+              setIsError({
+                error: true,
+                message: "No se pudo obtener la información del usuario",
+              });
+            }
             navigate("/user/home");
-          } else {
-            setIsError({
-              error: true,
-              message: "No se pudo obtener la información del usuario",
-            });
-          }
         } catch (error: any) {
           setIsError({
             error: true,
@@ -139,5 +120,7 @@ const Login = () => {
     </div>
   );
 };
+
+
 
 export default Login;

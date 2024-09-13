@@ -1,17 +1,21 @@
-import { Exercise } from "../models/entities.ts";
-import apiClient from "./axiosConfig.tsx";
-
+import apiClient from "./axiosConfig";
+import { Exercise } from "../models/entities";
+import axios from 'axios';
 
 export const reqGetAllExercise = async (): Promise<Array<Exercise>> => {
   try {
-    const data = await apiClient
-      .get(`/api/exercise`)
-      .then((response) => response.data);
+    const response = await apiClient.get<{ ok: boolean; status: number; body: Array<Exercise> }>('/api/exercise');
+    
+    if (response.data.ok && response.data.body) {
+      return response.data.body;
+    }
 
-    // Verifica si la respuesta no es exitosa
-    return data;
-  } catch (error) {
-    // Manejo de errores de la red u otros errores
-    throw new Error(error.message || "Error al registrar el usuario");
+    throw new Error("No se encontraron ejercicios.");
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Error de conexión al obtener los ejercicios");
+    } else {
+      throw new Error("Error inesperado al obtener los ejercicios");
+    }
   }
 };

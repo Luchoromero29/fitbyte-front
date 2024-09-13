@@ -1,4 +1,4 @@
-import { Day, Focus }from './types.ts'
+import { Day, Focus } from './types.ts'
 
 export interface User {
     id: number,
@@ -37,14 +37,14 @@ export interface CreatePlan {
 export interface Routine {
     id: number,
     name: string,
-    day: Day,   
+    day: Day,
     duration: number,
     planId: number
 }
 
 export interface CreateRoutine {
     name: string,
-    day: Day,   
+    day: Day,
     planId: string
 }
 
@@ -83,7 +83,7 @@ export interface CreateExercise {
     categoryId: number
 }
 
-export interface BodyPart { 
+export interface BodyPart {
     id: number,
     name: string
 }
@@ -139,8 +139,31 @@ export interface CreatePreferenceUser {
     userId: number
 }
 
-export interface ActivePlan{
+export interface ActivePlan {
     id: number,
     userId: number,
     planId: number
+}
+
+export interface Response {
+    ok: boolean,
+    status: number,
+    body: unknown
+}
+
+export interface ResponseLogin {
+    ok: boolean;
+    status: number;
+    body: AuthResponse; // Define el tipo correcto basado en tu respuesta de inicio de sesión // Define el tipo correcto basado en tu respuesta de inicio de sesión
+}
+
+export interface AuthResponse {
+    token: string;
+    data: DataResponse;
+}
+
+export interface DataResponse {
+    exp: number; // La fecha de expiración del token en formato Unix timestamp
+    iat: number; // La fecha de creación del token en formato Unix timestamp
+    user: User; // Define el tipo correcto basado en tu modelo de usuario
 }

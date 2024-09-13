@@ -36,6 +36,7 @@ const InputRegister = ({
           defaultValue={defaultValue || ""}
           name={name}
           className={`w-full p-2 rounded-lg bg-light-1 border border-pink-1  text-dark-1 shadow-md`}
+          required
         />
       </label>
     </div>

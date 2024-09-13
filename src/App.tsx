@@ -8,14 +8,13 @@ import AdminRoute from "./components/AdminRoutes.tsx";
 import Navbar from "./components/Navbar/Navbar.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
 import { Plans } from "./pages/Plans/Plans.tsx";
-import Register from "./pages/Register/Register.tsx";
 import { Exercises } from "./pages/Exercises/Exercises.tsx";
 import LoginRoutes from "./components/LoginRoutes.tsx";
 import LandingPage from "./pages/Landing/LandingPage.tsx";
 import Routines from "./pages/Routines/Routines.tsx";
 import RoutineDetails from "./pages/Routines/RoutineDetails.tsx";
 import SelectExercise from "./pages/Exercises/SelectExercise.tsx";
-import Register2 from "./pages/Register/Register2.tsx";
+import Register from "./pages/Register/Register.tsx";
 import AccountDetails from "./pages/Profile/AccountDetails.tsx";
 import Configuration from "./pages/Profile/Configuration.tsx";
 import FrequentQuestions from "./pages/Profile/FrequentQuestions.tsx";
@@ -34,7 +33,7 @@ const ProtectedLayout = () => {
   return (
     <div className={`flex flex-col min-h-screen shadow-lg `}>
       <Navbar />
-      <div className={`flex-grow ${preference?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} `}>
+      <div className={`flex-grow ${preference?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} w-full`}>
         <Outlet />
       </div>
     </div>
@@ -52,7 +51,7 @@ const App: React.FC = () => {
         {/* RUTAS DE INGRESO */}
         <Route element={<LoginRoutes />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register2 />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         {/* RUTAS DE USUARIOS  */}

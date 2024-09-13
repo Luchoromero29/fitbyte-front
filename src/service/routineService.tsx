@@ -1,89 +1,111 @@
 import { Routine } from "../models";
 import { Day } from "../models/types";
 import apiClient from "./axiosConfig";
+import axios from 'axios';
 
 export const reqGetAllRoutinesByPlanId = async (
   planId: number
 ): Promise<Array<Routine> | null> => {
   try {
-    const data = await apiClient
-      .get(`/api/routine/plan/${planId}`)
-      .then((response) => response.data);
+    const response = await apiClient.get<{ ok: boolean; status: number; body: Array<Routine> }>(`/api/routine/plan/${planId}`);
+    const data = response.data;
+    
+    if (data.ok) {
+      return data.body;
+    }
 
-      if (!data) {
-
-        return null;
-      }
-      return data;
-  } catch (error) {
-    throw new Error(error.message || "Error de conexion para traer los planes");
+    return null;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Error de conexión para traer las rutinas');
+    } else {
+      throw new Error('Error inesperado al traer las rutinas');
+    }
   }
 };
 
 export const reqGetRoutineById = async (
   id: string
-): Promise<Routine | null> => {
+): Promise<Routine> => {
   try {
-    const response = await apiClient.get(`/api/routine/${id}`);
+    const response = await apiClient.get<{ ok: boolean; status: number; body: Routine }>(`/api/routine/${id}`);
     const data = response.data;
-    if (!data) {
 
-      return null;
+    if (data.ok) {
+      return data.body;
     }
-    return data;
-  } catch (error) {
 
-    if (error.response && error.response.status === 404) {
-      return null;
+    throw new Error('Rutina no encontrada');
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Error de conexión para traer la rutina');
+    } else {
+      throw new Error('Error inesperado al traer la rutina');
     }
-    throw new Error(error.message || "Error de conexión para traer los planes");
   }
 };
-
 
 export const reqCreateRoutine = async (
   planId: string,
   name: string,
   day: Day
-): Promise<Response> => {
+): Promise<Routine> => {
   try {
-    const data = await apiClient
-    .post(`/api/routine`, {planId, name, day})
-    .then((response) => response.data);
+    const response = await apiClient.post<{ ok: boolean; status: number; body: Routine }>(`/api/routine`, { planId, name, day });
+    const data = response.data;
 
-    return data;
-  } catch (error) {
-    // Manejo de errores de la red u otros errores
-    throw new Error(error.message || "Error de conexion para crear la rutina");
+    if (data.ok) {
+      return data.body;
+    }
+
+    throw new Error('Error al crear la rutina');
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Error de conexión para crear la rutina');
+    } else {
+      throw new Error('Error inesperado al crear la rutina');
+    }
   }
 };
 
 export const reqUpdateRoutine = async (
   routine: Routine
-): Promise<Response> => {
+): Promise<Routine> => {
   try {
-    const data = await apiClient
-    .put(`/api/routine/${routine.id}`, routine)
-    .then((response) => response.data);
+    const response = await apiClient.put<{ ok: boolean; status: number; body: Routine }>(`/api/routine/${routine.id}`, routine);
+    const data = response.data;
 
-    return data;
-  } catch (error) {
-    // Manejo de errores de la red u otros errores
-    throw new Error(error.message || "Error de conexion para crear la rutina");
+    if (data.ok) {
+      return data.body;
+    }
+
+    throw new Error('Error al actualizar la rutina');
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Error de conexión para actualizar la rutina');
+    } else {
+      throw new Error('Error inesperado al actualizar la rutina');
+    }
   }
 };
 
 export const reqDeleteRoutine = async (
   id: number
-): Promise<Response> => {
+): Promise<{ ok: boolean; status: number }> => {
   try {
-    const data = await apiClient
-    .delete(`/api/routine/${id}`)
-    .then((response) => response.data);
+    const response = await apiClient.delete<{ ok: boolean; status: number }>(`/api/routine/${id}`);
+    const data = response.data;
 
-    return data;
-  } catch (error) {
-    // Manejo de errores de la red u otros errores
-    throw new Error(error.message || "Error de conexion para crear la rutina");
+    if (data.ok) {
+      return data;
+    }
+
+    throw new Error('Error al eliminar la rutina');
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Error de conexión para eliminar la rutina');
+    } else {
+      throw new Error('Error inesperado al eliminar la rutina');
+    }
   }
-}
+};

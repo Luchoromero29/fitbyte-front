@@ -213,11 +213,11 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
         </div>
       </main>
       {isNote && (
-        <div className="bg-light-1">
+        <div className={`${preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"}}`}>
           <textarea
             placeholder="Nota"
             defaultValue={note}
-            className="bg-light-1 w-full border-2 rounded-md p-1 border-black focus:outline-0"
+            className={`${preferenceUser?.theme === "dark" ? "bg-black border-white text-white" : "bg-white  border-black text-black"} w-full border-2 rounded-md p-1 focus:outline-0`}
             onChange={handleUpdateNote}
           ></textarea>
         </div>

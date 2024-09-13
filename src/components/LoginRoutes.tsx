@@ -16,11 +16,13 @@ const LoginRoutes: React.FC = () => {
     const verifyAuth = async () => {
       if (!isAuthenticated) {
         const response = await reqVerifyAuth();
+        console.log(response);
+        
         if (response) {
           dispatch(
             login({
               token: response.token,
-              user: response.user.user,
+              user: response.data.user,
             })
           );
         }
@@ -32,7 +34,7 @@ const LoginRoutes: React.FC = () => {
   }, [isAuthenticated, dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>; // Puedes reemplazar esto con un componente de carga más elaborado si lo deseas.
+    return <div>Loading loginroutes...</div>; // Puedes reemplazar esto con un componente de carga más elaborado si lo deseas.
   }
 
   return isAuthenticated ? <Navigate to="/user/home" /> : <Outlet /> ;

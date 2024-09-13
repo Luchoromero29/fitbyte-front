@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Popover, PopoverContent, PopoverTrigger } from "../Popover/Popover";
 
-import { ErrorDialogI, Plan } from "../../models";
+import { ActivePlan, ErrorDialogI, Plan } from "../../models";
 import Typography from "../Typography/Typography";
 import arrowRightWhite from "../../assets/icons/arrow-rigth-white.png";
 import arrowRightBlack from "../../assets/icons/arrow-rigth-black.png";
@@ -12,10 +12,11 @@ import optionsBlack from "../../assets/icons/options-black.png";
 import { addPlan } from "../../store/planSlice";
 
 import AlertDialog from "../Modal/AlertDialog";
-import { reqDeletePlan, reqUpdatePlan } from "../../service/planService";
+import { reqUpdatePlan } from "../../service/planService";
 import AlertEditPlan from "./AlertEditPlan";
 import MessageDialog from "../Modal/MessageDialog";
 import { RootState } from "../../store";
+import { reqGetActivePlanByUserId } from "../../service/activePlanService";
 
 interface ItemPlanProps {
   plan: Plan;
@@ -30,12 +31,32 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
   );
 
   const [showDialog, setShowDialog] = useState(false);
+
+  const [activePlan, setActivePlan] = useState<ActivePlan>();
+
   const [openEdit, setOpenEdit] = useState(false);
   const [isError, setIsError] = useState<ErrorDialogI>({
     active: false,
     title: "",
     message: "",
   });
+
+  useEffect(() => {
+    const getActivePlan = async () => {
+      if (plan) {
+        const activePlan = await reqGetActivePlanByUserId(
+          preferenceUser.userId
+        );
+        
+        
+        if (activePlan) {
+          setActivePlan(activePlan);
+        }
+      }
+    };
+
+    getActivePlan();
+  }, []);
 
   const setPlanState = () => {
     dispatch(addPlan(plan));
@@ -46,7 +67,6 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
   };
 
   const confirmDelete = async () => {
-    await reqDeletePlan(plan.id);
     onPlanDelete(plan.id);
     setShowDialog(false);
   };
@@ -91,9 +111,9 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
         <Link
           to={`/user/home/plans/${plan.id}`}
           onClick={setPlanState}
-          className="col-span-6 grid row-span-2 gap-3"
+          className="col-span-6 flex row-span-2 gap-3 w-full items-center"
         >
-          <div>
+          <div className="flex flex-col  justify-center w-full">
             <Typography
               variant={`h6-${
                 preferenceUser?.theme === "dark" ? "white" : "black"
@@ -109,6 +129,19 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
               {plan.description}
             </Typography>
           </div>
+          {activePlan?.planId === plan.id && (
+            <div>
+              <div className="border-2 border-violet-1 rounded-3xl px-2">
+                <Typography
+                  variant={`span-${
+                    preferenceUser?.theme === "dark" ? "white" : "black"
+                  }`}
+                >
+                  Activo
+                </Typography>
+              </div>
+            </div>
+          )}
         </Link>
 
         <div className="flex items-center justify-end col-span-2 row-span-2">

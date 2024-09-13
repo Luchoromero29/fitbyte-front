@@ -3,7 +3,7 @@ import './Typography.css';
 
 const Typography = ({ variant, children }: Typo) => {
   return (
-    <span className={`typography-${variant}`}>
+    <span className={`typography-${variant} text-wrap`}>
       {children}
     </span>
   );
