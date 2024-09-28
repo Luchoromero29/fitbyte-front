@@ -63,12 +63,16 @@ export const reqLogin = async (email: string | null, password: string | null): P
 
 export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
   try {
+    console.log("aca llega joya");
+    
     const response = await apiClient.get<AuthResponse>('/api/verify-auth', {
       headers: {
         "Content-Type": "application/json",
       },
       withCredentials: true, // En lugar de 'credentials: "include"'
     });
+    console.log("aca ya se demoro");
+    
 
     if (response.status === 401) {
       // Manejo específico para el error 401 Unauthorized

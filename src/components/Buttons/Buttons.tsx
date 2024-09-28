@@ -45,7 +45,21 @@ export const ButtonCancel: React.FC<ButtonsProps> = ({ label, onConfirm, color =
   };
 
   return (
-    <div className="bg-light-2 p-2 rounded-md shadow-md flex justify-center items-center h-fit">
+    <div className=" p-2 rounded-md flex justify-center items-center h-fit">
+      <button onClick={handleConfirm}>
+        <Typography variant={`span-${color}`}>{label}</Typography>
+      </button>
+    </div>
+  );
+};
+
+export const ButtonConfirm: React.FC<ButtonsProps> = ({ label, onConfirm, color = "black" }) => {
+  const handleConfirm = () => {
+    onConfirm();
+  };
+
+  return (
+    <div className="bg-violet-2 p-2 rounded-md shadow-md flex justify-center items-center h-fit">
       <button onClick={handleConfirm}>
         <Typography variant={`span-${color}`}>{label}</Typography>
       </button>

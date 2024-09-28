@@ -1,34 +1,33 @@
 import { useEffect, useState } from "react";
 import { reqGetAllExercise } from "../../service/exerciseService";
-import { Activity, Exercise } from "../../models";
+import { Exercise } from "../../models";
 import HeaderPage from "../../components/HeaderPage";
 import { useNavigate, useParams } from "react-router-dom";
 import ItemExerciseSelectable from "../../components/Exercise/ItemExerciseSelectable";
-import { ButtonConfirmViolet } from "../../components/Buttons/Buttons";
-import { useDispatch, useSelector } from "react-redux";
-import { setExercise } from "../../store/exerciseSlice";
+
+import { useSelector } from "react-redux";
+
 import { reqCreateActivity } from "../../service/activityService";
 import { Focus } from "../../models/types";
-import { reqCreateSerie } from "../../service/seriesService";
 import { RootState } from "../../store";
+import SelectFocusDialog from "../../components/Modal/SelectFocusDialog";
 
 // interface SelectExerciseProps {
 //     routineId: number
 // }
 
 const SelectExercise = () => {
-  
-  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
+  const preferenceUser = useSelector(
+    (state: RootState) => state.preferenceUser
+  );
 
   const [exercises, setExercises] = useState<Array<Exercise>>();
   const [exerciseActive, setExerciseActive] = useState<Exercise>();
+  const [isUpdateFocus, setIsUpdateFocus] = useState(false);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const { id } = useParams();
-  
 
   useEffect(() => {
     const getAllExercises = async () => {
@@ -40,37 +39,38 @@ const SelectExercise = () => {
   }, []);
 
   const handleSelect = (exercise: Exercise) => {
-    setExerciseActive(exercise)
+    setExerciseActive(exercise);
+    setIsUpdateFocus(true);
   };
 
-  const handleConfirmSelect = async () => {
-    if (exerciseActive) {
-      dispatch(setExercise(exerciseActive));
-      
-      const activity = {
-        name: exerciseActive.name,
-        note: "",
-        rest: 60,
-        postRest: 120,
-        focus: "Indefinido" as Focus,
-        exerciseId: exerciseActive.id,
-        routineId: Number(id) 
+  const handleConfirmCreateActivity = async (focus: Focus) => {
+    
+    try {
+      if (exerciseActive) {
+
+        const activity = {
+          name: exerciseActive.name,
+          note: "",
+          rest: 60,
+          postRest: 120,
+          focus: focus,
+          exerciseId: exerciseActive.id,
+          routineId: Number(id),
+        };
+        await reqCreateActivity(activity);
+
+        navigate(`/user/home/plans/routine/${id}`);
       }
-      const response: Activity = await reqCreateActivity(activity)
-
-
-      const serie = {
-        weight: 0,
-        repetition: 0,
-        unit: preferenceUser?.unitWeight || "KG", 
-        activityId: response.id,
-      };
-
-      await reqCreateSerie(serie)
-      
-      navigate(`/user/home/plans/routine/${id}`)
+    } catch (error) {
+      console.error("Error al actualizar el enfoque:", error);
+    } finally {
+      setIsUpdateFocus(false);
     }
   };
+
+  const handelCancelSelectActivity = () => {
+    setIsUpdateFocus(false);
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -80,7 +80,6 @@ const SelectExercise = () => {
         path={`/user/home/plans/routine/${id}`}
       />
       <main className="p-6 flex flex-col gap-3">
-        
         {exercises?.map((exercise: Exercise, index) => (
           <ItemExerciseSelectable
             key={index}
@@ -89,16 +88,16 @@ const SelectExercise = () => {
             handleSelect={handleSelect}
           />
         ))}
+        {isUpdateFocus && (
+          <SelectFocusDialog
+            title="Selecciona tu enfoque"
+            message=""
+            onConfirm={handleConfirmCreateActivity}
+            onCancel={handelCancelSelectActivity}
+            active={isUpdateFocus}
+          />
+        )}
       </main>
-
-      <div>
-        <ButtonConfirmViolet
-          label="Seleccionar"
-          onConfirm={handleConfirmSelect}
-          active={exerciseActive ? true : false}
-          color={preferenceUser?.theme === "dark" ? "white" : "black"}
-        />
-      </div>
     </div>
   );
 };

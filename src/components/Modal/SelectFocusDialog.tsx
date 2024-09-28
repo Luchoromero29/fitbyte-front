@@ -9,6 +9,7 @@ interface SelectFocusDialogProps {
   title: string;
   message: string;
   onConfirm: (focus: Focus) => void;
+  onCancel: () => void;
   active: boolean;
 }
 
@@ -16,6 +17,7 @@ const SelectFocusDialog: React.FC<SelectFocusDialogProps> = ({
   title,
   message,
   onConfirm,
+  onCancel,
   active,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,6 +27,7 @@ const SelectFocusDialog: React.FC<SelectFocusDialogProps> = ({
     "Fallo",
     "Fuerza",
     "Hipertrofia",
+    "Personalizado",
   ];
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const SelectFocusDialog: React.FC<SelectFocusDialogProps> = ({
 
   const handleCancel = () => {
     setIsVisible(false);
-    setTimeout(() => onConfirm("Indefinido"), 100)
+    setTimeout(() => onCancel(), 100)
   }
 
   return (

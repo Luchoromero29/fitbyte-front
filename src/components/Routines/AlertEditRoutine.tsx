@@ -1,27 +1,28 @@
 import React, { useState } from "react";
-
-
 import Typography from "../Typography/Typography";
-import { ButtonCancel, ButtonPink } from "../Buttons/Buttons";
+import { ButtonCancel, ButtonConfirm } from "../Buttons/Buttons";
 import { Day } from "../../models/types";
 import { Routine } from "../../models";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface AlertEditRoutineProps {
-  //setFormData: React.Dispatch<React.SetStateAction<CreatePlan | null>>; // Ajuste del tipo de setFormData
   onConfirm: (name: string, day: Day) => void;
   onCancel: () => void;
   active: boolean;
-  routine: Routine
+  routine: Routine;
 }
 
 const AlertEditRoutine: React.FC<AlertEditRoutineProps> = ({
   onConfirm,
   onCancel,
   active,
-  routine
+  routine,
 }) => {
   const [selectedDay, setSelectedDay] = useState<Day | "">(routine.day);
+  const [name, setName] = useState<string>(routine.name);
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
+
   const daysOfWeek: Day[] = [
     "Lunes",
     "Martes",
@@ -32,27 +33,19 @@ const AlertEditRoutine: React.FC<AlertEditRoutineProps> = ({
     "Domingo",
   ];
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeDay = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedDay(event.target.value as Day);
   };
-  //const user = useSelector((state: RootState) => state.auth.user)
 
   const handleCancel = () => {
     setTimeout(onCancel, 300);
   };
 
   const handleConfirm = () => {
-    const $form = document.querySelector(
-      "#form-edit-routine"
-    ) as HTMLFormElement;
-    const formData = new FormData($form);
-    const name = formData.get("name") as string;
-    const day = formData.get("day-select") as Day;
-    
-      setTimeout(() => onConfirm(name, day), 100); // Ajusta el tiempo según la duración de tu animación de salida
+    if (name && selectedDay) {
+      setTimeout(() => onConfirm(name, selectedDay), 100); // Ajusta el tiempo según la animación
     }
-    // Actualiza el estado y ejecuta la función de confirmación con el nuevo dato
-  
+  };
 
   return (
     <div
@@ -60,33 +53,49 @@ const AlertEditRoutine: React.FC<AlertEditRoutineProps> = ({
         active ? "alert-create-plan-active" : "alert-create-plan-inactive"
       }`}
     >
-      <div className="bg-violet-2 p-6 rounded shadow-lg w-96 flex flex-col gap-6">
+      <div
+        className={`${
+          preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-1"
+        } p-6 rounded shadow-lg w-96 flex flex-col gap-6`}
+      >
         <div>
           <form id="form-edit-routine" className="flex flex-col gap-3">
             <label className="flex flex-col gap-2">
-              <Typography variant="span-white">Nombre de la rutina</Typography>
+              <Typography
+                variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}
+              >
+                Nombre de la rutina
+              </Typography>
               <input
                 type="text"
                 name="name"
-                defaultValue={routine.name}
-                className="rounded-md outline-none p-2 bg-dark-2 text-light-1"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${
+                  preferenceUser?.theme === "dark" ? "text-white" : "text-black"
+                } font-chopinBold`}
               />
             </label>
             <label className="flex flex-col gap-2">
-              <Typography variant="span-white">Día de la rutina</Typography>
+              <Typography
+                variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}
+              >
+                Día de la rutina
+              </Typography>
               <select
                 id="day-select"
                 name="day-select"
                 value={selectedDay}
-
-                onChange={handleChange}
-                className="rounded-md outline-none p-2 bg-dark-2 text-light-1"
+                onChange={handleChangeDay}
+                className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${
+                  preferenceUser?.theme === "dark" ? "text-white" : "text-black"
+                } font-chopinBold`}
               >
                 <option value="" disabled>
                   Selecciona un día
                 </option>
                 {daysOfWeek.map((day) => (
-                  <option key={day} value={day} >
+                  <option key={day} value={day}>
                     {day}
                   </option>
                 ))}
@@ -96,8 +105,8 @@ const AlertEditRoutine: React.FC<AlertEditRoutineProps> = ({
         </div>
 
         <div className="flex justify-end gap-3">
-          <ButtonCancel label="Cancelar" onConfirm={handleCancel} />
-          <ButtonPink label="Confirmar" onConfirm={handleConfirm} />
+          <ButtonCancel label="Cancelar" onConfirm={handleCancel} color={preferenceUser?.theme === "dark" ? "white" : "black"}/>
+          <ButtonConfirm label="Confirmar" onConfirm={handleConfirm} color="white" />
         </div>
       </div>
     </div>

@@ -1,48 +1,49 @@
-import React, { useEffect , useRef  } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Typography from "../Typography/Typography";
 import "./AlertCreatePlan.css";
-import { ButtonCancel, ButtonPink } from "../Buttons/Buttons";
-import {  Plan } from "../../models";
-
-
+import { ButtonCancel, ButtonConfirm } from "../Buttons/Buttons";
+import { Plan } from "../../models";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface AlertEditPlanProps {
-  //setFormData: React.Dispatch<React.SetStateAction<CreatePlan | null>>; // Ajuste del tipo de setFormData
-  onConfirm: (name: string, desription: string) => void;
+  onConfirm: (name: string, description: string) => void;
   onCancel: () => void;
   active: boolean;
-  plan: Plan
+  plan: Plan;
 }
 
 const AlertEditPlan: React.FC<AlertEditPlanProps> = ({
   onConfirm,
   onCancel,
   active,
-  plan
+  plan,
 }) => {
-
+  const [isVisible, setIsVisible] = useState<boolean>(false); // Control de visibilidad del modal
   const textareaRef = useRef<HTMLTextAreaElement>(null);
- 
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
+
+  useEffect(() => {
+    if (active) {
+      setIsVisible(true);
+    }
+  }, [active]);
 
   const handleCancel = () => {
-    setTimeout(onCancel, 300);
+    setIsVisible(false);
+    setTimeout(onCancel, 300); // Delay para que coincida con la animación de salida
   };
 
   const handleConfirm = () => {
     const $form = document.querySelector("#form-edit-plan") as HTMLFormElement;
     const formData = new FormData($form);
-  
+
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
 
-
-
-    setTimeout(() => onConfirm(name, description), 100); // Ajusta el tiempo según la duración de tu animación de salida
-    
-    // Actualiza el estado y ejecuta la función de confirmación con el nuevo dato
-  
+    setIsVisible(false);
+    setTimeout(() => onConfirm(name, description), 100); // Ajuste de tiempo para la animación
   };
-  
 
   const autoResize = (textarea: HTMLTextAreaElement) => {
     textarea.style.height = "auto";
@@ -54,34 +55,42 @@ const AlertEditPlan: React.FC<AlertEditPlanProps> = ({
     if (textarea) {
       autoResize(textarea);
     }
-  }, [active]);
+  }, [isVisible]);
 
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${
-        active ? "alert-create-plan-active" : "alert-create-plan-inactive"
+        isVisible ? "alert-create-plan-active" : "alert-create-plan-inactive"
       }`}
     >
-      <div className="bg-violet-2 p-6 rounded shadow-lg w-96 flex flex-col gap-6">
+      <div className={`${preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-1"} p-6 rounded shadow-lg w-96 flex flex-col gap-6`}>
         <div>
           <form id="form-edit-plan" className="flex flex-col gap-3">
             <label className="flex flex-col gap-2">
-              <Typography variant="span-white">Nombre del plan</Typography>
+              <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>
+                Nombre del plan
+              </Typography>
               <input
                 type="text"
                 name="name"
                 defaultValue={plan?.name}
-                className="rounded-md outline-none p-2 bg-dark-2 text-light-1"
+                className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${
+                  preferenceUser?.theme === "dark" ? "text-white" : "text-black"
+                } font-chopinBold`}
               />
             </label>
             <label className="flex flex-col gap-2">
-              <Typography variant="span-white">Descripcion del plan</Typography>
+              <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>
+                Descripción del plan
+              </Typography>
               <textarea
-                id="textarea-form-create-plan"
+                id="textarea-form-edit-plan"
                 name="description"
                 ref={textareaRef}
                 defaultValue={plan?.description}
-                className="auto-resize rounded-md outline-none p-2 bg-dark-2 text-light-1"
+                className={`autoresize rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${
+                  preferenceUser?.theme === "dark" ? "text-white" : "text-black"
+                } font-chopinBold`}
                 onInput={(e) => autoResize(e.currentTarget)}
               />
             </label>
@@ -89,8 +98,8 @@ const AlertEditPlan: React.FC<AlertEditPlanProps> = ({
         </div>
 
         <div className="flex justify-end gap-3">
-          <ButtonCancel label="Cancelar" onConfirm={handleCancel} />
-          <ButtonPink label="Confirmar" onConfirm={handleConfirm} />
+          <ButtonCancel label="Cancelar" onConfirm={handleCancel} color={preferenceUser?.theme === "dark" ? "white" : "black"}/>
+          <ButtonConfirm label="Confirmar" onConfirm={handleConfirm} color="white" />
         </div>
       </div>
     </div>

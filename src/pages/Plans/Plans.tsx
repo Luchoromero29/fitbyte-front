@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { ButtonAddPink } from "../../components/Buttons/Buttons";
+import { ButtonAddPink, ButtonAddViolet } from "../../components/Buttons/Buttons";
 import { ActivePlan, CreatePlan, Plan } from "../../models";
 import AlertCreatePlan from "../../components/Plans/AlertCreatePlan";
 import {
@@ -129,10 +129,10 @@ export const Plans = () => {
     >
       <HeaderPage title="Planes" path="/user/home" />
       <div className="fixed bottom-10">
-        <ButtonAddPink
+        <ButtonAddViolet          
           onConfirm={showAlertCreatePlan}
           label="Crear"
-          color={preferenceUser?.theme === "dark" ? "white" : "black"}
+          color={"white"}
         />
       </div>
       <main className="flex flex-col gap-4 p-6 w-full">

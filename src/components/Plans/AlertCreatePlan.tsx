@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Typography from "../Typography/Typography";
 import "./AlertCreatePlan.css";
-import { ButtonCancel, ButtonPink } from "../Buttons/Buttons";
+import { ButtonCancel, ButtonConfirm } from "../Buttons/Buttons";
 import { CreatePlan } from "../../models";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -23,7 +23,7 @@ const AlertCreatePlan: React.FC<AlertCreatePlanProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(false); // Tipo explícito boolean
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const user = useSelector((state: RootState) => state.auth.user);
-
+  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
 
   useEffect(() => {
     if (active) {
@@ -74,24 +74,25 @@ const AlertCreatePlan: React.FC<AlertCreatePlanProps> = ({
         isVisible ? "alert-create-plan-active" : "alert-create-plan-inactive"
       }`}
     >
-      <div className="bg-violet-2 p-6 rounded shadow-lg w-96 flex flex-col gap-6">
+      <div className={`${preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-1"} p-6 rounded shadow-lg w-96 flex flex-col gap-6`}>
         <div>
           <form id="form-create-plan" className="flex flex-col gap-3">
             <label className="flex flex-col gap-2">
-              <Typography variant="span-white">Nombre del plan</Typography>
+              <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>Nombre del plan</Typography>
               <input
                 type="text"
                 name="name"
-                className="rounded-md outline-none p-2 bg-dark-2 text-light-1"
+                
+                className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${preferenceUser?.theme === "dark" ? "text-white" : "text-black"} font-chopinBold`}
               />
             </label>
             <label className="flex flex-col gap-2">
-              <Typography variant="span-white">Descripcion del plan</Typography>
+              <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>Descripcion del plan</Typography>
               <textarea
                 id="textarea-form-create-plan"
                 name="description"
                 ref={textareaRef}
-                className="auto-resize rounded-md outline-none p-2 bg-dark-2 text-light-1"
+                className={`autoresize rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${preferenceUser?.theme === "dark" ? "text-white" : "text-black"} font-chopinBold`}
                 onInput={(e) => autoResize(e.currentTarget)}
               />
             </label>
@@ -99,8 +100,8 @@ const AlertCreatePlan: React.FC<AlertCreatePlanProps> = ({
         </div>
 
         <div className="flex justify-end gap-3">
-          <ButtonCancel label="Cancelar" onConfirm={handleCancel} />
-          <ButtonPink label="Confirmar" onConfirm={handleConfirm} />
+          <ButtonCancel label="Cancelar" onConfirm={handleCancel} color={preferenceUser?.theme === "dark" ? "white" : "black"}/>
+          <ButtonConfirm label="Confirmar" onConfirm={handleConfirm} color="white"/>
         </div>
       </div>
     </div>
