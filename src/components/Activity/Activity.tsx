@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 import { Activity as ActivityModel, Serie } from "../../models";
 import Typography from "../Typography/Typography";
-import ItemSerie from "../Serie/ItemSerie";
 import {
   reqCreateSerie,
   reqDeleteSerie,
@@ -17,6 +16,8 @@ import SelectFocusDialog from "../Modal/SelectFocusDialog";
 import { Focus } from "../../models/types";
 import { reqUpdateActivity } from "../../service/activityService";
 import OptionsActivity from "./OptionsActivity";
+import RowSerie from "../Serie/RowSerie";
+import ThTable from "../ThTable";
 
 
 interface ActivityProps {
@@ -25,8 +26,6 @@ interface ActivityProps {
 }
 
 const Activity = ({ activity, onDelete }: ActivityProps) => {
-
-  const user = useSelector((state: RootState) => state.auth.user);
   const preferenceUser = useSelector((state: RootState) => state.preferenceUser)
 
   const [viewAlert, setViewAlert] = useState<boolean>(false);
@@ -126,11 +125,6 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
   };
 
   const handleConfirmUpdateFocus = async (focus: Focus) => {
-    if (focus === "Indefinido") {
-      setIsUpdateFocus(false);
-      return;
-    }
-
     activity.focus = focus;
     try {
       await reqUpdateActivity(activity);
@@ -190,20 +184,30 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
               message=""
               onConfirm={handleConfirmUpdateFocus}
               active={isUpdateFocus}
+              onCancel={() => setIsUpdateFocus(false)}
             />
           )}
         </div>
       </header>
       <main>
-        {series?.map((serie, index) => (
-          <ItemSerie
-            key={serie.id}
-            serie={serie}
-            index={index + 1}
-            onDelete={deleteSerie}
-            onChange={updateSerie}
-          />
-        ))}
+        <table className="w-full">
+          <thead className="">
+            <tr className="text-center">
+            <ThTable label="Serie" theme={preferenceUser.theme}/>
+            <ThTable label="Reps" theme={preferenceUser.theme}/>
+            <ThTable label={preferenceUser.unitWeight} theme={preferenceUser.theme}/>
+            <ThTable label="Listo" theme={preferenceUser.theme}/>
+            <ThTable label="" theme={preferenceUser.theme}/>
+        
+            </tr>
+          </thead>
+          <tbody className="w-full">
+            {series?.map((serie, index) => (
+              <RowSerie serie={serie} index={index + 1} onChange={updateSerie} onDelete={deleteSerie}/>
+            ))}
+          </tbody>
+
+        </table>
         <div className="flex justify-center">
           <ButtonAddSerie
             label="AGREGAR SERIE"
