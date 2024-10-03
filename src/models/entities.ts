@@ -38,7 +38,6 @@ export interface Routine {
     id: number,
     name: string,
     day: Day,
-    duration: number,
     planId: number
 }
 
@@ -129,6 +128,7 @@ export interface PreferenceUser {
     unitWeight: string,
     language: string,
     theme: string,
+    customMode: boolean,
     userId: number
 }
 

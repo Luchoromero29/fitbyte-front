@@ -8,6 +8,7 @@ const initialState: PreferenceUser = {
     unitWeight: "",
     language: "",
     theme: "",
+    customMode: false,
     userId: 0
 };
 
@@ -17,11 +18,12 @@ const preferenceSlice = createSlice({
     initialState: initialState,
     reducers: {
         addPreferenceUser: (state, action: PayloadAction<PreferenceUser>) => {
-            const { id, userId, theme, language, unitWeight } = action.payload
+            const { id, userId, theme, language,customMode, unitWeight } = action.payload
             state.id = id
             state.userId = userId;
             state.theme = theme
             state.language = language
+            state.customMode = customMode
             state.unitWeight = unitWeight
         }
     },

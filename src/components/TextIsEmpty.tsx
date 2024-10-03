@@ -11,8 +11,8 @@ export const TextIsEmpty = ({label}: TextIsEmptyProps) => {
   const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
 
   return (
-    <div>
-        <Typography variant={`h6-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>No se encontraron: {label}</Typography>
+    <div className={`${preferenceUser?.theme === "dark" ? "bg-dark-3" : "bg-light-3"} p-3 rounded-md`}>
+        <Typography variant={`span-medium-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>Primero se deben crear {label}</Typography>
     </div>
   )
 }

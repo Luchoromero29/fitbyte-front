@@ -9,8 +9,8 @@ import { addPreferenceUser } from '../../store/preferenceSlice';
 
 interface ItemConfigurationThemeProps {
     label: string,
-
 }
+
 const ItemConfigurationTheme = ({label}: ItemConfigurationThemeProps) => {
 
   const preference = useSelector((state: RootState) => state.preferenceUser);

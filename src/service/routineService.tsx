@@ -109,3 +109,43 @@ export const reqDeleteRoutine = async (
     }
   }
 };
+
+export const reqGetRoutineFromActivePlanByUserId = async (id: number): Promise<Array<Routine>> => {
+  try {
+    const response = await apiClient.get<{ ok: boolean; status: number, body: Array<Routine> }>(`/api/routine/activeplan/${id}`);
+    const data = response.data;
+
+    
+    if (data.ok) {
+      return data.body;
+    }
+
+    throw new Error('Error al traer las rutinas');
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Error de conexión para traer las rutinas');
+    } else {
+      throw new Error('Error inesperado al traer las rutinas');
+    }
+  }
+}
+
+export const reqGetTimeForRoutine = async (id: number): Promise<number> => {
+  try {
+    const response = await apiClient.get<{ ok: boolean; status: number, body: number}>(`/api/routine/duration/${id}`);
+    const data = response.data;
+
+    
+    if (data.ok) {
+      return data.body;
+    }
+
+    throw new Error('Error al traer la rutina');
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Error de conexión para traer la rutina');
+    } else {
+      throw new Error('Error inesperado al traer la rutina');
+    }
+  }
+}

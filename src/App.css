@@ -65,6 +65,18 @@ body, html {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'chopin-regular';
+  src: url('./assets/fonts/chopin/Chopin-Trial-Regular-BF65b1d6917c0ec.otf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'chopin-medium';
+  src: url('./assets/fonts/chopin/Chopin-Trial-Medium-BF65b1d69162573.otf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /* COLORES */ 
 

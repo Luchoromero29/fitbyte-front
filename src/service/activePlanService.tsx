@@ -1,19 +1,14 @@
-import { ActivePlan, Response } from "../models";
+import { ActivePlan, Plan } from "../models";
 import apiClient from "./axiosConfig";
 import axios from 'axios';
 
 export const reqGetActivePlanByUserId = async (
   userId: number
-): Promise<ActivePlan | Response> => {
+): Promise<Plan > => {
   try {
-    const response = await apiClient.get<{ ok: boolean; status: number; body: ActivePlan }>(
+    const response = await apiClient.get<{ ok: boolean; status: number; body: Plan }>(
       `/api/activePlan/user/${userId}`
     );
-
-    
-    if(response.data.status === 206){ 
-      return response.data
-    }
 
     if (response.data.ok && response.data.body) {
       return response.data.body;
@@ -62,6 +57,32 @@ export const reqUpdateActivePlan = async (
     
     const response = await apiClient.put<{ ok: boolean; status: number; body: ActivePlan }>(
       `/api/activePlan/${id}`,
+      { planId }
+    );
+    
+    if (response.data.ok && response.data.body) {
+      return response.data.body;
+    }
+
+    throw new Error("Error al actualizar el plan activo.");
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Error de conexión al actualizar el plan activo");
+    } else {
+      throw new Error("Error inesperado al actualizar el plan activo");
+    }
+  }
+};
+
+export const reqUpdateActivePlanByUserId = async (
+  userId: number,
+  planId: number
+): Promise<ActivePlan> => {
+  try {
+
+    
+    const response = await apiClient.put<{ ok: boolean; status: number; body: ActivePlan }>(
+      `/api/activePlan/user/${userId}`,
       { planId }
     );
     

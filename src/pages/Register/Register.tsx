@@ -74,14 +74,11 @@ const Register2 = () => {
           })
         );
   
-        const newPreference = {
-          unitWeight: "KG",
-          language: "ES",
-          theme: "dark",
-          userId: response.body.data.user.id,
-        };
+
+        const userId = response.body.data.user.id;
+
   
-        const preference = await reqCreatePreference(newPreference);
+        const preference = await reqCreatePreference(userId);
         console.log(preference);
   
         dispatch(addPreferenceUser(preference));

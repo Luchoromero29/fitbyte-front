@@ -82,7 +82,7 @@ const AlertCreatePlan: React.FC<AlertCreatePlanProps> = ({
               <input
                 type="text"
                 name="name"
-                
+                placeholder="Fuerza, Hipertrofia, etc."
                 className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${preferenceUser?.theme === "dark" ? "text-white" : "text-black"} font-chopinBold`}
               />
             </label>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
@@ -18,6 +18,7 @@ import AlertDialog from "../Modal/AlertDialog";
 import AlertEditRoutine from "./AlertEditRoutine";
 import {
   reqDeleteRoutine,
+  reqGetTimeForRoutine,
   reqUpdateRoutine,
 } from "../../service/routineService";
 
@@ -45,6 +46,23 @@ const ItemRoutine = ({ routine, onRoutineDelete }: RoutineProps) => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
+  const [duration, setDuration] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+
+  useEffect(() => {
+    const getTimeForRoutine = async () => {
+      try {
+        const duration = await reqGetTimeForRoutine(routine.id);
+        setDuration(duration);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error al obtener el tiempo de la rutina", error);
+      }
+    };
+  
+    getTimeForRoutine();
+  }, [routine.id]);
 
   const handleDelete = () => {
     setShowDialog(true);
@@ -112,7 +130,7 @@ const ItemRoutine = ({ routine, onRoutineDelete }: RoutineProps) => {
                   preferenceUser?.theme === "dark" ? "white" : "black"
                 }`}
               >
-                {"15:00"}
+                {isLoading ? 0 : duration} min
               </Typography>
             </div>
           </div>

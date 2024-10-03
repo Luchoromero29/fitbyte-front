@@ -93,9 +93,9 @@ const AccountDetails = () => {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <HeaderPage title="Mi cuenta" path="/user/profile" />
-        <main className="p-6 flex flex-col gap-3">
+        <main className="p-1 flex flex-col gap-2">
           <ItemAccount
             label="Nombre"
             type="text"

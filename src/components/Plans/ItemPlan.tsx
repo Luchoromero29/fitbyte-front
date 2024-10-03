@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Popover, PopoverContent, PopoverTrigger } from "../Popover/Popover";
 
-import { ActivePlan, ErrorDialogI, Plan } from "../../models";
+import { ErrorDialogI, Plan } from "../../models";
 import Typography from "../Typography/Typography";
 import arrowRightWhite from "../../assets/icons/arrow-rigth-white.png";
 import arrowRightBlack from "../../assets/icons/arrow-rigth-black.png";
@@ -16,14 +16,16 @@ import { reqUpdatePlan } from "../../service/planService";
 import AlertEditPlan from "./AlertEditPlan";
 import MessageDialog from "../Modal/MessageDialog";
 import { RootState } from "../../store";
-import { reqGetActivePlanByUserId } from "../../service/activePlanService";
+import { reqUpdateActivePlanByUserId } from "../../service/activePlanService";
 
 interface ItemPlanProps {
   plan: Plan;
   onPlanDelete: (id: number) => void;
+  isActive: boolean;
+  onSetActivePlan: (plan: Plan) => void;
 }
 
-const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
+const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanProps) => {
   const dispatch = useDispatch();
 
   const preferenceUser = useSelector(
@@ -32,31 +34,12 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
 
   const [showDialog, setShowDialog] = useState(false);
 
-  const [activePlan, setActivePlan] = useState<ActivePlan>();
-
   const [openEdit, setOpenEdit] = useState(false);
   const [isError, setIsError] = useState<ErrorDialogI>({
     active: false,
     title: "",
     message: "",
   });
-
-  useEffect(() => {
-    const getActivePlan = async () => {
-      if (plan) {
-        const activePlan = await reqGetActivePlanByUserId(
-          preferenceUser.userId
-        );
-        
-        
-        if (activePlan) {
-          setActivePlan(activePlan);
-        }
-      }
-    };
-
-    getActivePlan();
-  }, []);
 
   const setPlanState = () => {
     dispatch(addPlan(plan));
@@ -101,6 +84,13 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
     setOpenEdit(false);
   };
 
+  const handleActive = async () => {
+    await reqUpdateActivePlanByUserId(preferenceUser?.userId, plan.id);
+    isActive = true;
+    onSetActivePlan(plan);
+    
+  }
+
   return (
     <>
       <div
@@ -129,7 +119,7 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
               {plan.description}
             </Typography>
           </div>
-          {activePlan?.planId === plan.id && (
+          {isActive && (
             <div>
               <div className="border-2 border-violet-1 rounded-3xl px-2">
                 <Typography
@@ -196,6 +186,24 @@ const ItemPlan = ({ plan, onPlanDelete }: ItemPlanProps) => {
                     Editar
                   </Typography>
                 </button>
+                {!isActive && (
+                  <button
+                    onClick={handleActive}
+                    className={`p-2 rounded-md transition duration-200 ease-in-out ${
+                      preferenceUser?.theme === "dark"
+                        ? "hover:bg-light-2/30 active:bg-dark-2/10"
+                        : "hover:bg-light-1 active:bg-light-1/10"
+                    }`}
+                  >
+                    <Typography
+                      variant={`span-${
+                        preferenceUser?.theme === "dark" ? "white" : "black"
+                      }`}
+                    >
+                      Activar
+                    </Typography>
+                  </button>
+                )}
                 <button
                   onClick={handleDelete}
                   className={`p-2 rounded-md transition duration-200 ease-in-out ${

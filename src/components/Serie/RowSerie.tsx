@@ -8,19 +8,20 @@ import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import "./ItemSerie.css";
 import CheckBox from "../CheckBox";
+import { reqUpdateSerie } from "../../service/seriesService";
 
 interface ItemSerieProps {
   index: number;
   serie: Serie;
   onDelete: (id: number) => void;
-  onChange: (index: number, weight?: number, repetition?: number) => void;
+ 
 }
 
-const RowSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
+const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
   const preferenceUser = useSelector(
     (state: RootState) => state.preferenceUser
   );
-  console.log(preferenceUser);
+
   
 
   const [message, setMessage] = useState({
@@ -31,12 +32,11 @@ const RowSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
   const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(index - 1);
 
     if (e.target.id === "input-rep") {
       const repetition = Number(e.target.value);
       if (repetition >= 0 && repetition <= 999) {
-        onChange(index - 1, undefined, repetition);
+        serie.repetition = repetition;
       } else {
         const newValue = Math.round(repetition / 10);
         e.target.value = newValue < 0 ? "0" : String(newValue);
@@ -50,7 +50,7 @@ const RowSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
     } else {
       const weight = Number(e.target.value);
       if (weight >= 0 && weight <= 999) {
-        onChange(index - 1, weight, undefined);
+        serie.weight = weight;
       } else {
         const newValue = Math.round(weight / 10);
         e.target.value = newValue < 0 ? "0" : String(newValue);
@@ -70,6 +70,13 @@ const RowSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
   const handleCheck = () => {
     setChecked(!checked);
   };
+
+  const handleConfirmChange = async () => {
+    console.log("Actualizando la serie");
+    await reqUpdateSerie(serie);
+    console.log("Serie actualizada");
+    
+  }
 
   return (
     <tr className={`${checked ? 
@@ -109,6 +116,7 @@ const RowSerie = ({ index, serie, onDelete, onChange }: ItemSerieProps) => {
                 outline-none
                  text-center`}
           onChange={handleChange}
+          onBlur={handleConfirmChange}
         />
       </td>
       <td>

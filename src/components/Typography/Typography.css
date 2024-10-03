@@ -106,6 +106,35 @@
     color: var(--black-color);
 }
 
+.typography-span-thin-white {
+    font-size: 1rem;
+    font-family: 'chopin-thin';
+    color: var(--white-color);
+}
+.typography-span-thin-black {
+    font-size: 1rem;
+    font-family: 'chopin-thin';
+    color: var(--black-color);
+}
+
+.typography-span-medium-black {
+    font-size: 1rem;
+    font-family: 'chopin-medium';
+    color: var(--black-color);
+}
+.typography-span-medium-white {
+    font-size: 1rem;
+    font-family: 'chopin-medium';
+    color: var(--white-color);
+}
+
+.typography-span-medium-violet {
+    font-size: 1rem;
+    font-family: 'chopin-medium';
+    color: var(--violet-1-color);
+}
+
+
 .typography-span-light-black {
     font-size: 1rem;
     font-family: 'chopin-light';
@@ -116,6 +145,12 @@
     font-size: 1rem;
     font-family: 'chopin-light';
     color: var(--white-color);
+}
+
+.typography-span-light-violet {
+    font-size: 1rem;
+    font-family: 'chopin-light';
+    color: var(--violet-1-color);
 }
 
 .typography-span-violet {

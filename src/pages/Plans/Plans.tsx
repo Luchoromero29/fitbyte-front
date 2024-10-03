@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { ButtonAddPink, ButtonAddViolet } from "../../components/Buttons/Buttons";
-import { ActivePlan, CreatePlan, Plan } from "../../models";
+import { ButtonAddViolet } from "../../components/Buttons/Buttons";
+import { CreatePlan, Plan } from "../../models";
 import AlertCreatePlan from "../../components/Plans/AlertCreatePlan";
 import {
   reqCreatePlan,
@@ -17,14 +17,16 @@ import MessageDialog from "../../components/Modal/MessageDialog";
 import {
   reqGetActivePlanByUserId,
   reqCreateActivePlan,
-  reqUpdateActivePlan,
 } from "../../service/activePlanService";
+import { Link } from "react-router-dom";
+import LoadingDumbbell from "../../components/LoadingDumbbell";
 
 export const Plans = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [plans, setPlans] = useState<Array<Plan>>([]);
-  const [activePlan, setActivePlan] = useState<ActivePlan>();
+  const [activePlan, setActivePlan] = useState<Plan>();
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<ErrorDialogI>({
     active: false,
     title: "",
@@ -32,24 +34,25 @@ export const Plans = () => {
   });
 
   const user = useSelector((state: RootState) => state.auth.user);
-  const preferenceUser = useSelector((state: RootState) => state.preferenceUser);
+  const preferenceUser = useSelector(
+    (state: RootState) => state.preferenceUser
+  );
 
   // Obtener todos los planes y el plan activo del usuario
   useEffect(() => {
     const getAllPlans = async () => {
-      
-        if (user) {
-          const plansData = await reqGetAllPlansByUserId(user.id);
-          setPlans(plansData);
-          setIsEmpty(plansData.length === 0);
+      if (user) {
+        const plansData = await reqGetAllPlansByUserId(user.id);
+        setPlans(plansData);
+        setIsEmpty(plansData.length === 0);
 
-          const activePlanData = await reqGetActivePlanByUserId(user.id);
+        const activePlanData = await reqGetActivePlanByUserId(user.id);
 
-          
-          if (!("status" in activePlanData)) {
-            setActivePlan(activePlanData);
-          }
+        if (!("status" in activePlanData)) {
+          setActivePlan(activePlanData);
         }
+        setIsLoading(false);
+      }
     };
 
     getAllPlans();
@@ -73,17 +76,17 @@ export const Plans = () => {
     }
 
     try {
-      const newPlan = await reqCreatePlan(data.userId, data.name, data.description);
-      
+      const newPlan = await reqCreatePlan(
+        data.userId,
+        data.name,
+        data.description
+      );
+
       // Si no hay planes o el plan activo es null, establecer el nuevo plan como activo
       if (isEmpty && !activePlan && user) {
-        const newActivePlan = await reqCreateActivePlan(newPlan.id, user.id);
-        setActivePlan({ id: newActivePlan.id, planId: newPlan.id, userId: user.id });
+        await reqCreateActivePlan(newPlan.id, user.id);
+        setActivePlan(newPlan);
         setIsEmpty(false);
-      } else if (activePlan?.planId === null && user) {
-        // Si el plan activo es null, actualizar el plan activo con el nuevo plan
-        const updatedActivePlan = await reqUpdateActivePlan(activePlan.id, newPlan.id);
-        setActivePlan(updatedActivePlan);
       }
 
       setPlans((prevPlans) => [...prevPlans, newPlan]);
@@ -129,23 +132,31 @@ export const Plans = () => {
     >
       <HeaderPage title="Planes" path="/user/home" />
       <div className="fixed bottom-10">
-        <ButtonAddViolet          
+        <ButtonAddViolet
           onConfirm={showAlertCreatePlan}
           label="Crear"
           color={"white"}
         />
       </div>
-      <main className="flex flex-col gap-4 p-6 w-full">
-        {!isEmpty ? (
-          plans?.map((plan: Plan, index) => (
-            <ItemPlan
-              key={index}
-              plan={plan}
-              onPlanDelete={removePlanFromList}
-            />
-          ))
+      <main className="flex flex-col gap-2 p-1 w-full">
+        {isLoading ? (
+          <LoadingDumbbell />
         ) : (
-          <TextIsEmpty label="Planes" />
+          <>
+            {!isEmpty ? (
+              plans?.map((plan: Plan, index) => (
+                <ItemPlan
+                  isActive={activePlan?.id === plan.id}
+                  key={index}
+                  plan={plan}
+                  onPlanDelete={removePlanFromList}
+                  onSetActivePlan={setActivePlan}
+                />
+              ))
+            ) : (
+              <TextIsEmpty label="Planes" />
+            )}
+          </>
         )}
       </main>
       {showAlert && (
@@ -161,6 +172,7 @@ export const Plans = () => {
           message={isError.message || ""}
           onConfirm={() => setIsError({ ...isError, active: false })}
           active={isError.active}
+          theme={preferenceUser?.theme}
         />
       )}
     </div>

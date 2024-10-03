@@ -40,7 +40,7 @@ const ItemHomePlans = ({ path }: ItemHomePlansProps) => {
   }, []);
 
   return (
-    <div className="h-full flex flex-col justify-center">
+    <div className="h-full flex flex-col justify-center gap-2">
       <header className="">
         <Link to={path}>
           <div className="w-full h-full flex flex-col justify-center">

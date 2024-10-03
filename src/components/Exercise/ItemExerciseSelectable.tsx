@@ -25,7 +25,7 @@ handleSelect
     const getCategory = async () => {
       try {
         const response = await reqGetCategoryById(exercise.categoryId);
-        const result: Category = await response.json();
+        const result: Category =  response;
         setCategory(result);
       } catch (error) {
         console.error("Error fetching category:", error);

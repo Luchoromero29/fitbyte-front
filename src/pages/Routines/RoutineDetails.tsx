@@ -13,7 +13,12 @@ import { reqGetActivitiesByRoutineId } from "../../service/activityService";
 import { TextIsEmpty } from "../../components/TextIsEmpty";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
-import {  reqGetActivePlanByUserId, reqUpdateActivePlan } from "../../service/activePlanService";
+import {
+  reqGetActivePlanByUserId,
+  reqUpdateActivePlanByUserId,
+} from "../../service/activePlanService";
+import LoadingDumbbell from "../../components/LoadingDumbbell";
+
 //import { reqGetActivePlanByUserId, reqCreateActivePlan, reqUpdateActivePlan } from "../../service/activePlanService";
 
 const RoutineDetails = () => {
@@ -25,11 +30,11 @@ const RoutineDetails = () => {
   const user = useSelector((state: RootState) => state.auth.user);
 
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [routine, setRoutine] = useState<Routine>({
     id: 0,
     name: "",
-    duration: 0,
     day: "Indefinido",
     planId: 0,
   });
@@ -55,11 +60,12 @@ const RoutineDetails = () => {
 
     getRoutine();
     getActivitiesByRoutineId();
+    setIsLoading(false);
   }, []);
 
   const handleDeleteActivity = (id: number) => {
     setActivities(activities?.filter((activity) => activity.id !== id));
-    if (activities?.length === 1) setIsEmpty(true)
+    if (activities?.length === 1) setIsEmpty(true);
   };
 
   //Actualmente no hace nada, pero es necesaria para que no de error
@@ -67,13 +73,12 @@ const RoutineDetails = () => {
 
   const handleInit = async () => {
     if (!user) return;
-    
+
     const response = await reqGetActivePlanByUserId(user?.id);
-    console.log(response);
-    
-    if(routine.planId !== response.planId) {
-      await reqUpdateActivePlan(response.id, routine.planId);
-    }  
+
+    if (routine.planId !== response.id) {
+      await reqUpdateActivePlanByUserId(preferenceUser?.userId, routine.planId);
+    }
   };
 
   return (
@@ -89,19 +94,25 @@ const RoutineDetails = () => {
           </div>
         )}
 
-        <main className="w-full px-6  flex flex-col gap-3">
-          {!isEmpty ? (
-            <>
-              {activities?.map((activity: ActivityModel, index) => (
-                <Activity
-                  key={index}
-                  activity={activity}
-                  onDelete={handleDeleteActivity}
-                />
-              ))}
-            </>
+        <main className="w-full  flex flex-col px-1 gap-1">
+          {isLoading ? (
+            <LoadingDumbbell />
           ) : (
-            <TextIsEmpty label="Actividades" />
+            <>
+              {!isEmpty ? (
+                <>
+                  {activities?.map((activity: ActivityModel, index) => (
+                    <Activity
+                      key={index}
+                      activity={activity}
+                      onDelete={handleDeleteActivity}
+                    />
+                  ))}
+                </>
+              ) : (
+                <TextIsEmpty label="Actividades" />
+              )}
+            </>
           )}
         </main>
         <div className="flex items-center justify-center mb-6">

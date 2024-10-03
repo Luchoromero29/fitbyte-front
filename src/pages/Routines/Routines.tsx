@@ -16,17 +16,22 @@ import ErrorDialog from "../../components/Modal/MessageDialog";
 import { RootState } from "../../store";
 import HeaderPage from "../../components/HeaderPage";
 import { reqGetPlanById } from "../../service/planService";
+import LoadingDumbbell from "../../components/LoadingDumbbell";
 
 const Routines = () => {
-
   const { planId } = useParams<{ planId: string }>();
-  
-  const preferenceUser = useSelector((state: RootState) => state.preferenceUser)
-  const [plan, setPlan] = useState<Plan>(useSelector((state: RootState) => state.plan));
+
+  const preferenceUser = useSelector(
+    (state: RootState) => state.preferenceUser
+  );
+  const [plan, setPlan] = useState<Plan>(
+    useSelector((state: RootState) => state.plan)
+  );
   //const plan = useSelector((state: RootState) => state.plan);
   const [routines, setRoutines] = useState<Array<Routine>>();
   const [isEmpty, setIsEmpty] = useState(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<ErrorDialogI>({
     active: false,
     title: "",
@@ -35,23 +40,21 @@ const Routines = () => {
 
   useEffect(() => {
     const getAllRoutines = async () => {
-      const data= await reqGetAllRoutinesByPlanId(
-        Number(planId) 
-      );
+      const data = await reqGetAllRoutinesByPlanId(Number(planId));
       if (data && data.length > 0) {
         setRoutines(data);
         setIsEmpty(false);
       }
     };
 
-    getAllRoutines();
-
     const getPlanById = async () => {
       const data = await reqGetPlanById(Number(planId));
       setPlan(data);
-    }
+    };
 
+    getAllRoutines();
     getPlanById();
+    setIsLoading(false);
   }, [showAlert]);
 
   const showAlertCreateRoutine = () => {
@@ -73,8 +76,6 @@ const Routines = () => {
     setShowAlert(false);
   };
 
-
-
   const removeRoutineFromList = (id: number) => {
     if (routines?.length === 1) setIsEmpty(true);
     setRoutines(routines?.filter((routine) => routine.id !== id));
@@ -86,18 +87,40 @@ const Routines = () => {
 
   return (
     <>
-      <div className={`${preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} w-full h-full flex flex-col relative`}>
-        <HeaderPage title="Rutinas" description={`Plan: ${plan.name}`} path="/user/home/plans" />
+      <div
+        className={`${
+          preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-3"
+        } w-full h-full flex flex-col relative`}
+      >
+        <HeaderPage
+          title="Rutinas"
+          description={`Plan: ${plan.name}`}
+          path="/user/home/plans"
+        />
         <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2">
-          <ButtonAddViolet onConfirm={showAlertCreateRoutine} label="Crear" color={preferenceUser?.theme === "dark" ? "white" : "black"}  />
+          <ButtonAddViolet
+            onConfirm={showAlertCreateRoutine}
+            label="Crear"
+            color={preferenceUser?.theme === "dark" ? "white" : "black"}
+          />
         </div>
-        <main className="flex flex-col gap-4 p-6">
-          {!isEmpty ? (
-            routines?.map((routine: Routine, index) => (
-              <ItemRoutine key={index} routine={routine} onRoutineDelete={removeRoutineFromList} />
-            ))
+        <main className="flex flex-col gap-2 p-1">
+          {isLoading ? (
+            <LoadingDumbbell />
           ) : (
-            <TextIsEmpty label="Rutinas" />
+            <>
+              {!isEmpty ? (
+                routines?.map((routine: Routine, index) => (
+                  <ItemRoutine
+                    key={index}
+                    routine={routine}
+                    onRoutineDelete={removeRoutineFromList}
+                  />
+                ))
+              ) : (
+                <TextIsEmpty label="Rutinas" />
+              )}
+            </>
           )}
         </main>
         {showAlert && (
@@ -113,6 +136,7 @@ const Routines = () => {
             message={isError.message || ""}
             onConfirm={() => setIsError({ ...isError, active: false })}
             active={isError.active}
+            theme={preferenceUser?.theme}
           />
         )}
       </div>

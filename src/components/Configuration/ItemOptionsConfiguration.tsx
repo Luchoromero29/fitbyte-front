@@ -19,7 +19,7 @@ const ItemOptions = ({option, color, active, onClick}: ItemOptionsProps ) => {
 
   return (
     <>
-        <div className={` px-2 py-1 rounded-full  flex justify-center items-center ${active ? "border-2 border-pink-1" : ""} `}
+        <div className={` px-2 py-1 rounded-full  flex justify-center items-center ${active ? "border-2 border-violet-1" : ""} `}
           onClick={handleClick}
         >
             <Typography variant={`span-${color}`}>{option.label}</Typography>

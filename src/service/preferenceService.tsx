@@ -1,4 +1,4 @@
-import { CreatePreferenceUser, PreferenceUser } from "../models";
+import { PreferenceUser } from "../models";
 import apiClient from "./axiosConfig";
 import axios from 'axios';
 
@@ -23,10 +23,10 @@ export const reqGetPreferenceByUserId = async (
 };
 
 export const reqCreatePreference = async (
-  preference: CreatePreferenceUser
+  userId: number
 ): Promise<PreferenceUser> => {
   try {
-    const response = await apiClient.post<{ ok: boolean; status: number; body: PreferenceUser }>('/api/preference', preference);
+    const response = await apiClient.post<{ ok: boolean; status: number; body: PreferenceUser }>('/api/preference', userId);
 
     if (response.data.ok && response.data.body) {
       return response.data.body;

@@ -75,6 +75,7 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
               <input
                 type="text"
                 name="name"
+                placeholder="Pecho, Espalda, Pierna, etc."
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${preferenceUser?.theme === "dark" ? "text-white" : "text-black"} font-chopinBold`}

@@ -17,8 +17,8 @@ const HeaderPage = ({ title, description, path }: HeaderPageProps) => {
   const preference = useSelector((state: RootState) => state.preferenceUser);
 
   return (
-    <header className="relative flex items-center justify-center w-full px-6 pt-3">
-      <div className="absolute left-6">
+    <header className="relative flex items-center justify-center w-full px-1 ">
+      <div className="absolute left-2">
         <Link to={path}>
           <img src={preference?.theme === "dark" ? ArrowBackWhite : ArrowBackBlack} className="h-8" />
         </Link>

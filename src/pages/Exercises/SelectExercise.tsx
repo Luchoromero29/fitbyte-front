@@ -11,6 +11,7 @@ import { reqCreateActivity } from "../../service/activityService";
 import { Focus } from "../../models/types";
 import { RootState } from "../../store";
 import SelectFocusDialog from "../../components/Modal/SelectFocusDialog";
+import LoadingDumbbell from "../../components/LoadingDumbbell";
 
 // interface SelectExerciseProps {
 //     routineId: number
@@ -24,6 +25,7 @@ const SelectExercise = () => {
   const [exercises, setExercises] = useState<Array<Exercise>>();
   const [exerciseActive, setExerciseActive] = useState<Exercise>();
   const [isUpdateFocus, setIsUpdateFocus] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -36,18 +38,21 @@ const SelectExercise = () => {
     };
 
     getAllExercises();
+    setIsLoading(false);
   }, []);
 
   const handleSelect = (exercise: Exercise) => {
     setExerciseActive(exercise);
-    setIsUpdateFocus(true);
+    if (preferenceUser.customMode) {
+      setIsUpdateFocus(true);
+    } else {
+      handleConfirmCreateActivity("Personalizado");
+    }
   };
 
   const handleConfirmCreateActivity = async (focus: Focus) => {
-    
     try {
       if (exerciseActive) {
-
         const activity = {
           name: exerciseActive.name,
           note: "",
@@ -70,7 +75,7 @@ const SelectExercise = () => {
 
   const handelCancelSelectActivity = () => {
     setIsUpdateFocus(false);
-  }
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -80,15 +85,21 @@ const SelectExercise = () => {
         path={`/user/home/plans/routine/${id}`}
       />
       <main className="p-6 flex flex-col gap-3">
-        {exercises?.map((exercise: Exercise, index) => (
-          <ItemExerciseSelectable
-            key={index}
-            exercise={exercise}
-            active={exercise.id === exerciseActive?.id}
-            handleSelect={handleSelect}
-          />
-        ))}
-        {isUpdateFocus && (
+        {isLoading ? (
+          <LoadingDumbbell />
+        ) : (
+          <>
+            {exercises?.map((exercise: Exercise, index) => (
+              <ItemExerciseSelectable
+                key={index}
+                exercise={exercise}
+                active={exercise.id === exerciseActive?.id}
+                handleSelect={handleSelect}
+              />
+            ))}
+          </>
+        )}
+        {isUpdateFocus && preferenceUser.customMode && (
           <SelectFocusDialog
             title="Selecciona tu enfoque"
             message=""

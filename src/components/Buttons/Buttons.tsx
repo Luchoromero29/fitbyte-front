@@ -146,7 +146,7 @@ export const ButtonAddSerie: React.FC<ButtonsProps> = ({ label, onConfirm, color
   return (
     <div className="p-2 flex justify-center items-center w-fit">
       <button className="flex items-center gap-2" onClick={handleConfirm}>
-        <Typography variant={`span-${color}`}>{label}</Typography>
+        <Typography variant={`span-medium-${color}`}>{label}</Typography>
       </button>
     </div>
   );
