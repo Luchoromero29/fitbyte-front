@@ -9,7 +9,7 @@ import { reqLogin } from "../../service/singinService";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/authSlice";
 import { addPreferenceUser } from "../../store/preferenceSlice";
-import { reqCreatePreference } from "../../service/preferenceService";
+import { reqCreatePreference, reqGetPreferenceByUserId } from "../../service/preferenceService";
 
 const Register2 = () => {
   const dispatch = useDispatch();
@@ -74,12 +74,7 @@ const Register2 = () => {
           })
         );
   
-
-        const userId = response.body.data.user.id;
-
-  
-        const preference = await reqCreatePreference(userId);
-        console.log(preference);
+        const preference = await reqGetPreferenceByUserId(user.id);
   
         dispatch(addPreferenceUser(preference));
         navigate("/user/home");

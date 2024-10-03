@@ -27,7 +27,6 @@ const SecctionHomeRutine = () => {
     if (!preference?.userId) return;
 
     const getRoutinesActivePlanByUserId = async () => {
-      setIsLoading(true); // Inicia la carga al hacer la solicitud
       const rutinesActivePlan = await reqGetRoutineFromActivePlanByUserId(
         preference.userId
       );
@@ -36,22 +35,22 @@ const SecctionHomeRutine = () => {
         setRutinesActivePlan(rutinesActivePlan);
       }
 
-      setIsLoading(false);
+
     };
 
     const getActivePlan = async () => {
-      setIsLoading(true); // Inicia la carga al hacer la solicitud
       const activePlan = await reqGetActivePlanByUserId(preference.userId);
 
       if (!("status" in activePlan)) {
         setActivePlan(activePlan);
+        getRoutinesActivePlanByUserId();
       }
-      setIsLoading(false);
+          
     };
 
     getActivePlan();
 
-    getRoutinesActivePlanByUserId();
+
     setIsLoading(false);
   }, [preference?.userId]); // Actualiza el efecto cuando cambia userId
 

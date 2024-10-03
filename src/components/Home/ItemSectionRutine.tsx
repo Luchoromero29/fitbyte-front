@@ -55,7 +55,7 @@ const ItemSectionRutine = ({
         </div>
         <div className="flex w-fit">
             <Typography variant={`span-light-${theme === "dark"? "white" : "black"}`}>
-             {isLoading ? "0 min" : `${duration} min`}
+             {!isLoading && routine && `${duration} min`}
             </Typography>
         </div>
       </div>

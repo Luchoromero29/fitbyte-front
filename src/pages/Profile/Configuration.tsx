@@ -20,7 +20,7 @@ const Configuration = () => {
             <header>
                 <HeaderPage title="Configuración" path="/user/profile"/>
             </header>
-            <main className="p-6 flex flex-col gap-3">
+            <main className="p-1 flex flex-col gap-2">
                 <ItemConfigurationTheme label="Tema"/>
                 <ItemConfigurationUnits label="Unidades de peso"/>
                 <ItemConfigurationCustomMode label="Modo personalizado"/>

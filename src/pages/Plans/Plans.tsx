@@ -51,11 +51,12 @@ export const Plans = () => {
         if (!("status" in activePlanData)) {
           setActivePlan(activePlanData);
         }
-        setIsLoading(false);
+
       }
     };
 
-    getAllPlans();
+    getAllPlans();       
+     setIsLoading(false);
   }, [user, showAlert]);
 
   // Mostrar alerta de creación de plan
