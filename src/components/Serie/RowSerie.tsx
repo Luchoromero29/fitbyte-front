@@ -136,6 +136,7 @@ const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
                 outline-none
                  text-center`}
           onChange={handleChange}
+          onBlur={handleConfirmChange}
         />
       </td>
       <td className="items-center">
@@ -155,6 +156,7 @@ const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
           message={message.message || ""}
           onConfirm={() => setMessage({ ...message, active: false })}
           active={message.active}
+          theme={preferenceUser.theme}
         />
       )}
     </tr>
