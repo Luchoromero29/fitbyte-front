@@ -31,7 +31,7 @@ exercise
   }, []);
 
   return (
-    <div className={`${preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"} flex p-4 rounded-md h-auto shadow-xl`}>
+    <div className={`${preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-white"} flex p-4 rounded-md h-auto shadow-xl`}>
       <ul className="grid grid-cols-3 grid-rows-1 sm:grid-cols-4 justify-between w-full gap-3 items-center">
         <div className="flex flex-col gap-2 col-span-2 sm:col-span-3">
           <li>

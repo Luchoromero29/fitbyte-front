@@ -18,8 +18,8 @@ const ItemAccount = ( {label, value, type, modifiable, onChange}: itemAccountPro
     <div className="flex flex-col w-full border border-violet-1 p-3 rounded-xl ">
         <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>{label}</Typography>
         {modifiable ? 
-          <input type={type} className={`w-full rounded-lg ${preferenceUser?.theme === "dark" ? "bg-dark-1 text-white" : "bg-light-3 text-black" } font-chopinLight focus:outline-none`} defaultValue={value} onChange={handleChange}  /> 
-          : <input type={type} className={`w-full rounded-lg ${preferenceUser?.theme === "dark" ? "bg-dark-1 text-white" : "bg-light-3 text-black" } font-chopinLight focus:outline-none`} defaultValue={value} readOnly /> 
+          <input type={type} className={`w-full rounded-lg ${preferenceUser?.theme === "dark" ? "bg-dark-1/0 text-white" : "bg-light-3/0 text-black" } font-chopinLight focus:outline-none`} defaultValue={value} onChange={handleChange}  /> 
+          : <input type={type} className={`w-full rounded-lg ${preferenceUser?.theme === "dark" ? "bg-dark-1/0 text-white" : "bg-light-3/0 text-black" } font-chopinLight focus:outline-none`} defaultValue={value} readOnly /> 
         }
     </div>
   )

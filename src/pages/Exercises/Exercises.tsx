@@ -26,9 +26,9 @@ export const Exercises = () => {
 
   return (
     <>
-      <div className={`flex flex-col items-center ${preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} w-full h-full gap-3 `}>
+      <div className={`flex flex-col items-center  w-full h-full  `}>
         <HeaderPage title="Ejercicios" path="/user/home"/>
-        <main className="flex flex-col gap-4 p-6 w-full">
+        <main className="flex flex-col gap-2 p-2 w-full">
           {exercises &&
             exercises.map((exercise, index) => (
               <ItemExercise

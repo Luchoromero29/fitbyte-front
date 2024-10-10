@@ -13,7 +13,7 @@ import LoadingDumbbell from "../LoadingDumbbell";
 import plus from "../../assets/icons/add-violet.png";
 import { reqGetActivePlanByUserId } from "../../service/activePlanService";
 
-const SecctionHomeRutine = () => {
+const SectionHomeRutine = () => {
   const preference = useSelector((state: RootState) => state.preferenceUser);
   const [rutinesActivePlan, setRutinesActivePlan] = useState<Array<Routine>>(
     []
@@ -130,4 +130,4 @@ const SecctionHomeRutine = () => {
   );
 };
 
-export default SecctionHomeRutine;
+export default SectionHomeRutine;

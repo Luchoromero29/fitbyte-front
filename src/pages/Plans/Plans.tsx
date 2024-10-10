@@ -127,9 +127,7 @@ export const Plans = () => {
 
   return (
     <div
-      className={`${
-        preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-3"
-      } w-full h-full flex flex-col items-center`}
+      className={`w-full h-full flex flex-col items-center`}
     >
       <HeaderPage title="Planes" path="/user/home" />
       <div className="fixed bottom-10">

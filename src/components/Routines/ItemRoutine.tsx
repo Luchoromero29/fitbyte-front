@@ -98,7 +98,7 @@ const ItemRoutine = ({ routine, onRoutineDelete }: RoutineProps) => {
     <>
       <div
         className={`grid grid-cols-5 justify-between  ${
-          preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"
+          preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-white"
         } p-3 rounded-md shadow-md  w-full`}
       >
         <Link

@@ -21,6 +21,7 @@ import ItemInfoActivity from "./ItemInfoActivity";
 import hourglass from "../../assets/icons/hourglass-violet.png";
 import timer from "../../assets/icons/timer-violet.png";
 import focus from "../../assets/icons/focus-violet.png";
+import EditTime from "./EditTime";
 
 interface ActivityProps {
   activity: ActivityModel;
@@ -34,12 +35,15 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
   );
 
   const [viewAlert, setViewAlert] = useState<boolean>(false);
-  const [series, setSeries] = useState<Array<Serie>>([]); // Inicializar como un array vacío
-  //const [isUpdateSeries, setIsUpdateSeries] = useState<boolean>(false);
+  const [series, setSeries] = useState<Array<Serie>>([]);
+
   const [isUpdateFocus, setIsUpdateFocus] = useState<boolean>(false);
-  //const [isUpdateNote, setIsUpdateNote] = useState<boolean>(false);
+
   const [note, setNote] = useState<string>(activity.note);
   const [isNote, setIsNote] = useState<boolean>(activity.note !== "");
+
+  const [showEditRest, setShowEditRest] = useState<boolean>(false);
+  const [showEditPostRest, setShowEditPostRest] = useState<boolean>(false);
 
   useEffect(() => {
     const getSeriesByActivityId = async () => {
@@ -96,33 +100,56 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
   };
 
   const handleUpdateNote = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    //setIsUpdateNote(true);
     setNote(e.target.value);
   };
 
-  const handleAddNote = () => {
+  const handleConfirmUpdateNote = async () => {
+    activity.note = note;
+    try {
+      await reqUpdateActivity(activity);
+    } catch (error) {
+      console.error("Error al actualizar la nota:", error);
+    }
+  };
+
+  const handleAddNote = async () => {
     if (note !== "") {
       handleUpdateNote({
         target: { value: "" },
       } as React.ChangeEvent<HTMLTextAreaElement>);
       setIsNote(false);
-
+      activity.note = "";
+      await reqUpdateActivity(activity);
       return;
     }
     setIsNote(true);
+    
   };
 
   const handleChangeRest = () => {
+    setShowEditRest(!showEditRest);
+  } 
 
+  const handleConfirmEditRest = (rest: number) => {
+    activity.rest = rest;
+    setShowEditRest(false);
+    reqUpdateActivity(activity);
   }
-  const handleChangePostRest = () => {
 
+  const handleChangePostRest = () => {
+    setShowEditPostRest(!showEditPostRest);
+  }
+
+  const handleConfirmEditPostRest = (postRest: number) => {
+    activity.postRest = postRest;
+    setShowEditPostRest(false);
+    reqUpdateActivity(activity);
   }
   
   return (
     <div
       className={`${
-        preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"
+        preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-white"
       } gap-1 p-2 rounded-sm flex flex-col`}
     >
       <header className="flex flex-col gap-1">
@@ -146,8 +173,9 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
           {preferenceUser?.customMode && (
             <ItemInfoActivity label="Enfoque" value={activity.focus} onChange={handleChangeFocus} theme={preferenceUser.theme} pathImg={focus}/>
           )}
-          <ItemInfoActivity label="Rest" value={activity.rest + " seg"} onChange={handleChangeRest} theme={preferenceUser.theme} pathImg={hourglass}/>
+          <ItemInfoActivity label="Rest" value={activity.rest + " seg"}  onChange={handleChangeRest} theme={preferenceUser.theme} pathImg={hourglass}/>
           <ItemInfoActivity label="Descanso" value={activity.postRest + " seg"} onChange={handleChangePostRest} theme={preferenceUser.theme} pathImg={timer}/>
+
           
         </div>
       </header>
@@ -198,10 +226,11 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
             defaultValue={note}
             className={`${
               preferenceUser?.theme === "dark"
-                ? "bg-black border-white text-white"
-                : "bg-white  border-black text-black"
-            } w-full border-2 rounded-md p-1 focus:outline-0`}
+                ? "bg-dark-2  text-white"
+                : "bg-light-2   text-black"
+            } w-full  rounded-md p-1 focus:outline-0`}
             onChange={handleUpdateNote}
+            onBlur={handleConfirmUpdateNote}
           ></textarea>
         </div>
       )}
@@ -222,6 +251,28 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
           active={isUpdateFocus}
           onCancel={() => setIsUpdateFocus(false)}
         />
+      )}
+      {showEditRest && (
+        <EditTime
+          title="Rest"
+          message='"Rest" se le llama al tiempo de descanso entre series, puedes modificarlo cuando quieras.'
+          isVisible={showEditRest}
+          onConfirm={handleConfirmEditRest}
+          onCancel={() => setShowEditRest(false)}
+          theme={preferenceUser?.theme}
+          time={activity?.rest}
+        />
+      )}
+      {showEditPostRest && (
+        <EditTime
+        title="Descanso"
+        message='Es el tiempo que tienes para empezar el siguiente ejercicio'
+        isVisible={showEditPostRest}
+        onConfirm={handleConfirmEditPostRest}
+        onCancel={() => setShowEditPostRest(false)}
+        theme={preferenceUser?.theme}
+        time={activity?.postRest}
+      />
       )}
     </div>
   );

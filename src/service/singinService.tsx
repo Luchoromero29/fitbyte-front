@@ -33,7 +33,7 @@ export const reqLogin = async (email: string | null, password: string | null): P
       },
       withCredentials: true,
     }).then((response) => { return response.data; });
-    console.log(response);
+
     
     if (!response) {
       throw new Error("Error al iniciar sesión");
@@ -71,7 +71,7 @@ export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
       },
       withCredentials: true, // En lugar de 'credentials: "include"'
     });
-    console.log("aca ya se demoro");
+
     
 
     if (response.status === 401) {
@@ -82,7 +82,7 @@ export const reqVerifyAuth = async (): Promise<AuthResponse | null> => {
     if (!response.data) {
       throw new Error("Failed to verify auth");
     }
-    console.log(response);
+
     
     return response.data;
   } catch (error: unknown) {

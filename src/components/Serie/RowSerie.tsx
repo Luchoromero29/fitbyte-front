@@ -84,7 +84,7 @@ const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
             "bg-green-700"  
             : "bg-green-500/80"  
         : preferenceUser.theme === "dark" ? 
-            "odd:bg-dark-1 even:bg-black" 
+            "odd:bg-black/20 even:bg-black/40" 
             : "odd:bg-gray-100 even:bg-white"}
         preferenceUser.theme === "dark" ? 
     "odd:bg-dark-1 even:bg-black" 

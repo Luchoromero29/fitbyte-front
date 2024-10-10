@@ -17,7 +17,6 @@ const PrivateRoute: React.FC = () => {
     const verifyAuth = async () => {
       if (!isAuthenticated) {
         const response = await reqVerifyAuth();
-        console.log(response);
         
         if (response) {
           const prefereneces = await reqGetPreferenceByUserId(response.data.user.id);

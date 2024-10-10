@@ -41,6 +41,7 @@ export default {
       fontFamily: {
         chopinBold: ['chopin-bold', 'sans-serif'],
         chopinLight: ['chopin-light', 'sans-serif'],
+        chopinMedium: ['chopin-medium', 'sans-serif'],
       },
       zIndex: {
         '60': '60',

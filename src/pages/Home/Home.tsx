@@ -1,13 +1,14 @@
 import { RootState } from "../../store/index.ts";
 import { useSelector } from "react-redux";
-import Typography from "../../components/Typography/Typography.tsx";
+
 import "./Home.css";
-import { Link } from "react-router-dom";
+
 //import ItemHomeWelcome from "../../components/Home/ItemHomeWelcome.tsx";
-import ItemHomePlans from "../../components/Home/ItemHomePlans.tsx";
-import ItemHomeEntrenamient from "../../components/Home/ItemHomeEntrenamient.tsx";
-import SecctionHomeRutine from "../../components/Home/SecctionHomeRutine.tsx";
-import LoadingDumbbell from "../../components/LoadingDumbbell.tsx";
+
+import ItemHomeEntrenamient from "../../components/Home/SectionHomeEntrenamient.tsx";
+import SectionHomeRutine from "../../components/Home/SectionHomeRutine.tsx";
+import SectionHomeExercise from "../../components/Home/SectionHomeExercise.tsx";
+
 
 const Home = () => {
   const preference = useSelector((state: RootState) => state.preferenceUser);
@@ -19,10 +20,8 @@ const Home = () => {
         } min-h-screen w-full flex flex-col p-2 `}
       >
         <ItemHomeEntrenamient />
-        <SecctionHomeRutine />
-        {/* <ItemHomePlans /> */}
-
-        {/* <LoadingDumbbell /> */}
+        <SectionHomeRutine />
+        <SectionHomeExercise theme={preference?.theme}/>
       </div>
     </>
   );

@@ -95,7 +95,7 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
     <>
       <div
         className={`grid grid-cols-8 justify-between ${
-          preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"
+          preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-white"
         } p-3 rounded-md shadow-md`}
       >
         <Link

@@ -88,9 +88,7 @@ const Routines = () => {
   return (
     <>
       <div
-        className={`${
-          preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-3"
-        } w-full h-full flex flex-col relative`}
+        className={`w-full h-full flex flex-col relative`}
       >
         <HeaderPage
           title="Rutinas"

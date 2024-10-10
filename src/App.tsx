@@ -33,7 +33,7 @@ const ProtectedLayout = () => {
   return (
     <div className={`flex flex-col min-h-screen shadow-lg `}>
       <Navbar />
-      <div className={`flex-grow ${preference?.theme === "dark" ? "bg-dark-1" : "bg-light-3"} w-full`}>
+      <div className={`flex-grow ${preference?.theme === "dark" ? "bg-dark-1" : "bg-light-2"} w-full`}>
         <Outlet />
       </div>
     </div>

@@ -83,7 +83,7 @@ const RoutineDetails = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full gap-3">
+      <div className="flex flex-col items-center w-full gap-2">
         <HeaderPage
           title={routine?.name}
           path={`/user/home/plans/${routine.planId}`}
@@ -94,7 +94,7 @@ const RoutineDetails = () => {
           </div>
         )}
 
-        <main className="w-full  flex flex-col px-1 gap-1">
+        <main className="w-full  flex flex-col px-1 gap-2">
           {isLoading ? (
             <LoadingDumbbell />
           ) : (

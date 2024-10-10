@@ -18,7 +18,7 @@ const ItemInfoActivity = ({
   return (
     <>
       <div
-        className={`flex flex-col  items-center ${theme === "dark" ? "bg-dark-3" : "bg-light-2"} p-2 rounded-xl`}
+        className={`flex flex-col  items-center ${theme === "dark" ? "bg-dark-1/60" : "bg-light-2"} shadow-sm p-2 rounded-xl`}
         onClick={onChange}
       >
         <div className="flex gap-1 items-center">
