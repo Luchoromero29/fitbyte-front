@@ -17,7 +17,7 @@ const ItemConfigurationLanguage = ({label}: ItemConfigurationLanguageProps) => {
     const dispatch = useDispatch();
 
     const handleChangeLanguage = async (value: string) => {
-        console.log("holaaa");
+
         
         if (preference.language !== value) {
             const newPreference = {
@@ -41,16 +41,15 @@ const ItemConfigurationLanguage = ({label}: ItemConfigurationLanguageProps) => {
 
   return (
     <>
-        <div className={`flex flex-col p-3 ${preference.theme === 'dark' ? 'bg-black' : 'bg-white'}  rounded-md shadow-md gap-2`}>
-            <header>
-                <Typography variant={`h5-${preference.theme === 'dark' ? 'white' : 'black'}`}>{label}</Typography>
+        <div className={`flex flex-col p-3 dark:text-white dark:bg-black bg-white rounded-md shadow-md gap-2`}>
+            <header >
+                <Typography variant={`h5`}>{label}</Typography>
             </header>
             <main className='flex gap-2'>
                 {optionsLenguage.map((option, index) => (
                     <ItemOptionsConfiguration
                         key={index}
                         option={option}
-                        color={preference.theme === 'dark' ? 'white' : 'black'}
                         active={preference.language === option.value}
                         onClick={handleChangeLanguage}
                     />

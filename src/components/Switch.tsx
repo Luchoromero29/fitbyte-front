@@ -3,9 +3,8 @@ import { useState } from "react";
 interface SwitchProps {
   onToggle: (isOn: boolean) => void;
   value: boolean;
-  theme: string;
 }
-const Switch = ({ onToggle, value, theme }: SwitchProps) => {
+const Switch = ({ onToggle, value }: SwitchProps) => {
   const [isOn, setIsOn] = useState(value);
   const handleSwitchToggle = () => {
     // Dispara una función según el estado del switch
@@ -17,7 +16,7 @@ const Switch = ({ onToggle, value, theme }: SwitchProps) => {
     <div
       onClick={handleSwitchToggle}
       className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${
-        isOn ? "bg-violet-1" : theme === "dark" ? "bg-dark-3" : "bg-gray-200" 
+        isOn ? "bg-violet-1" : "dark:bg-dark-3  bg-gray-200" 
       }`}
     >
       <div

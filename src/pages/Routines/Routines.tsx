@@ -134,7 +134,6 @@ const Routines = () => {
             message={isError.message || ""}
             onConfirm={() => setIsError({ ...isError, active: false })}
             active={isError.active}
-            theme={preferenceUser?.theme}
           />
         )}
       </div>

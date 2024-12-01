@@ -148,17 +148,14 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
   
   return (
     <div
-      className={`${
-        preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-white"
+      className={`dark:bg-dark-2 bg-white
       } gap-1 p-2 rounded-sm flex flex-col`}
     >
       <header className="flex flex-col gap-1">
         <div className="flex justify-between">
-          <div className="flex justify-between items-center w-full">
+          <div className="flex justify-between items-center w-full dark:text-white">
             <Typography
-              variant={`h5-${
-                preferenceUser?.theme === "dark" ? "white" : "black"
-              }`}
+              variant={`h5`}
             >
               {activity.name}
             </Typography>
@@ -171,10 +168,10 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
         </div>
         <div className="flex gap-2">
           {preferenceUser?.customMode && (
-            <ItemInfoActivity label="Enfoque" value={activity.focus} onChange={handleChangeFocus} theme={preferenceUser.theme} pathImg={focus}/>
+            <ItemInfoActivity label="Enfoque" value={activity.focus} onChange={handleChangeFocus}  pathImg={focus}/>
           )}
-          <ItemInfoActivity label="Rest" value={activity.rest + " seg"}  onChange={handleChangeRest} theme={preferenceUser.theme} pathImg={hourglass}/>
-          <ItemInfoActivity label="Descanso" value={activity.postRest + " seg"} onChange={handleChangePostRest} theme={preferenceUser.theme} pathImg={timer}/>
+          <ItemInfoActivity label="Rest" value={activity.rest + " seg"}  onChange={handleChangeRest}  pathImg={hourglass}/>
+          <ItemInfoActivity label="Descanso" value={activity.postRest + " seg"} onChange={handleChangePostRest} pathImg={timer}/>
 
           
         </div>
@@ -183,14 +180,14 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
         <table className="w-full">
           <thead className="">
             <tr className="text-center">
-              <ThTable label="Serie" theme={preferenceUser.theme} />
-              <ThTable label="Reps" theme={preferenceUser.theme} />
+              <ThTable label="Serie"  />
+              <ThTable label="Reps"  />
               <ThTable
                 label={preferenceUser.unitWeight}
-                theme={preferenceUser.theme}
+                
               />
-              <ThTable label="Listo" theme={preferenceUser.theme} />
-              <ThTable label="" theme={preferenceUser.theme} />
+              <ThTable label="Listo" />
+              <ThTable label="" />
             </tr>
           </thead>
           <tbody className="w-full">
@@ -208,7 +205,6 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
           <ButtonAddSerie
             label="+ Serie"
             onConfirm={handleAddSerie}
-            color={preferenceUser?.theme === "dark" ? "white" : "black"}
           />
         </div>
       </main>
@@ -217,18 +213,15 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
 
       {isNote && (
         <div
-          className={`${
-            preferenceUser?.theme === "dark" ? "bg-black" : "bg-white"
-          }}`}
+          className={`dark:bg-black bg-white`}
         >
           <textarea
             placeholder="Nota"
             defaultValue={note}
-            className={`${
-              preferenceUser?.theme === "dark"
-                ? "bg-dark-2  text-white"
-                : "bg-light-2   text-black"
-            } w-full  rounded-md p-1 focus:outline-0`}
+            className={`
+                dark:bg-dark-2  dark:text-white
+                bg-light-2   text-black
+             w-full  rounded-md p-1 focus:outline-0`}
             onChange={handleUpdateNote}
             onBlur={handleConfirmUpdateNote}
           ></textarea>
@@ -240,7 +233,6 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
           title="No puedes dejar el ejercicio sin serie"
           message=""
           onConfirm={() => setViewAlert(false)}
-          theme={preferenceUser?.theme}
         />
       )}
       {isUpdateFocus && (
@@ -259,7 +251,6 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
           isVisible={showEditRest}
           onConfirm={handleConfirmEditRest}
           onCancel={() => setShowEditRest(false)}
-          theme={preferenceUser?.theme}
           time={activity?.rest}
         />
       )}
@@ -270,7 +261,6 @@ const Activity = ({ activity, onDelete }: ActivityProps) => {
         isVisible={showEditPostRest}
         onConfirm={handleConfirmEditPostRest}
         onCancel={() => setShowEditPostRest(false)}
-        theme={preferenceUser?.theme}
         time={activity?.postRest}
       />
       )}

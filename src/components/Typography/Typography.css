@@ -10,6 +10,11 @@
     color: var(--black-color);
 }
 
+.typography-h1 {
+    font-size: 2rem;
+    font-family: 'chopin-bold';
+}
+
 .typography-h2-white {
     font-size: 1.8rem;
     font-family: 'chopin-bold';
@@ -20,6 +25,11 @@
     font-size: 1.8rem;
     font-family: 'chopin-bold';
     color: var(--black-color);
+}
+
+.typography-h2 {
+    font-size: 1.8rem;
+    font-family: 'chopin-bold';
 }
 
 .typography-h3-white {
@@ -34,6 +44,12 @@
     color: var(--black-color);
 }
 
+.typography-h3 {
+    font-size: 2rem;
+    font-family: 'chopin-bold';
+
+}
+
 .typography-h4-white {
     font-size: 1.6rem;
     font-family: 'chopin-bold';
@@ -44,6 +60,11 @@
     font-size: 1.6rem;
     font-family: 'chopin-bold';
     color: var(--black-color);
+}
+
+.typography-h4 {
+    font-size: 1.6rem;
+    font-family: 'chopin-bold';
 }
 
 .typography-h5-white {
@@ -58,6 +79,11 @@
     color: var(--black-color);
 }
 
+.typography-h5 {
+    font-size: 1.4rem;
+    font-family: 'chopin-bold';
+}
+
 .typography-h6-white {
     font-size: 1.2rem;
     font-family: 'chopin-bold';
@@ -70,10 +96,21 @@
     color: var(--black-color);
 }
 
+.typography-h6 {
+    font-size: 1.2rem;
+    font-family: 'chopin-bold';
+    color: var(--black-color);
+}
+
 .typography-logo-white {
     font-size: 2.3rem;
     font-family: 'chopin-bold';
     color: var(--white-color);
+}
+
+.typography-logo {
+    font-size: 2.3rem;
+    font-family: 'chopin-bold';
 }
 
 .typography-logo-black {
@@ -106,6 +143,11 @@
     color: var(--black-color);
 }
 
+.typography-span {
+    font-size: 1rem;
+    font-family: 'chopin-bold';
+}
+
 .typography-span-thin-white {
     font-size: 1rem;
     font-family: 'chopin-thin';
@@ -115,6 +157,10 @@
     font-size: 1rem;
     font-family: 'chopin-thin';
     color: var(--black-color);
+}
+.typography-span-thin {
+    font-size: 1rem;
+    font-family: 'chopin-thin';
 }
 
 .typography-span-medium-black {
@@ -126,6 +172,11 @@
     font-size: 1rem;
     font-family: 'chopin-medium';
     color: var(--white-color);
+}
+
+.typography-span-medium {
+    font-size: 1rem;
+    font-family: 'chopin-medium';
 }
 
 .typography-span-medium-violet {
@@ -153,10 +204,9 @@
     color: var(--violet-1-color);
 }
 
-.typography-span-violet {
+.typography-span-light {
     font-size: 1rem;
-    font-family: 'chopin-bold';
-    color: var(--violet-1-color);
+    font-family: 'chopin-light';
 }
 
 .typography-span-pink {

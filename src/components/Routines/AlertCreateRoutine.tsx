@@ -6,8 +6,9 @@ import { CreateRoutine } from "../../models";
 //import { RootState } from "../../store";
 import { Day } from "../../models/types";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+
+import "./AlertRoutine.css"
+
 
 interface AlertCreateRoutineProps {
   onConfirm: (data: CreateRoutine) => void;
@@ -23,7 +24,7 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<Day | "">("");
   const [name, setName] = useState<string>("");
-  const preferenceUser = useSelector((state: RootState) => state.preferenceUser); 
+
 
   const daysOfWeek: Day[] = [
     "Lunes",
@@ -57,7 +58,7 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
       };
 
       setIsVisible(false);
-      setTimeout(() => onConfirm(newRoutineData), 100); 
+      setTimeout(() => onConfirm(newRoutineData), 100);
     }
   };
 
@@ -67,35 +68,37 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
         isVisible ? "alert-create-plan-active" : "alert-create-plan-inactive"
       }`}
     >
-      <div className={`${preferenceUser?.theme === "dark" ? "bg-dark-1" : "bg-light-1"} p-6 rounded shadow-lg w-96 flex flex-col gap-6`}>
+      <div
+        className={`dark:bg-dark-1 bg-light-1  p-6 rounded shadow-lg w-96 flex flex-col gap-6`}
+      >
         <div>
           <form id="form-create-routine" className="flex flex-col gap-3">
             <label className="flex flex-col gap-2">
-              <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>Nombre de la rutina</Typography>
+              <Typography variant={`span`}>Nombre de la rutina</Typography>
               <input
                 type="text"
                 name="name"
                 placeholder="Pecho, Espalda, Pierna, etc."
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${preferenceUser?.theme === "dark" ? "text-white" : "text-black"} font-chopinBold`}
+                className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2  dark:text-white text-black  font-chopinBold`}
               />
             </label>
             <label className="flex flex-col gap-2">
-              <Typography variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}>Día de la rutina</Typography>
+              <Typography variant={`span`}>Día de la rutina</Typography>
               <select
                 id="day-select"
                 name="day-select"
                 value={selectedDay}
                 onChange={(e) => setSelectedDay(e.target.value as Day)}
-                className={`rounded-md outline-none p-2 bg-light-1/0 border-2 border-violet-2 ${preferenceUser?.theme === "dark" ? "text-white" : "text-black"} font-chopinBold`}
+                className={`rounded-md outline-none p-2  border-2  border-violet-2 dark:text-white text-black font-chopinBold`}
               >
                 <option value="" disabled>
                   Selecciona un día
                 </option>
                 {daysOfWeek.map((day) => (
                   <option key={day} value={day}>
-                    {day}
+                    <Typography variant="span-medium">{day}</Typography>
                   </option>
                 ))}
               </select>
@@ -104,8 +107,8 @@ const AlertCreateRoutine: React.FC<AlertCreateRoutineProps> = ({
         </div>
 
         <div className="flex justify-end gap-3">
-          <ButtonCancel label="Cancelar" onConfirm={handleCancel} color={preferenceUser?.theme === "dark" ? "white" : "black"}/>
-          <ButtonConfirm label="Confirmar" onConfirm={handleConfirm} color="white"/>
+          <ButtonCancel label="Cancelar" onConfirm={handleCancel} />
+          <ButtonConfirm label="Confirmar" onConfirm={handleConfirm} />
         </div>
       </div>
     </div>

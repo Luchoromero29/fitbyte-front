@@ -41,6 +41,8 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
     message: "",
   });
 
+  const isDark = document.documentElement.classList.contains("dark");
+
   const setPlanState = () => {
     dispatch(addPlan(plan));
   };
@@ -94,9 +96,8 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
   return (
     <>
       <div
-        className={`grid grid-cols-8 justify-between ${
-          preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-white"
-        } p-3 rounded-md shadow-md`}
+        className={`grid grid-cols-8 justify-between dark:bg-dark-2  bg-white
+         p-3 rounded-md shadow-md`}
       >
         <Link
           to={`/user/home/plans/${plan.id}`}
@@ -105,16 +106,12 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
         >
           <div className="flex flex-col  justify-center w-full">
             <Typography
-              variant={`h6-${
-                preferenceUser?.theme === "dark" ? "white" : "black"
-              }`}
+              variant={`h6`}
             >
               {plan.name}
             </Typography>
             <Typography
-              variant={`span-light-${
-                preferenceUser?.theme === "dark" ? "white" : "black"
-              }`}
+              variant={`span-light`}
             >
               {plan.description}
             </Typography>
@@ -123,9 +120,7 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
             <div>
               <div className="border-2 border-violet-1 rounded-3xl px-2">
                 <Typography
-                  variant={`span-${
-                    preferenceUser?.theme === "dark" ? "white" : "black"
-                  }`}
+                  variant={`span`}
                 >
                   Activo
                 </Typography>
@@ -143,7 +138,7 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
             <img
               className="h-8"
               src={
-                preferenceUser?.theme === "dark"
+                isDark
                   ? arrowRightWhite
                   : arrowRightBlack
               }
@@ -156,7 +151,7 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
                 <img
                   className="h-8"
                   src={
-                    preferenceUser?.theme === "dark"
+                    isDark
                       ? optionsWhite
                       : optionsBlack
                   }
@@ -165,23 +160,19 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
               </button>
             </PopoverTrigger>
             <PopoverContent
-              className={`w-40 p-2 ${
-                preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-light-2"
-              } shadow-lg `}
+              className={`w-40 p-2 dark:bg-dark-2 bg-light-2
+               shadow-lg `}
             >
               <div className="flex flex-col gap-1">
                 <button
-                  className={`p-2 rounded-md transition duration-200 ease-in-out ${
-                    preferenceUser?.theme === "dark"
-                      ? "hover:bg-light-2/30 active:bg-dark-2/10"
-                      : "hover:bg-light-1 active:bg-light-1/10"
-                  }`}
+                  className={`p-2 rounded-md transition duration-200 ease-in-out 
+                    dark:hover:bg-light-2/30 dark:active:bg-dark-2/10
+                   hover:bg-light-1 active:bg-light-1/10
+                 `}
                   onClick={handleEdit}
                 >
                   <Typography
-                    variant={`span-${
-                      preferenceUser?.theme === "dark" ? "white" : "black"
-                    }`}
+                    variant={`span`}
                   >
                     Editar
                   </Typography>
@@ -189,16 +180,13 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
                 {!isActive && (
                   <button
                     onClick={handleActive}
-                    className={`p-2 rounded-md transition duration-200 ease-in-out ${
-                      preferenceUser?.theme === "dark"
-                        ? "hover:bg-light-2/30 active:bg-dark-2/10"
-                        : "hover:bg-light-1 active:bg-light-1/10"
-                    }`}
+                    className={`p-2 rounded-md transition duration-200 ease-in-out 
+                      dark:hover:bg-light-2/30 dark:active:bg-dark-2/10
+                     hover:bg-light-1 active:bg-light-1/10
+                   `}
                   >
                     <Typography
-                      variant={`span-${
-                        preferenceUser?.theme === "dark" ? "white" : "black"
-                      }`}
+                      variant={`span`}
                     >
                       Activar
                     </Typography>
@@ -206,16 +194,13 @@ const ItemPlan = ({ plan, onPlanDelete, isActive, onSetActivePlan }: ItemPlanPro
                 )}
                 <button
                   onClick={handleDelete}
-                  className={`p-2 rounded-md transition duration-200 ease-in-out ${
-                    preferenceUser?.theme === "dark"
-                      ? "hover:bg-light-2/30 active:bg-dark-2/10"
-                      : "hover:bg-light-1 active:bg-light-1/10"
-                  }`}
+                  className={`p-2 rounded-md transition duration-200 ease-in-out 
+                    dark:hover:bg-light-2/30 dark:active:bg-dark-2/10
+                   hover:bg-light-1 active:bg-light-1/10
+                 `}
                 >
                   <Typography
-                    variant={`span-${
-                      preferenceUser?.theme === "dark" ? "white" : "black"
-                    }`}
+                    variant={`span`}
                   >
                     Eliminar
                   </Typography>

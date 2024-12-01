@@ -14,15 +14,12 @@ interface ItemSerieProps {
   index: number;
   serie: Serie;
   onDelete: (id: number) => void;
- 
 }
 
 const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
   const preferenceUser = useSelector(
     (state: RootState) => state.preferenceUser
   );
-
-  
 
   const [message, setMessage] = useState({
     active: false,
@@ -32,7 +29,6 @@ const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
   const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
     if (e.target.id === "input-rep") {
       const repetition = Number(e.target.value);
       if (repetition >= 0 && repetition <= 999) {
@@ -75,51 +71,32 @@ const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
     console.log("Actualizando la serie");
     await reqUpdateSerie(serie);
     console.log("Serie actualizada");
-    
-  }
+  };
 
   return (
-    <tr className={`${checked ? 
-        preferenceUser.theme === "dark" ? 
-            "bg-green-700"  
-            : "bg-green-500/80"  
-        : preferenceUser.theme === "dark" ? 
-            "odd:bg-black/20 even:bg-black/40" 
-            : "odd:bg-gray-100 even:bg-white"}
-        preferenceUser.theme === "dark" ? 
-    "odd:bg-dark-1 even:bg-black" 
-    : "odd:bg-gray-100 even:bg-white"
-     text-center rounded-lg items-center`}>
-      <td>
-        <Typography
-          variant={`span-${
-            preferenceUser.theme === "dark" ? "white" : "black"
-          }`}
-        >
-          {index}
-        </Typography>
+    <tr
+      className={`${
+        checked
+          ? "dark:bg-green-700 bg-green-500/80"
+          : "dark:odd:bg-black/20 dark:even:bg-black/40 odd:bg-gray-100 even:bg-white"
+      } w-full  items-center justify-center text-center`}
+    >
+      <td className="">
+        <Typography variant={`span`}>{index}</Typography>
       </td>
-      <td>
+      <td className="">
         <input
           type="number"
           id="input-rep"
           defaultValue={serie.repetition}
           min={0}
           max={999}
-          className={`w-12 p-1 rounded-md 
-                ${
-                  preferenceUser?.theme === "dark"
-                    ? "bg-black/0 text-white"
-                    : "bg-white/0 text-black"
-                } 
-                font-chopinLight
-                outline-none
-                 text-center`}
+          className={`w-12 p-1 rounded-md  dark:bg-black/0 dark:text-white bg-white/0 text-black font-chopinLight outline-none text-center`}
           onChange={handleChange}
           onBlur={handleConfirmChange}
         />
       </td>
-      <td>
+      <td className="">
         <input
           type="number"
           id="input-weight"
@@ -127,11 +104,8 @@ const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
           min={0}
           max={999}
           className={`w-12 p-1 rounded-md 
-                ${
-                  preferenceUser?.theme === "dark"
-                    ? "bg-black/0 text-white "
-                    : "bg-white/0 text-black"
-                } 
+                    dark:bg-black/0 dark:text-white 
+                    bg-white/0 text-black
                 font-chopinLight
                 outline-none
                  text-center`}
@@ -140,7 +114,7 @@ const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
         />
       </td>
       <td className="items-center">
-        <CheckBox onChange={handleCheck} theme={preferenceUser.theme}/> 
+        <CheckBox onChange={handleCheck} theme={preferenceUser.theme} />
       </td>
       <td>
         <div onClick={handleDelete}>
@@ -156,7 +130,6 @@ const RowSerie = ({ index, serie, onDelete }: ItemSerieProps) => {
           message={message.message || ""}
           onConfirm={() => setMessage({ ...message, active: false })}
           active={message.active}
-          theme={preferenceUser.theme}
         />
       )}
     </tr>

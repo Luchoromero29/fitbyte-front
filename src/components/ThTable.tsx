@@ -1,13 +1,12 @@
 import Typography from "./Typography/Typography"
 
 interface ThTableProps {
-    theme: string;
     label: string;
 }
-const ThTable = ({theme, label}: ThTableProps) => {
+const ThTable = ({label}: ThTableProps) => {
   return (
     <th>
-        <Typography variant={`span-${theme === 'dark' ? "white" : "black"}`}>{label}</Typography>
+        <Typography variant={`span`}>{label}</Typography>
     </th>
   )
 }

@@ -57,35 +57,30 @@ const OptionsActivity = ({ onDelete, addNote, activity }: OptionsActivityProps) 
           </button>
         </PopoverTrigger>
         <PopoverContent
-          className={`w-40 p-2 ${
-            preferenceUser?.theme === "dark" ? "bg-dark-2" : "bg-light-2"
-          } shadow-lg `}
+          className={`w-40 p-2 dark:bg-dark-1 bg-light-2
+           shadow-lg `}
         >
           <div className="flex flex-col gap-1">
             <button
-              className={`p-2 rounded-md transition duration-200 ease-in-out ${
-                preferenceUser?.theme === "dark"
-                  ? "hover:bg-light-2/30 active:bg-dark-2/10"
-                  : "hover:bg-light-1 active:bg-light-1/10"
-              }`}
+              className={`p-2 rounded-md transition duration-200 ease-in-out 
+                  dark:hover:bg-light-2/30 dark:active:bg-dark-2/10
+                  hover:bg-light-1 active:bg-light-1/10`}
               onClick={handleAddNote}
             >
               <Typography
-                variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}
+                variant={`span`}
               >
                 {activity.note === "" ? "Añadir nota" : "Eliminar nota"}
               </Typography>
             </button>
             <button
               onClick={handleDelete}
-              className={`p-2 rounded-md transition duration-200 ease-in-out ${
-                preferenceUser?.theme === "dark"
-                  ? "hover:bg-light-2/30 active:bg-dark-2/10"
-                  : "hover:bg-light-1 active:bg-light-1/10"
-              }`}
+              className={`p-2 rounded-md transition duration-200 ease-in-out 
+                dark:hover:bg-light-2/30 dark:active:bg-dark-2/10
+                hover:bg-light-1 active:bg-light-1/10`}
             >
               <Typography
-                variant={`span-${preferenceUser?.theme === "dark" ? "white" : "black"}`}
+                variant={`span`}
               >
                 Eliminar
               </Typography>

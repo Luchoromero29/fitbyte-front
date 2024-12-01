@@ -8,7 +8,6 @@ interface MessageDialogProps {
   message: string;
   onConfirm: () => void;
   active: boolean;
-  theme: string;
 }
 
 const MessageDialog: React.FC<MessageDialogProps> = ({
@@ -16,7 +15,6 @@ const MessageDialog: React.FC<MessageDialogProps> = ({
   message,
   onConfirm,
   active,
-  theme
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -31,19 +29,19 @@ const MessageDialog: React.FC<MessageDialogProps> = ({
     setIsVisible(false);
     setTimeout(onConfirm, 100); // Ajusta el tiempo según la duración de tu animación de salida
   };
-  console.log(theme);
+
   
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${
+      className={`modal-class ${
         isVisible ? "alert-dialog-active" : "alert-dialog-inactive"
       }`}
     >
-      <div className={`${theme === "dark" ? "bg-dark-2" : "bg-light-1"} p-6 rounded shadow-lg w-96 flex flex-col gap-6`}>
-        <Typography variant={`h5-${theme === "dark" ? "white" : "black"}`}>{title}</Typography>
-        <Typography variant={`span-medium-${theme === "dark" ? "white" : "black"}`}>{message}</Typography>
+      <div className={`dark:bg-dark-2 bg-light-1 p-6 rounded shadow-lg w-96 flex flex-col gap-6`}>
+        <Typography variant={`h5`}>{title}</Typography>
+        <Typography variant={`span-medium`}>{message}</Typography>
         <div className="flex justify-end">
-        <ButtonCancel label="Aceptar" onConfirm={handleConfirm} color={theme === "dark" ? "white" : "black"}/>
+        <ButtonCancel label="Aceptar" onConfirm={handleConfirm}/>
         </div>
       </div>
     </div>

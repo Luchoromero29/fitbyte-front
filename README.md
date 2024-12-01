@@ -1,11 +1,11 @@
 # FITBYTE
 
 ## Pendientes
-- que la duracion de la rutina se calcule
+- ✅ que la duracion de la rutina se calcule
 - que pueda cambiar contraseña
 - registro con confirmacion de email
 - pedir localidad en la condig para poder mostrar el clima del lugar
-- Asignar tiempo iniciales de descanso segun el enfoque
+- ✅ Asignar tiempo iniciales de descanso segun el enfoque
 
 
 

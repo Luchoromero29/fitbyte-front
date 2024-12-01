@@ -6,12 +6,11 @@ interface Option {
 }
 interface ItemOptionsProps {
   option: Option
-  color: string
   active: boolean,
   onClick: (value: string) => void
 }
 
-const ItemOptions = ({option, color, active, onClick}: ItemOptionsProps ) => {
+const ItemOptions = ({option, active, onClick}: ItemOptionsProps ) => {
 
   const handleClick = () => {
     onClick(option.value);
@@ -19,10 +18,10 @@ const ItemOptions = ({option, color, active, onClick}: ItemOptionsProps ) => {
 
   return (
     <>
-        <div className={` px-2 py-1 rounded-full  flex justify-center items-center ${active ? "border-2 border-violet-1" : ""} `}
+        <div className={` dark:text-white px-2 py-1 rounded-full  flex justify-center items-center ${active ? "border-2 border-violet-1" : ""} `}
           onClick={handleClick}
         >
-            <Typography variant={`span-${color}`}>{option.label}</Typography>
+            <Typography variant={`span`}>{option.label}</Typography>
         </div>
     </>
   )

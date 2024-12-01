@@ -170,7 +170,6 @@ const Register2 = () => {
                     label="Registrarme"
                     onConfirm={() => {}}
                     active={true}
-                    color="black"
                   />
                 </div>
               </form>

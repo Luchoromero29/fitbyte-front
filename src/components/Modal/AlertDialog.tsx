@@ -37,23 +37,23 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 z-max  flex items-center justify-center bg-black bg-opacity-50 ${
+      className={`modal-class ${
         isVisible ? "alert-dialog-active" : "alert-dialog-inactive"
       }`}
     >
-      <div className="bg-white p-6 rounded shadow-lg w-96 flex flex-col gap-6">
-        <Typography variant="h5-black">{title}</Typography>
-        <Typography variant="span-light-black">{message}</Typography>
+      <div className="dark:bg-dark-2 bg-white p-6 rounded shadow-lg w-96 flex flex-col gap-6">
+        <Typography variant="h5">{title}</Typography>
+        <Typography variant="span-light">{message}</Typography>
         <div className="flex justify-end">
           <button
             onClick={handleCancel}
-            className="bg-light-3 hover:bg-gray-400 py-2 px-4 rounded mr-2"
+            className=" hover:bg-gray-400 py-2 duration-150 px-4 rounded mr-2"
           >
-            <Typography variant="span-black">Cancelar</Typography>
+            <Typography variant="span">Cancelar</Typography>
           </button>
           <button
             onClick={handleConfirm}
-            className="bg-danger hover:bg-red-700 py-2 px-4 rounded"
+            className="bg-danger hover:bg-red-700 py-2 px-4 rounded duration-150"
           >
             <Typography variant="span-white">Confirmar</Typography>
           </button>

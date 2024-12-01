@@ -37,7 +37,7 @@ const SelectUnitDialog: React.FC<SelectUnitDialogProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${
+      className={`modal-class ${
         active ? "alert-dialog-active" : "alert-dialog-inactive"
       }`}
     >

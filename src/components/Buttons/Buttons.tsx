@@ -39,7 +39,7 @@ export const ButtonPink: React.FC<ButtonsProps> = ({ label, onConfirm, color = "
   );
 };
 
-export const ButtonCancel: React.FC<ButtonsProps> = ({ label, onConfirm, color = "black" }) => {
+export const ButtonCancel: React.FC<ButtonsProps> = ({ label, onConfirm }) => {
   const handleConfirm = () => {
     onConfirm();
   };
@@ -47,13 +47,13 @@ export const ButtonCancel: React.FC<ButtonsProps> = ({ label, onConfirm, color =
   return (
     <div className=" p-2 rounded-md flex justify-center items-center h-fit">
       <button onClick={handleConfirm}>
-        <Typography variant={`span-${color}`}>{label}</Typography>
+        <Typography variant={`span`}>{label}</Typography>
       </button>
     </div>
   );
 };
 
-export const ButtonConfirm: React.FC<ButtonsProps> = ({ label, onConfirm, color = "black" }) => {
+export const ButtonConfirm: React.FC<ButtonsProps> = ({ label, onConfirm, }) => {
   const handleConfirm = () => {
     onConfirm();
   };
@@ -61,7 +61,7 @@ export const ButtonConfirm: React.FC<ButtonsProps> = ({ label, onConfirm, color 
   return (
     <div className="bg-violet-2 p-2 rounded-md shadow-md flex justify-center items-center h-fit">
       <button onClick={handleConfirm}>
-        <Typography variant={`span-${color}`}>{label}</Typography>
+        <Typography variant={`span-white`}>{label}</Typography>
       </button>
     </div>
   );
@@ -104,13 +104,13 @@ export const ButtonAddActivity: React.FC<ButtonsProps> = ({ label, onConfirm, co
     <div className=" p-2 rounded-full shadow-xl flex justify-center items-center outline outline-1 outline-violet-2 w-fit pr-4">
       <button className="flex items-center gap-2" onClick={handleConfirm}>
         <img className="h-8" src={color === "black" ? IconAddBlack : IconAddWhite} />
-        <Typography variant={`span-${color}`}>{label}</Typography>
+        <Typography variant={`span`}>{label}</Typography>
       </button>
     </div>
   );
 };
 
-export const ButtonConfirmViolet: React.FC<ButtonsProps> = ({ label, onConfirm, active, color = "white" }) => {
+export const ButtonConfirmViolet: React.FC<ButtonsProps> = ({ label, onConfirm, active}) => {
   const handleConfirm = () => {
     onConfirm();
   };
@@ -118,13 +118,13 @@ export const ButtonConfirmViolet: React.FC<ButtonsProps> = ({ label, onConfirm, 
   return (
     <div className={`px-4 py-2 rounded-full shadow-xl flex justify-center items-center outline outline-1 outline-violet-2 w-fit ${active ? "" : "button-inactive"}`}>
       <button disabled={!active} className="flex items-center gap-2" onClick={handleConfirm}>
-        <Typography variant={`span-${color}`}>{label}</Typography>
+        <Typography variant={`span`}>{label}</Typography>
       </button>
     </div>
   );
 };
 
-export const ButtonConfirmPink: React.FC<ButtonsProps> = ({ label, onConfirm, active, color = "white" }) => {
+export const ButtonConfirmPink: React.FC<ButtonsProps> = ({ label, onConfirm, active }) => {
   const handleConfirm = () => {
     onConfirm();
   };
@@ -132,13 +132,13 @@ export const ButtonConfirmPink: React.FC<ButtonsProps> = ({ label, onConfirm, ac
   return (
     <div className={`px-4 py-2 rounded-full shadow-xl flex justify-center items-center outline outline-1 outline-pink-2 w-fit ${active ? "" : "button-inactive"}`}>
       <button disabled={!active} className="flex items-center gap-2" onClick={handleConfirm}>
-        <Typography variant={`span-${color}`}>{label}</Typography>
+        <Typography variant={`span-black`}>{label}</Typography>
       </button>
     </div>
   );
 };
 
-export const ButtonAddSerie: React.FC<ButtonsProps> = ({ label, onConfirm, color = "black" }) => {
+export const ButtonAddSerie: React.FC<ButtonsProps> = ({ label, onConfirm }) => {
   const handleConfirm = () => {
     onConfirm();
   };
@@ -146,7 +146,7 @@ export const ButtonAddSerie: React.FC<ButtonsProps> = ({ label, onConfirm, color
   return (
     <div className="p-2 flex justify-center items-center w-fit">
       <button className="flex items-center gap-2" onClick={handleConfirm}>
-        <Typography variant={`span-medium-${color}`}>{label}</Typography>
+        <Typography variant={`span-medium`}>{label}</Typography>
       </button>
     </div>
   );

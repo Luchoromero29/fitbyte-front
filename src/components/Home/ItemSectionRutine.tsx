@@ -7,7 +7,6 @@ import { reqGetTimeForRoutine } from "../../service/routineService";
 interface ItemSectionRutineProps {
 
   pathImg: string;
-  theme: string;
   routine?: Routine;
   label?: string;
 }
@@ -15,7 +14,6 @@ interface ItemSectionRutineProps {
 const ItemSectionRutine = ({
   
   pathImg,
-  theme,
   routine,
   label
 }: ItemSectionRutineProps) => {
@@ -41,20 +39,19 @@ const ItemSectionRutine = ({
   return (
     <>
       <div
-        className={` flex flex-col items-center w-full ${
-          theme === "dark" ? "text-white bg-dark-2" : "bg-light-1 text-black"
+        className={` flex flex-col items-center w-full dark:text-white dark:bg-dark-2 bg-light-1 text-black
         } rounded-lg py-2 px-4 min-h-24 justify-center`}
       >
         <div  className="flex flex-col items-center text-center">
           <img className="w-8" src={pathImg} />
           <Typography
-            variant={`span-medium-${theme === "dark" ? "white" : "black"}`}
+            variant={`span-medium`}
           >
             {routine?.name || label}
           </Typography>
         </div>
         <div className="flex w-fit">
-            <Typography variant={`span-light-${theme === "dark"? "white" : "black"}`}>
+            <Typography variant={`span-light`}>
              {!isLoading && routine && `${duration} min`}
             </Typography>
         </div>

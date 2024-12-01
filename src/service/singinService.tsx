@@ -27,6 +27,8 @@ export const reqLogout = async (): Promise<void> => {
 
 export const reqLogin = async (email: string | null, password: string | null): Promise<ResponseLogin> => {
   try {
+    console.log(email, password);
+    
     const response: ResponseLogin = await apiClient.post<ResponseLogin>('/api/login', { email, password }, {
       headers: {
         "Content-Type": "application/json",
@@ -41,12 +43,7 @@ export const reqLogin = async (email: string | null, password: string | null): P
 
     return response; // Devuelve el token si la respuesta es exitosa
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Error en la solicitud de inicio de sesión:", error.message);
-      throw new Error(error.message || "Error al iniciar sesión");
-    } else {
-      throw new Error("Error inesperado al iniciar sesión");
-    }
+      throw new Error(error.response.data.body.error || "Error al iniciar sesión");
   }
 };
 

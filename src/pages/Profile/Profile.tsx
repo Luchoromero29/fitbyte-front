@@ -3,7 +3,7 @@ import ItemOptions from "../../components/Profile/ItemOptions";
 import HeaderPage from "../../components/HeaderPage";
 
 const Profile = () => {
-  //const preference = useSelector((state: RootState) => state.preferenceUser);
+
 
   return (
     <>

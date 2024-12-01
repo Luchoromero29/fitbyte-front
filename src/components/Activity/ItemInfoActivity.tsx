@@ -4,7 +4,6 @@ interface ItemInfoActivityProps {
   label: string;
   value: string | number;
   onChange: () => void;
-  theme: string;
   pathImg?: string;
 }
 
@@ -12,18 +11,17 @@ const ItemInfoActivity = ({
   label,
   value,
   onChange,
-  theme,
   pathImg,
 }: ItemInfoActivityProps) => {
   return (
     <>
       <div
-        className={`flex flex-col  items-center ${theme === "dark" ? "bg-dark-1/60" : "bg-light-2"} shadow-sm p-2 rounded-xl`}
+        className={`flex flex-col  items-center dark:bg-dark-1/60 bg-light-2 shadow-sm p-2 rounded-xl`}
         onClick={onChange}
       >
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-1 items-center dark:text-white">
           <Typography
-            variant={`span-medium-${theme === "dark" ? "white" : "black"}`}
+            variant={`span-medium`}
           >
             {label}
           </Typography>
@@ -31,7 +29,7 @@ const ItemInfoActivity = ({
         </div>
         <div className=" rounded-xl px-1 flex items-center">
           <Typography
-            variant={`span-light-${theme === "dark" ? "white" : "black"}`}
+            variant={`span-light`}
           >
             {value}
           </Typography>

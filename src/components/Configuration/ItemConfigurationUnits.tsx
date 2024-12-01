@@ -43,13 +43,13 @@ const ItemConfigurationUnits = ({label}: ItemConfigurationUnitsProps) => {
 
   return (
     <>
-        <div className={`flex flex-col p-3 ${preference.theme === 'dark' ? 'bg-black' : 'bg-white'} rounded-md shadow-md gap-2`}>
-            <header>
-                <Typography variant={`h5-${preference.theme === 'dark' ? 'white' : 'black'}`}>{label}</Typography>
+        <div className={`flex flex-col p-3 dark:bg-black bg-white rounded-md shadow-md gap-2`}>
+            <header className='dark:text-white'>
+                <Typography variant={`h5`}>{label}</Typography>
             </header>
             <main className='flex gap-2'>
                 {optionsUnits.map((option, index) => (
-                    <ItemOptionsConfiguration key={index} option={option} color={preference.theme === 'dark' ? 'white' : 'black'} active={preference.unitWeight === option.value} onClick={handleChangeUnits} />
+                    <ItemOptionsConfiguration key={index} option={option}  active={preference.unitWeight === option.value} onClick={handleChangeUnits} />
                 ))}
             </main>
         </div>

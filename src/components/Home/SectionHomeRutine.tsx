@@ -34,8 +34,6 @@ const SectionHomeRutine = () => {
       if (!("status" in rutinesActivePlan)) {
         setRutinesActivePlan(rutinesActivePlan);
       }
-
-
     };
 
     const getActivePlan = async () => {
@@ -47,10 +45,8 @@ const SectionHomeRutine = () => {
       }
           
     };
-
     getActivePlan();
-
-
+    
     setIsLoading(false);
   }, [preference?.userId]); // Actualiza el efecto cuando cambia userId
 
@@ -65,7 +61,7 @@ const SectionHomeRutine = () => {
       <section>
         <div className="flex gap-2 items-center">
           <Typography
-            variant={`h4-${preference?.theme === "dark" ? "white" : "black"}`}
+            variant={`h4`}
           >
             Rutinas
           </Typography>
@@ -84,7 +80,6 @@ const SectionHomeRutine = () => {
                     <Link to={`/user/home/plans/routine/${routine.id}`}>
                       <ItemSectionRutine
                         routine={routine}
-                        theme={preference?.theme}
                         pathImg={workoutViolet}
                       />
                     </Link>
@@ -97,7 +92,6 @@ const SectionHomeRutine = () => {
                         <ItemSectionRutine
                           
                           label="Crear"
-                          theme={preference?.theme}
                           pathImg={plus}
                         />
                       </Link>
@@ -105,7 +99,6 @@ const SectionHomeRutine = () => {
                       <Link to={`/user/home/plans`}>
                         <ItemSectionRutine
                           label="Crear"
-                          theme={preference?.theme}
                           pathImg={plus}
                         />
                       </Link>
@@ -120,7 +113,6 @@ const SectionHomeRutine = () => {
               <ButtonAddSerie
                 onConfirm={handleShowMore}
                 label="Mostrar mas"
-                color={`${preference?.theme === "dark" ? "white" : "black"}`}
               />
             </div>
           )}

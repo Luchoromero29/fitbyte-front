@@ -6,14 +6,7 @@ import ItemConfigurationUnits from "../../components/Configuration/ItemConfigura
 import ItemConfigurationLanguage from "../../components/Configuration/ItemConfigurationLanguage";
 import ItemConfigurationCustomMode from "../../components/Configuration/ItemConfigurationCustomMode";
 
-
 const Configuration = () => {
-
-
-    
-  
-
-
   return (
     <>
         <div>

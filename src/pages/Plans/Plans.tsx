@@ -18,7 +18,6 @@ import {
   reqGetActivePlanByUserId,
   reqCreateActivePlan,
 } from "../../service/activePlanService";
-import { Link } from "react-router-dom";
 import LoadingDumbbell from "../../components/LoadingDumbbell";
 
 export const Plans = () => {
@@ -34,9 +33,7 @@ export const Plans = () => {
   });
 
   const user = useSelector((state: RootState) => state.auth.user);
-  const preferenceUser = useSelector(
-    (state: RootState) => state.preferenceUser
-  );
+
 
   // Obtener todos los planes y el plan activo del usuario
   useEffect(() => {
@@ -171,7 +168,6 @@ export const Plans = () => {
           message={isError.message || ""}
           onConfirm={() => setIsError({ ...isError, active: false })}
           active={isError.active}
-          theme={preferenceUser?.theme}
         />
       )}
     </div>

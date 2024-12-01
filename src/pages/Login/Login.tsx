@@ -33,7 +33,10 @@ const Login = () => {
 
       if (email && password) {
         try {
+          console.log("aca seguro llego");
+          
           const response: ResponseLogin = await reqLogin(email, password);
+          console.log("aca seguro no");
           
           const user = response.body.data.user
           if (response.body.token) {
@@ -45,6 +48,7 @@ const Login = () => {
             
             );
               const preference = await reqGetPreferenceByUserId(user.id);
+
               dispatch(
                 addPreferenceUser(
                   preference
@@ -56,6 +60,7 @@ const Login = () => {
                 message: "No se pudo obtener la información del usuario",
               });
             }
+
             navigate("/user/home");
         } catch (error: any) {
           setIsError({

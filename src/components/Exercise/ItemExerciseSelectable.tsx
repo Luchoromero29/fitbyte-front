@@ -24,8 +24,7 @@ handleSelect
   useEffect(() => {
     const getCategory = async () => {
       try {
-        const response = await reqGetCategoryById(exercise.categoryId);
-        const result: Category =  response;
+        const result = await reqGetCategoryById(exercise.categoryId);
         setCategory(result);
       } catch (error) {
         console.error("Error fetching category:", error);
@@ -41,7 +40,7 @@ handleSelect
 
   return (
     <div 
-      className={`bg-light-1 flex p-4 rounded-md h-auto shadow-xl ${active ? "exercise-active" : ""}`}
+      className={`dark:bg-black bg-light-1 flex p-4 rounded-md h-auto shadow-xl ${active ? "exercise-active" : ""}`}
       onClick={handleClick}  
     >
       <ul className="grid grid-cols-3 grid-rows-1 sm:grid-cols-4 justify-between w-full gap-3 items-center">

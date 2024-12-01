@@ -31,6 +31,10 @@ const PrivateRoute: React.FC = () => {
               user: response.data.user,
             })
           );
+          if (prefereneces.theme === "dark") {
+            document.documentElement.classList.add("dark");
+          }
+
         }
       }
       setLoading(false);

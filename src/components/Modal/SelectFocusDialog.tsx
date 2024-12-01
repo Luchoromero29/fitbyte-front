@@ -49,17 +49,17 @@ const SelectFocusDialog: React.FC<SelectFocusDialogProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${
+      className={`modal-class ${
         isVisible ? "alert-dialog-active" : "alert-dialog-inactive"
       }`}
     >
-      <div className="bg-white p-6 rounded shadow-lg w-96 flex flex-col gap-3">
-        <Typography variant="h5-black">{title}</Typography>
-        <Typography variant="span-light-black">{message}</Typography>
+      <div className="dark:bg-dark-2 bg-white p-6 rounded shadow-lg w-96 flex flex-col gap-3">
+        <Typography variant="h5">{title}</Typography>
+        <Typography variant="span-light">{message}</Typography>
         <main>
           {focus.map((f, index) => (
             <div key={index} className="p-2" onClick={() => handleConfirm(index)}>
-              {f}
+              <Typography variant="span-medium">{f}</Typography>
             </div>
           ))}
         </main>

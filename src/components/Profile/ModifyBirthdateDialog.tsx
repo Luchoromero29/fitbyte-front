@@ -43,11 +43,11 @@ const ModifyBirthdateDialog: React.FC<ModifyBirthdateDialogProps> = ({
         active ? "alert-dialog-active" : "alert-dialog-inactive"
       }`}
     >
-      <div className="bg-white p-6 rounded shadow-lg w-96 flex flex-col gap-3">
+      <div className="dark:bg-dark-2 bg-white p-6 rounded shadow-lg w-96 flex flex-col gap-3">
         <Typography variant="h5-black">{title}</Typography>
         <Typography variant="span-light-black">{message}</Typography>
         <main>
-          <input type="date" className="w-full rounded-lg bg-white text-black focus:outline-none" onChange={handleChange}/>
+          <input type="date" className="w-full rounded-lg dark:bg-dark-2 bg-white dark:text-white text-black focus:outline-none" onChange={handleChange}/>
         </main>
         <div className="flex justify-end items-center">
           <ButtonCancel

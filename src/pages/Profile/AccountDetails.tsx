@@ -13,7 +13,7 @@ const AccountDetails = () => {
   const dispatch = useDispatch();
   
   const userSession = useSelector((state: RootState) => state.auth.user);
-  const preferenceUser = useSelector((state: RootState) => state.preferenceUser)
+
 
   const [user, setUser] = useState<User>();
   const [birthday, setBirthday] = useState<string>();
@@ -75,7 +75,7 @@ const AccountDetails = () => {
 
   useEffect( () => {
     if (isModifyDate) {
-      console.log("se ejecuto");
+          
       
       handleUpdateUser();
       setShowModifyDate(false);
@@ -137,7 +137,6 @@ const AccountDetails = () => {
               label="Guardar"
               onConfirm={handleUpdateUser}
               active={isModify}
-              color={preferenceUser?.theme === "dark" ? "white" : "black"}
             />
           ) : null}
         </footer>

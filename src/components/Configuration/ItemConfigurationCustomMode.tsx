@@ -39,13 +39,13 @@ const handleChangeCustomMode = async (isOn: boolean) =>{
   return (
     <>
       <div
-        className={`flex flex-col p-3 ${
-          preference.theme === "dark" ? "bg-black" : "bg-white"
+        className={`flex flex-col p-3
+          dark:bg-black bg-white dark:text-white
         } rounded-md shadow-md gap-2`}
       >
         <header className="flex items-center justify-between">
           <Typography
-            variant={`h5-${preference.theme === "dark" ? "white" : "black"}`}
+            variant={`h5`}
           >
             {label}
           </Typography>
@@ -54,14 +54,13 @@ const handleChangeCustomMode = async (isOn: boolean) =>{
           </div>
         </header>
         <main className="flex gap-2">
-          <Switch onToggle={handleChangeCustomMode} value={preference.customMode} theme={preference.theme}/>
+          <Switch onToggle={handleChangeCustomMode} value={preference.customMode} />
           {showMessage && (
             <MessageDialog
             active={showMessage}
             onConfirm={() => setShowMessage(false)}
             title="Que es el modo personalizado?"
             message="El modo personalizado permite que los usuarios puedan ajustar sus enfoques de entrenamiento como hipertofia, fuerza, etc, llevando estadisticas mas precisas y con mayor informacion"
-            theme={preference.theme}
           />
           )}
         </main>

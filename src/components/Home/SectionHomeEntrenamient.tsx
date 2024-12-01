@@ -41,13 +41,12 @@ const SectionHomeEntrenamient = () => {
   return (
     <>
       <div
-        className={`w-full ${
-          preference?.theme === "dark" ? "bg-dark-2" : "bg-light-1"
-        } rounded-lg p-4 h-fit`}
+        className={`w-full dark:bg-dark-2 bg-light-1
+       rounded-lg p-4 h-fit`}
       >
         <div className="flex justify-between items-center">
           <Typography
-            variant={`h4-${preference?.theme === "dark" ? "white" : "black"}`}
+            variant={`h4`}
           >
             Entrenamiento
           </Typography>
@@ -65,36 +64,29 @@ const SectionHomeEntrenamient = () => {
         ) : (
           <div className="flex flex-col gap-2">
             <Typography
-              variant={`span-medium-${
-                preference?.theme === "dark" ? "white" : "black"
-              }`}
+              variant={`span-medium`}
             >
               Tus planes
             </Typography>
 
             <div className="flex gap-2 overflow-x-auto">
               {plans.map((plan) =>
-                <div>
+                <div key={plan.id}>
                   <ItemPlanSectionEntrenamient
                     label={plan.name}
                     isActive={plan.id === activePlan?.id}
-                    theme={preference?.theme}
                     planId={plan.id}
-                    key={plan.id}
+                    
                   />
                 </div>
               )}
               <div className="flex flex-col items-center">
                 <div
-                  className={`${
-                    preference?.theme === "dark" ? "bg-dark-3" : "bg-light-2"
-                  } rounded-lg px-3 py-4 text-center flex shadow-md`}
+                  className={`dark:bg-dark-3 bg-light-2 rounded-lg px-3 py-4 text-center flex shadow-md`}
                 >
                   <Link to={`/user/home/plans`} className="flex gap-2 w-16">
                     <Typography
-                      variant={`span-medium-${
-                        preference?.theme === "dark" ? "white" : "black"
-                      }`}
+                      variant={`span-medium`}
                     >
                       Crear
                     </Typography>

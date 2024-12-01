@@ -4,18 +4,16 @@ interface CustomCheckboxProps {
   checked?: boolean;
   onChange: (checked: boolean) => void;
   label?: string;
-  theme: string; 
+  theme: string;
 }
 
 const CheckBox: React.FC<CustomCheckboxProps> = ({
   checked = false,
   onChange,
   label = "",
-  theme,
 }) => {
   const [isChecked, setIsChecked] = useState(checked);
 
-  
   const toggleCheckbox = () => {
     setIsChecked(!isChecked);
     onChange(!isChecked);
@@ -26,8 +24,10 @@ const CheckBox: React.FC<CustomCheckboxProps> = ({
       <div
         className={`shadow-sm w-5 h-5 rounded-md cursor-pointer flex justify-center items-center 
         ${
-          isChecked ? "bg-succes" : theme === "dark" ? "bg-dark-3" : "bg-gray-200" 
-        } transition-colors duration-200 ease-in-out`}
+          isChecked
+            ? "bg-succes"
+            : "dark:bg-dark-3 bg-gray-200 transition-colors duration-200 ease-in-out"
+        }`}
         onClick={toggleCheckbox}
       >
         {isChecked && (

@@ -24,8 +24,8 @@ const HeaderPage = ({ title, description, path }: HeaderPageProps) => {
         </Link>
       </div>
       <div className="text-center flex flex-col">
-        <Typography variant={`h3-${preference?.theme === "dark" ? "white" : "black"}`}>{title}</Typography>
-        <Typography variant={`span-light-${preference?.theme === "dark" ? "white" : "black"}`}>{description}</Typography>
+        <Typography variant={`h3`}>{title}</Typography>
+        <Typography variant={`span-light`}>{description}</Typography>
       </div>
     </header>
   );
